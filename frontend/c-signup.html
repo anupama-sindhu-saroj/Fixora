@@ -1,33 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SignUp</title>
-    <link rel="stylesheet" href="c-signup.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fixora Citizen Sign Up</title>
+  <link rel="stylesheet" href="c-signup.css">
 </head>
 <body>
-    <div class="top-glow"></div>
-    <div class="logo"></div>
-    <div class="signup-container">
-        <h2>Create your Equix account</h2>
-        <form class="signup-form" id="signupForm">
-            <input type="text" id="name" placeholder="Full Name" required>
-            <input type="email" id="email" placeholder="Email Address" required>
-            <input type="text" id="username" placeholder="UserName" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
-
-            <button type="button" id="getOtpBtn">Get OTP</button>
- 
-            <div id="otpSection" style="display: none;">
-                <input type="text" id="otp" placeholder="Enter OTP" required />
-                <button type="submit">Sign Up</button>
-            </div>
-            
-            <p class="login-link">Already have an account? <a href="c-login.html">Log In</a></p>
-        </form>
+  <div class="signup-container">
+    <!-- Back Link -->
+    <div class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        <a href="signup-choice.html"><span>Back to Role Selection</span></a>
     </div>
-    <script src="c-signup.js"></script>
+
+    <!-- Card -->
+    <div class="signup-card">
+      <!-- Left Column -->
+      <div class="signup-left">
+        <h2>Your Voice, Your City.</h2>
+        <p>Join thousands of citizens making a real difference. Report issues, track progress, and build a better neighborhood, together.</p>
+        <img src="community.png" alt="Community Illustration">
+      </div>
+
+      <!-- Right Column -->
+      <div class="signup-right">
+        <div class="form-wrapper">
+            <h1>Fixora Citizen Account</h1>
+            <p class="subtitle">Create your account in seconds.</p>
+            
+            <form id="signupForm">
+                <div class="input-group">
+                    <input type="text" id="name" placeholder=" " required>
+                    <label for="name">Full Name</label>
+                </div>
+                <div class="input-group">
+                    <input type="email" id="email" placeholder=" " required>
+                    <label for="email">Email Address</label>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="username" placeholder=" " required>
+                    <label for="username">Username</label>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" placeholder=" " required>
+                    <label for="password">Password</label>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="confirmPassword" placeholder=" " required>
+                    <label for="confirmPassword">Confirm Password</label>
+                </div>
+    
+                <button type="button" id="getOtpBtn" class="btn-primary">Get OTP</button>
+    
+                <div id="otpSection" class="hidden">
+                    <input type="text" id="otp" placeholder="Enter OTP" required />
+                    <button type="submit" class="btn-success">Sign Up</button>
+                </div>
+            </form>
+    
+            <p class="login-link">
+                Already have an account? <a href="c-login.html">Log In</a>
+            </p>
+        </div>
+    </div>
+    
+    </div>
+  </div>
+
+  <script src="c-signup.js"></script>
 </body>
-</html> 
+</html>

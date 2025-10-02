@@ -33,4 +33,4 @@ document.getElementById("loginForm").addEventListener("submit",async function(e)
     console.error("Login error:", error);
     alert("Something went wrong while logging in.");
   }
-})
+}) 

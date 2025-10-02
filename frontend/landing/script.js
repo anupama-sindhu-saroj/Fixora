@@ -24,10 +24,6 @@ fetch("http://localhost:5001/api/files?type=logo")
   })
   .catch(err => console.error(err));
 
-
-
-
-
 // Animate hero title
 animateLetters('hero-title', 0.08, 0);
 
@@ -45,7 +41,7 @@ document.querySelectorAll('.cta-buttons button').forEach((btn, i) => {
 
 
 // Button click events
-document.getElementById('loginBtn').onclick = () => { window.location.href = '../login.html'; };
-document.getElementById('signupBtn').onclick = () => { window.location.href = '../c-signup.html'; };
+document.getElementById('loginBtn').onclick = () => { window.location.href = '../login-choice.html'; };
+document.getElementById('signupBtn').onclick = () => { window.location.href = '../signup-choice.html'; };
 document.getElementById('reportBtn').onclick = () => { window.location.href = '../signup.html'; };
 document.getElementById('exploreBtn').onclick = () => { alert("Explore City feature coming soon!"); };

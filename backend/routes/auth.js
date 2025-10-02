@@ -33,9 +33,14 @@ router.post('/login', async (req, res) => {
 
 /** REQUEST OTP */
 router.post("/request-otp", async (req, res) => {
-  const { email } = req.body;
-
   try {
+    console.log("Body received:", req.body); // Debug
+
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
     const existingCitizen = await Citizen.findOne({ email });
     if (existingCitizen) return res.status(400).json({ message: "Email already registered" });
 
@@ -45,15 +50,17 @@ router.post("/request-otp", async (req, res) => {
     const otp = new Otp({ email, otp: otpCode });
     await otp.save();
 
+    console.log("Sending OTP:", otpCode); // Debug
     await sendOtpEmail(email, otpCode);
 
     res.status(200).json({ message: "OTP sent to email" });
   } catch (err) {
+    console.error("Error in /request-otp:", err);
     res.status(500).json({ message: "Failed to send OTP", error: err.message });
   }
 });
 
-/** VERIFY OTP & COMPLETE SIGNUP */
+
 /** VERIFY OTP & COMPLETE SIGNUP */
 router.post("/verify-otp", async (req, res) => {
   const { email, otp, password, name, username } = req.body;
@@ -135,7 +142,7 @@ router.post("/logout", (req, res) => {
   if (req.session) {
     req.session.destroy(err => {
       if (err) {
-        console.error("Error destroying session:", err);
+        console.error("Ermror destroying session:", err);
         return res.status(500).json({ message: "Logout failed" });
       }
 

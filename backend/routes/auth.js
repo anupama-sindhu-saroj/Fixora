@@ -3,6 +3,7 @@ import cors from "cors";
 import Citizen from "../models/Citizen.js";
 import Otp from "../models/Otp.js";
 import { sendOtpEmail } from "../utils/mailer.js";
+import bcrypt from "bcrypt";
 
 const router = express.Router();
 /** LOGIN */
@@ -20,9 +21,9 @@ router.post('/login', async (req, res) => {
       if (!user) {
           return res.status(400).json({ message: "User not found" });
       }
-
-      if (user.password !== password) {
-          return res.status(401).json({ message: "Incorrect password" });
+      const match = await bcrypt.compare(password, user.password);
+      if (!match) {
+        return res.status(401).json({ message: "Incorrect password" });
       }
 
       res.status(200).json({ name: user.name, username: user.username });

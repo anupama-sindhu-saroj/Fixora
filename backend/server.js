@@ -1,3 +1,4 @@
+import uploadRoutes from "./routes/upload.js";
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
@@ -27,10 +28,12 @@ app.use(cors({
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
-
+app.use("/api/upload", uploadRoutes);
 app.get("/", (req, res) => {
     res.send("Fixora backend is running!");
 });
+import fileRoutes from "./routes/fileRoutes.js";
+app.use("/api/files", fileRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("✅ MongoDB Connected"))

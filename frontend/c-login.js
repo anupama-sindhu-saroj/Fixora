@@ -6,9 +6,9 @@ document.getElementById("loginForm").addEventListener("submit",async function(e)
   if (!emailOrUsername || !password) {
     return alert("Please enter both email/username and password.");
   }
-
+ 
   try {
-    const response = await fetch("http://localhost:5000/api/auth/login", {
+    const response = await fetch("http://127.0.0.1:5001/api/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

@@ -7,7 +7,7 @@ sendOtpBtn.addEventListener("click", async () => {
   if (!email) return alert("Please enter your email");
 
   try {
-    const res = await fetch("http://localhost:5000/api/auth/request-password-reset-otp", {
+    const res = await fetch("http://127.0.0.1:5001/api/auth/request-password-reset-otp", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email })
@@ -37,7 +37,7 @@ resetPasswordBtn.addEventListener("click", async () => {
   if (newPassword !== confirmPassword) return alert("Passwords do not match");
 
   try {
-    const res = await fetch("http://localhost:5000/api/auth/reset-password", {
+    const res = await fetch("http://127.0.0.1:5001/api/auth/reset-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, otp, newPassword })

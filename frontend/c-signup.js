@@ -11,10 +11,11 @@ getOtpBtn.addEventListener('click', async () => {
     getOtpBtn.disabled = true;
     getOtpBtn.textContent = "Sending...";
     
-    const res = await fetch('http://127.0.0.1:5000/api/auth/request-otp', {
+    const res = await fetch('http://127.0.0.1:5001/api/auth/request-otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
+      body: JSON.stringify({ email }),
+      credentials: "include"
     });
 
     const data = await res.json();
@@ -48,10 +49,11 @@ signupForm.addEventListener('submit', async (e) => {
   }
 
   try {
-    const res = await fetch('http://127.0.0.1:5000/api/auth/verify-otp', {
+    const res = await fetch('http://127.0.0.1:5001/api/auth/verify-otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, otp, password, name, username })
+      body: JSON.stringify({ email, otp, password, name, username }),
+      credentials: "include"
     });
 
     const data = await res.json();

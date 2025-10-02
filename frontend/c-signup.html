@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+    <link rel="stylesheet" href="c-signup.css">
+</head>
+<body>
+    <div class="top-glow"></div>
+    <div class="logo"></div>
+    <div class="signup-container">
+        <h2>Create your Equix account</h2>
+        <form class="signup-form" id="signupForm">
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="email" id="email" placeholder="Email Address" required>
+            <input type="text" id="username" placeholder="UserName" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+
+            <button type="button" id="getOtpBtn">Get OTP</button>
+ 
+            <div id="otpSection" style="display: none;">
+                <input type="text" id="otp" placeholder="Enter OTP" required />
+                <button type="submit">Sign Up</button>
+            </div>
+            
+            <p class="login-link">Already have an account? <a href="c-login.html">Log In</a></p>
+        </form>
+    </div>
+    <script src="c-signup.js"></script>
+</body>
+</html> 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixora - Choose Your Role</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="login-choice.js" defer></script>
+
+    <link rel="stylesheet" href="login-choice.css">
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 font-sans">
+    <div class="w-full max-w-4xl text-center">
+        <h1 class="text-5xl font-extrabold text-gray-800 mb-4 tracking-tight mt-12">
+            Welcome to <span class="text-indigo-600">Fixora</span>
+        </h1>
+        <p class="text-xl text-gray-500 mb-12">
+            Please choose your primary role to continue.
+        </p>
+
+        <div class="flex flex-col lg:flex-row justify-center space-y-8 lg:space-y-0 lg:space-x-8 items-stretch">
+            <!-- Citizen Box -->
+            <a href="c-login.html" class="choice-box citizen">
+                <div class="mb-4 icon-box citizen-icon">
+                    <svg class="w-12 h-12 text-blue-600 icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-extrabold text-blue-800 mb-2">Citizen</h2>
+                <p class="text-lg text-gray-600 text-center font-medium">
+                    Report new issues and track city improvements in your neighborhood.
+                </p>
+                <div class="mt-6 text-sm font-bold tracking-wider text-white bg-blue-600 hover:bg-blue-700 py-3 px-6 rounded-full transition-colors duration-150">
+                    I want to Report & Track
+                </div>
+            </a>
+
+            <!-- Authority Box -->
+            <a href="a-signup.html" class="choice-box authority">
+                <div class="mb-4 icon-box authority-icon">
+                    <svg class="w-12 h-12 text-indigo-600 icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 111 0012 2.944a11.955 11.955 0 00-6.702 1.033L3 6l9 18 9-18-2.618-2.016z"></path>
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-extrabold text-indigo-800 mb-2">Authority</h2>
+                <p class="text-lg text-gray-600 text-center font-medium">
+                    Manage incoming reports, approve fixes, and coordinate resolutions across the city.
+                </p>
+                <div class="mt-6 text-sm font-bold tracking-wider text-white bg-indigo-600 hover:bg-indigo-700 py-3 px-6 rounded-full transition-colors duration-150">
+                    I want to Manage & Resolve
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

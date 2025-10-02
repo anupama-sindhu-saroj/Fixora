@@ -1,16 +1,28 @@
 const getOtpBtn = document.getElementById('getOtpBtn');
 const otpSection = document.getElementById('otpSection');
 const signupForm = document.getElementById('signupForm');
+const messageBox = document.getElementById('messageBox');
 
+function showMessage(msg, isError = false) {
+  messageBox.textContent = msg;
+  messageBox.classList.remove('hidden', 'error', 'success');
+  messageBox.classList.add(isError ? 'error' : 'success');
+}
+
+// Request OTP
 getOtpBtn.addEventListener('click', async () => {
   const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const confirmPassword = document.getElementById('confirmPassword').value.trim();
 
-  if (!email) return alert("Please enter your email");
+  if (!email) return showMessage("Please enter your email", true);
+  if (password.length < 8) return showMessage("Password must be at least 8 characters", true);
+  if (password !== confirmPassword) return showMessage("Passwords do not match", true);
 
   try {
     getOtpBtn.disabled = true;
     getOtpBtn.textContent = "Sending...";
-    
+
     const res = await fetch('http://127.0.0.1:5001/api/auth/request-otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -21,19 +33,24 @@ getOtpBtn.addEventListener('click', async () => {
     const data = await res.json();
 
     if (res.ok) {
-      alert("OTP sent to your email.");
+      showMessage("Verification code sent to your email.");
       document.getElementById('email').readOnly = true;
-      getOtpBtn.disabled = true;
-      otpSection.style.display = 'block';
+      otpSection.classList.remove('hidden');
+      getOtpBtn.textContent = "Resend Verification Code";
     } else {
-      alert(data.message || "Error sending OTP");
+      showMessage(data.message || "Error sending OTP", true);
+      getOtpBtn.disabled = false;
+      getOtpBtn.textContent = "Get Verification Code";
     }
   } catch (err) {
-    alert("Failed to send OTP");
     console.error(err);
+    showMessage("Failed to send OTP", true);
+    getOtpBtn.disabled = false;
+    getOtpBtn.textContent = "Get Verification Code";
   }
 });
 
+// Final Signup
 signupForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -41,12 +58,9 @@ signupForm.addEventListener('submit', async (e) => {
   const username = document.getElementById('username').value.trim();
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value.trim();
-  const confirmPassword = document.getElementById('confirmPassword').value.trim();
   const otp = document.getElementById('otp').value.trim();
 
-  if (password !== confirmPassword) {
-    return alert("Passwords do not match");
-  }
+  if (!otp) return showMessage("Please enter the verification code", true);
 
   try {
     const res = await fetch('http://127.0.0.1:5001/api/auth/verify-otp', {
@@ -59,14 +73,14 @@ signupForm.addEventListener('submit', async (e) => {
     const data = await res.json();
 
     if (res.ok) {
-      alert("Signup successful!");
-      localStorage.setItem("username",username);
-      window.location.href = "home.html";
+      showMessage("Signup successful!");
+      localStorage.setItem("username", username);
+      setTimeout(() => window.location.href = "home.html", 1500);
     } else {
-      alert(data.message || "OTP verification failed");
+      showMessage(data.message || "OTP verification failed", true);
     }
   } catch (err) {
-    alert("Signup error");
     console.error(err);
+    showMessage("Signup error", true);
   }
 });

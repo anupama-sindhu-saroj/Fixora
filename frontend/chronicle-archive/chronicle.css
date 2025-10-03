@@ -1,0 +1,128 @@
+:root {
+    --neon-blue: #0af;
+    --neon-purple: #f0a;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #008080, #473bd0);
+    color: #2d3748;
+    min-height: 100vh;
+}
+
+.neon-text {
+    color: #fff;
+    text-shadow: 0 0 4px #fff, 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue), 0 0 30px var(--neon-purple), 0 0 40px var(--neon-blue);
+}
+
+.neon-border {
+    border: 2px solid var(--neon-purple);
+    box-shadow: 0 0 8px var(--neon-purple);
+}
+
+.timeline-line {
+    width: 2px;
+    background: linear-gradient(to bottom, var(--neon-blue), var(--neon-purple));
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--neon-purple);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.slider-container {
+    position: relative;
+    cursor: ew-resize;
+    overflow: hidden;
+}
+
+.slider-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.slider-after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 50%;
+    overflow: hidden;
+}
+
+.slider-after .slider-image {
+    width: 100%;
+    height: 100%;
+}
+
+.slider-handle {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 100%;
+    background: var(--neon-purple);
+    cursor: ew-resize;
+    z-index: 20;
+    border-radius: 9999px;
+    box-shadow: 0 0 8px rgba(240, 0, 170, 0.8);
+}
+
+.slider-handle::before {
+    content: "↔";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--neon-purple);
+    color: #2d3748;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 1.25rem;
+    line-height: 1;
+    box-shadow: 0 0 10px rgba(240, 0, 170, 1);
+}
+
+.timeline-pin {
+    background-color: var(--neon-purple);
+    box-shadow: 0 0 5px var(--neon-purple);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.95);
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 1rem;
+    box-shadow: 0 0 40px rgba(240, 0, 170, 0.9), 0 0 15px rgba(0, 170, 255, 0.5);
+}

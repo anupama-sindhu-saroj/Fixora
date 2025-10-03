@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Authority Dashboard | Fixora</title>
+  <link rel="stylesheet" href="dash.css" />
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div id="logo-container" class="logo-container">
+        <!-- Logo will be injected here by JS -->
+      </div>
+      <nav class="main-nav">
+        <a href="#issues" class="nav-item active">
+          <i class="icon">🔍</i> Issues Log
+        </a>
+        <a href="#analytics" class="nav-item">
+          <i class="icon">📊</i> Analytics & Reports
+        </a>
+        <a href="#archive" class="nav-item">
+          <i class="icon">📜</i> Chronicle Archive
+        </a>
+        <a href="#settings" class="nav-item">
+          <i class="icon">⚙️</i> Settings
+        </a>
+      </nav>
+      <button class="logout-btn">Log Out</button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="dashboard-header">
+        <h2>Welcome, Department of Public Works!</h2>
+        <div class="user-info">
+          <span>Authority User</span>
+          <i class="profile-icon">👤</i>
+        </div>
+      </header>
+
+      <!-- Issues Section -->
+      <section id="issues" class="content-section active">
+        <h3>Open Issues Log</h3>
+        <div class="filter-controls">
+          <select id="status-filter">
+            <option value="all">All Statuses</option>
+            <option value="up">UP (Unassigned)</option>
+            <option value="review">Under Review</option>
+            <option value="resolved">Resolved</option>
+          </select>
+          <input type="text" placeholder="Search by Category or Description...">
+          <button class="search-btn">Search</button>
+        </div>
+
+        <div class="issue-list">
+  <!-- Issue 1 -->
+  <div class="issue-card status-up">
+    <span class="issue-id">#1023</span>
+    <h4>Pothole on Main Street (High Priority)</h4>
+    <p>Reported By: Citizen #456</p>
+    <span class="status-label">UP</span>
+    <button class="view-btn">View Details</button>
+  </div>
+
+  <!-- Issue 2 -->
+  <div class="issue-card status-review">
+    <span class="issue-id">#1024</span>
+    <h4>Streetlight not working near Central Park</h4>
+    <p>Reported By: Citizen #789</p>
+    <span class="status-label">Under Review</span>
+    <button class="view-btn">View Details</button>
+  </div>
+
+  <!-- Issue 3 -->
+  <div class="issue-card status-resolved">
+    <span class="issue-id">#1025</span>
+    <h4>Overflowing garbage bin at Market Square</h4>
+    <p>Reported By: Citizen #321</p>
+    <span class="status-label">Resolved</span>
+    <button class="view-btn">View Details</button>
+  </div>
+</div>
+  <!-- Issue Details Modal -->
+  <div id="issue-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      
+      <h2 id="modal-title">Issue Details</h2>
+      <p id="modal-desc"></p>
+      <p><strong>Reported By:</strong> <span id="modal-reporter"></span></p>
+      <p><strong>Location:</strong> <span id="modal-location"></span></p>
+
+      <!-- Reported Image -->
+      <div class="image-container">
+        <img id="modal-image" src="" alt="Reported Issue">
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-container">
+        <div id="modal-progress" class="progress-bar"></div>
+      </div>
+    </div>
+  </div>
+
+
+      </section>
+
+      <!-- Analytics Section -->
+      <section id="analytics" class="content-section">
+        <!-- Future content -->
+      </section>
+    </main>
+  </div>
+
+  <!-- JS -->
+  <script src="script.js"></script>
+</body>
+</html>

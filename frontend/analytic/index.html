@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fixora | Analytics Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="analytics-container">
+    <!-- Header -->
+     <header class="analytics-header">
+  <div class="logo-container" id="logo-container"></div>
+  <h1>Analytics Dashboard</h1>
+</header>
+
+    <!-- Filters -->
+    <section class="filters">
+      <div class="filter-controls">
+        <label for="date-filter">📆 Date Range:
+          <select id="date-filter">
+            <option value="7days">Last 7 days</option>
+            <option value="30days">Last 30 days</option>
+            <option value="year">This Year</option>
+            <option value="custom">Custom Range...</option>
+          </select>
+        </label>
+
+        <label for="location-filter">📍 Location:
+          <select id="location-filter">
+            <option value="all">All</option>
+            <option value="ward1">Ward 1</option>
+            <option value="ward2">Ward 2</option>
+            <option value="central">Central</option>
+          </select>
+        </label>
+
+        <label for="status-filter">📑 Status:
+          <select id="status-filter">
+            <option value="all">All</option>
+            <option value="up">UP</option>
+            <option value="review">Under Review</option>
+            <option value="resolved">Resolved</option>
+          </select>
+        </label>
+      </div>
+      <p class="ai-insight">💡 This month saw a <strong>20% increase</strong> in road-related issues.</p>
+    </section>
+
+    <!-- KPIs -->
+    <section class="kpis">
+      <div class="kpi-card fast">
+        <h3>🚀 Fastest Resolved</h3>
+        <p>2 hours</p>
+      </div>
+      <div class="kpi-card slow">
+        <h3>🐢 Longest Pending</h3>
+        <p>12 days</p>
+      </div>
+      <div class="kpi-card compare">
+        <h3>📊 Monthly Change</h3>
+        <p>+18%</p>
+      </div>
+      <div class="kpi-card reopen">
+        <h3>🔄 Reopened Issues</h3>
+        <p>6%</p>
+      </div>
+    </section>
+
+    <!-- Charts -->
+    <section class="charts">
+      <div class="chart-box">
+        <h3>Issues by Category</h3>
+        <canvas id="pieChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <h3>Weekly Trend</h3>
+        <canvas id="lineChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <h3>Department Performance</h3>
+        <canvas id="barChart"></canvas>
+      </div>
+    </section>
+
+    <!-- Citizen Engagement -->
+    <section class="citizens">
+      <h2>Citizen Engagement</h2>
+      <div class="citizen-stats">
+        <div class="citizen-card">👥 Active Citizens: <strong>452</strong></div>
+        <div class="citizen-card">⭐ Avg. Rating: <strong>4.3 / 5</strong></div>
+        <div class="citizen-card">🏅 Top Reporter: <strong>Citizen #908</strong></div>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixora Chronicle: Resolved Issues</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="chronicle.css">
+</head>
+<body>
+
+<div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+    <h1 class="text-4xl sm:text-5xl font-extrabold mb-2">
+        <span class="neon-text">Fixora Chronicle:</span> Resolved Issues
+    </h1>
+    <h3 class="text-xl text-gray-600 mb-8">The city's living library of fixes.</h3>
+
+    <div class="bg-white/70 p-4 rounded-xl shadow-lg mb-8 flex flex-col md:flex-row gap-4 sticky top-0 z-20 backdrop-blur-sm">
+        <div class="relative flex-grow">
+            <input type="text" id="search-input" placeholder="Search title, description, or address..."
+                   class="w-full bg-white border border-gray-300 text-gray-800 rounded-lg py-2 pl-10 pr-4 focus:ring-2 focus:ring-neon-blue focus:border-neon-blue"
+                   oninput="filterIssues()">
+            <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500"></i>
+        </div>
+
+        <select id="category-filter" class="bg-white border border-gray-300 text-gray-800 rounded-lg py-2 px-4 focus:ring-2 focus:ring-neon-blue focus:border-neon-blue w-full md:w-auto" onchange="filterIssues()">
+            <option value="">All Categories</option>
+            <option value="Road">Road</option>
+            <option value="Waste">Waste</option>
+            <option value="Lighting">Lighting</option>
+            <option value="Water">Water</option>
+        </select>
+
+        <select id="year-filter" class="bg-white border border-gray-300 text-gray-800 rounded-lg py-2 px-4 focus:ring-2 focus:ring-neon-blue focus:border-neon-blue w-full md:w-auto" onchange="filterIssues()">
+            <option value="">All Years</option>
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+        </select>
+    </div>
+
+    <div class="text-lg font-semibold mb-6">
+        <i data-lucide="check-circle" class="inline-block w-5 h-5 mr-2 text-green-700"></i>
+        <span id="total-count" class="neon-text">0</span> Issues Resolved
+    </div>
+
+    <div class="flex">
+        <div class="timeline-line mr-8 hidden sm:block"></div>
+        <div id="archive-container" class="flex-1"></div>
+    </div>
+
+    <div class="flex justify-center mt-12">
+        <button class="px-6 py-2 bg-white/70 text-gray-700 rounded-lg hover:bg-white/90 transition duration-200 shadow-md">Load More Issues</button>
+    </div>
+</div>
+
+<div id="case-study-modal" class="modal-overlay hidden">
+    <div class="modal-content w-full sm:w-11/12 md:w-3/4 lg:w-2/3 p-6 sm:p-8">
+        <div class="flex justify-between items-start mb-6 border-b pb-3 border-gray-300">
+            <h2 id="modal-title" class="text-3xl font-bold text-gray-900">Case Study Title</h2>
+            <button onclick="closeCaseStudyModal()" class="text-gray-500 hover:text-gray-900 transition duration-150">
+                <i data-lucide="x" class="w-8 h-8"></i>
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div>
+                <h3 class="text-xl font-semibold mb-2">Resolution Summary</h3>
+                <p id="modal-summary" class="text-gray-700 mb-4"></p>
+                <div class="space-y-3 text-sm font-medium">
+                    <p class="text-gray-800"><i data-lucide="clock" class="inline-block w-4 h-4 mr-2 text-neon-blue"></i> Resolved in: <span id="modal-resolution" class="font-bold"></span></p>
+                    <p class="text-gray-800"><i data-lucide="building-2" class="inline-block w-4 h-4 mr-2 text-neon-blue"></i> Authority Credited: <span id="modal-authority" class="font-bold"></span></p>
+                    <p class="text-gray-800"><i data-lucide="calendar" class="inline-block w-4 h-4 mr-2 text-neon-blue"></i> Resolved Date: <span id="modal-date" class="font-bold"></span></p>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold mb-2">Before & After Proof</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <img id="modal-image-before" src="" alt="Before image" class="w-full h-auto rounded-lg shadow-md border-2 border-neon-blue">
+                        <p class="text-xs text-center mt-1 font-semibold text-neon-blue">BEFORE</p>
+                    </div>
+                    <div>
+                        <img id="modal-image-after" src="" alt="After image" class="w-full h-auto rounded-lg shadow-md border-2 border-neon-purple">
+                        <p class="text-xs text-center mt-1 font-semibold text-neon-purple">AFTER</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center pt-4 border-t border-gray-300">
+            <button onclick="closeCaseStudyModal()" class="px-6 py-2 bg-gray-200 rounded-lg text-gray-700 font-semibold transition duration-300 hover:bg-gray-300">
+                Close Case Study
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Custom JS -->
+<script src="chronicle.js"></script>
+</body>
+</html>

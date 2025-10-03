@@ -1,0 +1,75 @@
+/* ===== GLOBAL STYLES ===== */
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.125rem; /* ~18px */
+    margin: 0;
+    padding: 0;
+}
+
+/* ===== LABELS ===== */
+label {
+    font-size: 1.125rem;
+    font-weight: 500;
+}
+
+/* ===== INPUTS & SELECT BOXES ===== */
+input[type="text"],
+select,
+textarea {
+    font-size: 1.125rem;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+}
+
+/* ===== DESCRIPTION BOX ===== */
+#description {
+    min-height: 100px;
+    resize: vertical; /* allow user to resize height */
+}
+
+/* ===== BUTTONS ===== */
+button, label[for="fileInput"] {
+    font-size: 1.125rem;
+    padding: 0.75rem 1rem;
+}
+
+/* ===== UPLOAD BOX TEXT ===== */
+.upload-box span {
+    font-size: 1rem;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    font-size: 0.95rem;
+}
+
+/* ===== UPLOAD SECTION ===== */
+.upload-section {
+    margin-top: -1rem !important; /* slightly shift upload box upward */
+}
+
+/* ===== COLUMN SPACING ===== */
+.flex-col.md\:flex-row.gap-6 {
+    gap: 1rem; /* reduce gap so upload box isn’t pushed too far down */
+}
+
+.md\:w-1\/2.flex.flex-col.gap-6 {
+    gap: 1rem;
+}
+
+/* ===== MAIN CONTENT ===== */
+main {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+    form {
+        height: auto;
+    }
+    .flex-col.md\:flex-row.gap-6 {
+        gap: 0.75rem;
+    }
+}

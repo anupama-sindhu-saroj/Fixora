@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report a City Issue | Fixora</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="report-issue.css">
+</head>
+<body class=" min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <header class="text-white p-7 shadow-md flex justify-between items-center"
+            style="background: linear-gradient(135deg, #008080, #473bd0);">
+        <a href="citizen-dashboard.html" class="flex items-center space-x-2 text-sm font-semibold hover:opacity-80">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            <span>Back to Dashboard</span>
+        </a>
+        <h1 class="text-xl font-bold flex items-center space-x-2">
+            <i data-lucide="edit-3" class="w-6 h-6"></i>
+            <span>Report a City Issue</span>
+        </h1>
+        <div class="w-16"></div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="container mx-auto p-6 flex-grow">
+        <form id="reportForm" class="space-y-8">
+
+            <!-- ISSUE FORM -->
+            <div class="flex flex-col md:flex-row gap-6">
+                <!-- LEFT COLUMN -->
+                <div class="md:w-1/2 flex flex-col gap-6">
+                    <!-- Issue Type -->
+                    <div>
+                        <label for="issueType" class="block text-sm font-medium text-gray-700">Issue Type</label>
+                        <select id="issueType" required
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <option value="">Select Issue Category</option>
+                            <option value="pothole">Pothole / Road Damage</option>
+                            <option value="graffiti">Graffiti</option>
+                            <option value="street_light">Street Light Outage</option>
+                            <option value="trash">Illegal Dumping / Trash</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+        
+                    <!-- Description -->
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea id="description" required
+                                  placeholder="A concise description of the issue"
+                                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
+                        <p class="text-xs text-gray-400 mt-1">E.g., Large pothole in the intersection.</p>
+                    </div>
+        
+                    <!-- Location -->
+                    <div>
+                        <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                        <input type="text" id="location" required
+                               placeholder="Enter street address or landmark"
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    </div>
+                </div>
+        
+                <!-- RIGHT COLUMN -->
+                <div class="md:w-1/2 flex flex-col gap-6">
+                    <!-- Map -->
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Approximate Location on Map</label>
+                    <div class="relative w-full h-80 rounded-lg flex items-center justify-center shadow-inner"
+                        style="background: linear-gradient(135deg, #008080, #473bd0);">
+                        <!-- Only show image if loaded -->
+                        <img src="" alt="Map placeholder"
+                            class="w-full h-full object-cover rounded-lg" id="mapImage" style="display: none;">
+                        <div class="absolute inset-0 flex items-center justify-center text-white font-bold p-2 bg-opacity-70 rounded-lg text-xs">
+                            Drag marker to pinpoint location
+                        </div>
+                    </div>
+
+                    <!-- Choose Files button -->
+                    <div class="flex justify-end pt-4">
+                        <label for="fileInput"
+                               class="text-white px-4 py-2 rounded-full shadow-lg font-semibold cursor-pointer hover:opacity-90"
+                               style="background: linear-gradient(135deg, #008080, #473bd0);">
+                            Choose Files
+                        </label>
+                        <input type="file" id="fileInput" multiple class="hidden">
+                    </div>
+                </div>
+            </div>
+        
+            <!-- UPLOAD SECTION -->
+            <div class="upload-section">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Upload Images/Videos (Optional)</label>
+                <div class="flex flex-col gap-4">
+                    <!-- Drag & Drop Box -->
+                    <div class="flex-shrink-0 w-full md:w-1/3 h-32 p-4 flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-400 cursor-pointer hover:border-blue-500">
+                        <i data-lucide="cloud-upload" class="w-6 h-6 mb-1"></i>
+                        <span class="text-xs font-medium">Drag & Drop Files</span>
+                        <span class="text-xs text-gray-400 mt-1">(Max 5 files)</span>
+                    </div>
+        
+                    <!-- Thumbnails -->
+                    <div class="flex space-x-3 overflow-x-auto">
+                        <img src="pothole-preview.png"
+                             alt="Pothole"
+                             class="w-32 h-32 rounded-lg object-cover border border-gray-200 shadow-md">
+                        <img src="graffiti-preview.png"
+                             alt="Graffiti"
+                             class="w-32 h-32 rounded-lg object-cover border border-gray-200 shadow-md">
+                        <img src="light-preview.png"
+                             alt="Street Light"
+                             class="w-32 h-32 rounded-lg object-cover border border-gray-200 shadow-md">
+                    </div>
+                </div>
+            </div>
+        
+            <!-- SUBMIT BUTTON -->
+            <div class="text-center pt-4">
+                <button type="submit"
+                        class="text-white px-8 py-3 rounded-full shadow-lg font-semibold hover:opacity-90"
+                        style="background: linear-gradient(135deg, #008080, #473bd0);">
+                    Submit Report
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        document.getElementById('reportForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            console.log("Report submitted!");
+            this.reset();
+        });
+    </script>
+</body>
+</html>

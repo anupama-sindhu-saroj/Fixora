@@ -10,30 +10,23 @@
   <div class="dashboard-layout">
     <!-- Sidebar -->
     <aside class="sidebar">
-      <div id="logo-container" class="logo-container">
-        <!-- Logo will be injected here by JS -->
-      </div>
+      <div id="logo-container" class="logo-container"></div>
       <nav class="main-nav">
-        <a href="#issues" class="nav-item active">
-          <i class="icon">🔍</i> Issues Log
-        </a>
-        <a href="#analytics" class="nav-item">
-          <i class="icon">📊</i> Analytics & Reports
-        </a>
-        <a href="#archive" class="nav-item">
-          <i class="icon">📜</i> Chronicle Archive
-        </a>
-        <a href="#settings" class="nav-item">
-          <i class="icon">⚙️</i> Settings
-        </a>
-      </nav>
+  <a href="#issues" class="nav-item active"><i class="icon"></i> Issues Log</a>
+  <a href="../analytic/index.html" class="nav-item"><i class="icon"></i> Analytics</a>
+  <a href="../chronicle-archive/chronicle.html" class="nav-item"><i class="icon"></i> Chronicle</a>
+  <a href="#submit-issue-solution" class="nav-item"><i class="icon"></i> Submit Issue Solution</a>
+  <a href="#resolved" class="nav-item"><i class="icon"></i> Resolved</a>
+  <a href="#settings" class="nav-item"><i class="icon"></i> Settings</a>
+</nav>
+
       <button class="logout-btn">Log Out</button>
     </aside>
 
     <!-- Main Content -->
     <main class="main-content">
       <header class="dashboard-header">
-        <h2>Welcome, Department of Public Works!</h2>
+        <h2>Authority Dashboard</h2>
         <div class="user-info">
           <span>Authority User</span>
           <i class="profile-icon">👤</i>
@@ -41,80 +34,129 @@
       </header>
 
       <!-- Issues Section -->
-      <section id="issues" class="content-section active">
-        <h3>Open Issues Log</h3>
-        <div class="filter-controls">
-          <select id="status-filter">
-            <option value="all">All Statuses</option>
-            <option value="up">UP (Unassigned)</option>
-            <option value="review">Under Review</option>
-            <option value="resolved">Resolved</option>
-          </select>
-          <input type="text" placeholder="Search by Category or Description...">
-          <button class="search-btn">Search</button>
-        </div>
-
-        <div class="issue-list">
-  <!-- Issue 1 -->
-  <div class="issue-card status-up">
-    <span class="issue-id">#1023</span>
-    <h4>Pothole on Main Street (High Priority)</h4>
-    <p>Reported By: Citizen #456</p>
-    <span class="status-label">UP</span>
-    <button class="view-btn">View Details</button>
+<section id="issues" class="content-section active">
+  <h3>Open Issues Log</h3>
+  <div class="filter-controls">
+    <select id="status-filter">
+      <option value="all">All Statuses</option>
+      <option value="up">UP (Unassigned)</option>
+      <option value="review">Under Review</option>
+      <option value="resolved">Resolved</option>
+    </select>
+    <input type="text" placeholder="Search by Category or Description...">
+    <button class="search-btn">Search</button>
   </div>
 
-  <!-- Issue 2 -->
-  <div class="issue-card status-review">
-    <span class="issue-id">#1024</span>
-    <h4>Streetlight not working near Central Park</h4>
-    <p>Reported By: Citizen #789</p>
-    <span class="status-label">Under Review</span>
-    <button class="view-btn">View Details</button>
-  </div>
+  <div class="issue-list">
+    <div class="issue-card status-up">
+      <span class="issue-id">#1023</span>
+      <h4>Pothole on Main Street (High Priority)</h4>
+      <p>Reported By: Citizen #456</p>
+      <span class="status-label">UP</span>
+      <button class="view-btn">View Details</button>
+    </div>
+</section>
+<!-- Issue Details Modal -->
+<div id="issue-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    
+    <h2 id="modal-title">Issue Details</h2>
+    <p id="modal-desc"></p>
+    <p><strong>Reported By:</strong> <span id="modal-reporter"></span></p>
+    <p><strong>Location:</strong> <span id="modal-location"></span></p>
+    
+    <!-- Reported Image -->
+    <div class="image-container">
+      <img id="modal-image" src="" alt="Reported Issue">
+    </div>
 
-  <!-- Issue 3 -->
-  <div class="issue-card status-resolved">
-    <span class="issue-id">#1025</span>
-    <h4>Overflowing garbage bin at Market Square</h4>
-    <p>Reported By: Citizen #321</p>
-    <span class="status-label">Resolved</span>
-    <button class="view-btn">View Details</button>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+      <div id="modal-progress" class="progress-bar"></div>
+    </div>
+
+    <!-- Resolve Button -->
+    <button id="resolve-btn" class="submit-btn">🛠 Resolve This Issue</button>
   </div>
 </div>
-  <!-- Issue Details Modal -->
-  <div id="issue-modal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn">&times;</span>
-      
-      <h2 id="modal-title">Issue Details</h2>
-      <p id="modal-desc"></p>
-      <p><strong>Reported By:</strong> <span id="modal-reporter"></span></p>
-      <p><strong>Location:</strong> <span id="modal-location"></span></p>
 
-      <!-- Reported Image -->
-      <div class="image-container">
-        <img id="modal-image" src="" alt="Reported Issue">
+
+<!-- Submit Issue Solution Section -->
+<section id="submit-issue-solution" class="content-section">
+  <h3 class="section-title">🛠 Submit Issue Solution</h3>
+  <div class="submit-card">
+    <form id="solution-form">
+      <div class="form-group">
+        <label for="issue-title">📝 Issue Title</label>
+        <input type="text" id="issue-title" placeholder="Enter the issue title" required>
       </div>
 
-      <!-- Progress Bar -->
-      <div class="progress-container">
-        <div id="modal-progress" class="progress-bar"></div>
+      <div class="form-group">
+        <label for="solution-summary">📄 Solution Summary</label>
+        <textarea id="solution-summary" placeholder="Describe how the issue was resolved..." required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="issue-location">📍 Location</label>
+        <input type="text" id="issue-location" placeholder="e.g. Ward 2, Elm Street" required>
+      </div>
+
+      <div class="form-group">
+        <label for="department">🏢 Department Responsible</label>
+        <select id="department" required>
+          <option value="">-- Select Department --</option>
+          <option value="Roads">Roads Department</option>
+          <option value="Lighting">Street Lighting Department</option>
+          <option value="Sanitation">Sanitation Department</option>
+          <option value="Water">Water Supply Department</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>📷 Upload Resolved Image</label>
+        <input type="file" id="resolved-image" accept="image/*">
+        <div class="image-preview" id="image-preview">
+          <p>Drag & Drop or Select Image</p>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">✅ Submit Solution</button>
+    </form>
+  </div>
+</section>
+
+
+<!-- Resolved Issues -->
+<section id="resolved" class="content-section">
+  <h3>Resolved Issues Archive</h3>
+  <p>Total Resolved Issues: <strong id="resolved-count">1245</strong></p>
+
+  <div class="resolved-list">
+    <div class="resolved-card">
+      <h4>Blocked storm drain on Elm St.</h4>
+      <p><strong>Resolved by:</strong> Sanitation Dept.</p>
+      <p><strong>Resolution Time:</strong> 36 hours</p>
+      <div class="resolved-images">
+        <div>
+          <p><em>Before</em></p>
+          <img src="https://placehold.co/200x150/ff6666/fff?text=Before" alt="Before Fix">
+        </div>
+        <div>
+          <p><em>After</em></p>
+          <img src="https://placehold.co/200x150/66cc66/fff?text=After" alt="After Fix">
+        </div>
       </div>
     </div>
   </div>
+</section>
 
-
-      </section>
-
-      <!-- Analytics Section -->
-      <section id="analytics" class="content-section">
-        <!-- Future content -->
-      </section>
     </main>
   </div>
 
-  <!-- JS -->
   <script src="script.js"></script>
+  <script src="script.js" defer></script>
+
 </body>
 </html>

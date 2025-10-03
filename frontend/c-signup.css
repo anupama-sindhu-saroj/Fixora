@@ -221,3 +221,58 @@ body {
     display: none;
   }
 }
+#messageBox {
+  margin-bottom: 15px;
+  padding: 8px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+#messageBox.error {
+  color: white;
+  background: #e74c3c;
+}
+#messageBox.success {
+  color: white;
+  background: #2ecc71;
+}
+.hidden {
+  display: none;
+}
+#otpSection {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+#otpSection input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+#otpSection input[type="text"]:focus {
+  border-color: #007bff;
+}
+
+#otpSection button {
+  padding: 10px;
+  font-size: 16px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#otpSection button:hover {
+  background: #218838;
+}

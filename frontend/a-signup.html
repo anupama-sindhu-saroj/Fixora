@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authority Signup</title>
+  <link rel="stylesheet" href="c-signup.css">
+</head>
+<body>
+  <div class="signup-container">
+    <div class="signup-card">
+      <!-- Left Column -->
+      <div class="signup-left">
+        <h2>Authority Signup</h2>
+        <p>Create your Authority account securely.</p>
+        <img src="community.png" alt="Authority Illustration">
+      </div>
+
+      <!-- Right Column -->
+      <div class="signup-right">
+        <div class="form-wrapper">
+          <h1>Authority Account</h1>
+          <p class="subtitle">Enter details to create your account.</p>
+          <div id="message" class="message-box hidden"></div>
+
+          <form id="signupForm">
+            <div class="input-group">
+              <input type="email" id="email" placeholder=" " required>
+              <label for="email">Email Address</label>
+            </div>
+
+            <div class="input-group">
+              <input type="text" id="name" placeholder=" " required>
+              <label for="name">Full Name</label>
+            </div>
+
+            <div class="input-group">
+              <input type="text" id="city" placeholder=" " required>
+              <label for="city">City</label>
+            </div>
+
+            <div class="input-group">
+              <input type="password" id="password" placeholder=" " required>
+              <label for="password">Password</label>
+            </div>
+
+            <div class="input-group">
+              <input type="text" id="authorityCode" placeholder=" " required>
+              <label for="authorityCode">Authority Code</label>
+            </div>
+
+            <button type="button" id="requestOtpBtn" class="btn-primary">Get OTP</button>
+
+            <div id="otp-section" class="hidden">
+              <div class="input-group">
+                <input type="text" id="otp" placeholder=" " required>
+                <label for="otp">Enter OTP</label>
+              </div>
+              <button type="button" id="verifyBtn" class="btn-success">Verify & Signup</button>
+            </div>
+          </form>
+
+          <p class="login-link">
+            Already have an account? <a href="authority-login.html">Log In</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="a-signup.js"></script>
+</body>
+</html>

@@ -4,6 +4,7 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth.js"; 
+import authorityAuthRoutes from "./routes/authorityAuth.js";
 import mongoose from "mongoose";
 
 console.log("EMAIL_USER:", process.env.EMAIL_USER);
@@ -28,6 +29,7 @@ app.use(cors({
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/authority", authorityAuthRoutes);
 app.use("/api/upload", uploadRoutes);
 app.get("/", (req, res) => {
     res.send("Fixora backend is running!");

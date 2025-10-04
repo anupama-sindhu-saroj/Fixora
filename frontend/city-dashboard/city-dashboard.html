@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixora - City Dashboard</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="city-dashboard.css">
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <aside id="sidebar" class="w-64 text-slate-200 flex flex-col fixed h-full z-20 transition-transform transform -translate-x-full lg:translate-x-0">
+        <div class="flex items-center justify-center h-20 border-b border-slate-700/50">
+            <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <h1 class="text-2xl font-bold ml-3 text-white">Fixora</h1>
+        </div>
+
+        <nav class="flex-1 px-4 py-6 space-y-2 flex flex-col">
+            <div>
+                <a href="city-dashboard.html" class="flex items-center px-4 py-3 rounded-lg font-medium transition-colors duration-200 nav-link-active text-white">
+                    <svg class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                    Dashboard
+                </a>
+                <a href="../chronicle-archive/chronicle.html" class="flex items-center px-4 py-3 rounded-lg font-medium hover:bg-white/10 transition-colors duration-200">
+                    <svg class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" /></svg>
+                    Chronicle Archive
+                </a>
+                <a href="../analytic/index.html" class="flex items-center px-4 py-3 rounded-lg font-medium hover:bg-white/10 transition-colors duration-200">
+                    <svg class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" /></svg>
+                    Analytics
+                </a>
+            </div>
+            <div class="mt-auto">
+                <a href="#" class="flex items-center px-4 py-3 rounded-lg font-medium hover:bg-white/10 transition-colors duration-200">
+                    <svg class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                    Log Out
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    <div class="flex-1 flex flex-col lg:ml-64">
+        <header class="flex items-center justify-between h-20 px-8 border-b bg-white">
+            <div class="flex items-center">
+                <button id="menu-button" class="lg:hidden mr-4 text-slate-500 hover:text-slate-800">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800">City Dashboard</h2>
+                    <p id="live-time" class="text-sm text-slate-500">Loading time...</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="../report-issue/report-issue.html" class="px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition-colors duration-200 shadow-sm flex items-center space-x-2">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span>Report Issue</span>
+                </a>
+                <div class="relative">
+                     <img class="h-10 w-10 rounded-full object-cover" src="https://placehold.co/100x100/E2E8F0/4A5568?text=AV" alt="User Avatar">
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 p-8 grid grid-cols-3 gap-8 overflow-y-auto">
+            <div class="col-span-3 lg:col-span-2 space-y-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="bg-white p-5 rounded-xl shadow-sm border flex items-center space-x-4 hover:shadow-md transition-shadow cursor-pointer">
+                        <div class="bg-blue-100 p-3 rounded-full"><svg class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg></div>
+                        <div>
+                            <p class="text-sm text-slate-500">Total Work Orders</p>
+                            <p class="text-2xl font-bold text-slate-800">2,345</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border flex items-center space-x-4 hover:shadow-md transition-shadow cursor-pointer">
+                         <div class="bg-red-100 p-3 rounded-full"><svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                        <div>
+                            <p class="text-sm text-slate-500">Pending Issues</p>
+                            <p class="text-2xl font-bold text-red-500">57</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border flex items-center space-x-4 hover:shadow-md transition-shadow cursor-pointer">
+                        <div class="bg-yellow-100 p-3 rounded-full"><svg class="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg></div>
+                        <div>
+                            <p class="text-sm text-slate-500">In Progress</p>
+                            <p class="text-2xl font-bold text-yellow-500">19</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border flex items-center space-x-4 hover:shadow-md transition-shadow cursor-pointer">
+                        <div class="bg-green-100 p-3 rounded-full"><svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                        <div>
+                            <p class="text-sm text-slate-500">Resolved Today</p>
+                            <p class="text-2xl font-bold text-green-500">32</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border h-96 flex flex-col">
+                    <h3 class="text-lg font-semibold text-slate-800 mb-4">Live Issue Map</h3>
+                    
+                    <div class="flex-1 w-full bg-slate-200 rounded-lg flex items-center justify-center">
+                        <p class="text-slate-500">Interactive map placeholder</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border">
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold text-slate-800">Recent Activity</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-slate-500">
+                            <thead class="text-xs text-slate-700 uppercase bg-slate-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">Title</th>
+                                    <th scope="col" class="px-6 py-3">Category</th>
+                                    <th scope="col" class="px-6 py-3">Date</th>
+                                    <th scope="col" class="px-6 py-3">Status</th>
+                                    <th scope="col" class="px-6 py-3">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b hover:bg-slate-50">
+                                    <th scope="row" class="px-6 py-4 font-medium text-slate-900 whitespace-nowrap">Large pothole on Main St</th>
+                                    <td class="px-6 py-4">Roads</td>
+                                    <td class="px-6 py-4">Oct 04, 2025</td>
+                                    <td class="px-6 py-4"><span class="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full">Pending</span></td>
+                                    <td class="px-6 py-4">
+                                        <button class="view-details-btn text-blue-600 hover:underline font-semibold text-xs"
+                                            data-title="Large pothole on Main St"
+                                            data-category="Roads"
+                                            data-date="Oct 04, 2025"
+                                            data-status="Pending"
+                                            data-reporter="Citizen ID #4821"
+                                            data-description="A large and dangerous pothole has formed in the westbound lane of Main Street, near the public library. It has caused issues for several vehicles."
+                                            data-image="https://placehold.co/600x400/A0AEC0/4A5568?text=Pothole+Image">
+                                            View Details
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="bg-white border-b hover:bg-slate-50">
+                                    <th scope="row" class="px-6 py-4 font-medium text-slate-900 whitespace-nowrap">Broken Streetlight at Elm & Oak</th>
+                                    <td class="px-6 py-4">Lights</td>
+                                    <td class="px-6 py-4">Oct 04, 2025</td>
+                                    <td class="px-6 py-4"><span class="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">In Progress</span></td>
+                                    <td class="px-6 py-4">
+                                         <button class="view-details-btn text-blue-600 hover:underline font-semibold text-xs"
+                                            data-title="Broken Streetlight at Elm & Oak"
+                                            data-category="Lights"
+                                            data-date="Oct 04, 2025"
+                                            data-status="In Progress"
+                                            data-reporter="Citizen ID #5102"
+                                            data-description="The streetlight on the corner of Elm St and Oak Ave is flickering and often turns off completely. It's a safety concern at night."
+                                            data-image="https://placehold.co/600x400/F6E05E/4A5568?text=Streetlight+Outage">
+                                            View Details
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="bg-white border-b hover:bg-slate-50">
+                                    <th scope="row" class="px-6 py-4 font-medium text-slate-900 whitespace-nowrap">Water leak near City Park</th>
+                                    <td class="px-6 py-4">Water</td>
+                                    <td class="px-6 py-4">Oct 03, 2025</td>
+                                    <td class="px-6 py-4"><span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">Resolved</span></td>
+                                    <td class="px-6 py-4">
+                                         <button class="view-details-btn text-blue-600 hover:underline font-semibold text-xs"
+                                            data-title="Water leak near City Park"
+                                            data-category="Water"
+                                            data-date="Oct 03, 2025"
+                                            data-status="Resolved"
+                                            data-reporter="Citizen ID #4999"
+                                            data-description="Water was observed bubbling up from a crack in the sidewalk on the north side of City Park. The issue has since been repaired by the water department."
+                                            data-image="https://placehold.co/600x400/90CDF4/4A5568?text=Water+Leak">
+                                            View Details
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="bg-white border-b hover:bg-slate-50">
+                                    <th scope="row" class="px-6 py-4 font-medium text-slate-900 whitespace-nowrap">Fallen tree branch on 4th Ave</th>
+                                    <td class="px-6 py-4">Parks</td>
+                                    <td class="px-6 py-4">Oct 03, 2025</td>
+                                    <td class="px-6 py-4"><span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">Resolved</span></td>
+                                    <td class="px-6 py-4">
+                                         <button class="view-details-btn text-blue-600 hover:underline font-semibold text-xs"
+                                            data-title="Fallen tree branch on 4th Ave"
+                                            data-category="Parks"
+                                            data-date="Oct 03, 2025"
+                                            data-status="Resolved"
+                                            data-reporter="Citizen ID #5013"
+                                            data-description="A large branch fell during the storm last night, blocking the sidewalk on 4th Avenue. Parks and Rec department has cleared the debris."
+                                            data-image="https://placehold.co/600x400/9AE6B4/4A5568?text=Fallen+Branch">
+                                            View Details
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-span-3 lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-sm border h-full flex flex-col">
+                    <div class="p-6 border-b">
+                        <h3 class="text-lg font-semibold text-slate-800">Live Feed</h3>
+                        <p class="text-sm text-slate-500">Latest citizen submissions</p>
+                    </div>
+                    <div id="live-feed-container" class="flex-1 p-6 space-y-4 overflow-y-auto">
+                        </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="issue-modal" class="fixed inset-0 bg-black bg-opacity-60 z-30 hidden flex items-center justify-center p-4">
+        <div id="modal-content-box" class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg mx-auto transform transition-all opacity-0 -translate-y-10">
+            <div class="flex justify-between items-center pb-3 border-b">
+                <h3 id="modal-title" class="text-xl font-bold text-slate-800">Issue Details</h3>
+                <button id="close-modal-btn" class="text-slate-400 hover:text-slate-800 text-3xl leading-none">&times;</button>
+            </div>
+            <div id="modal-body" class="mt-4 text-sm">
+                </div>
+        </div>
+    </div>
+
+    <script src="city-dashboard.js"></script>
+
+</body>
+</html>

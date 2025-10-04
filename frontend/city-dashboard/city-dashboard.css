@@ -1,0 +1,45 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa; /* Light grey background */
+}
+
+/* Custom linear gradient for the sidebar */
+#sidebar {
+    background: linear-gradient(135deg, #008080, #473bd0);
+}
+
+/* Custom scrollbar for a cleaner look */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #d1d5db;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #9ca3af;
+}
+::-webkit-scrollbar-track {
+    background-color: #f1f5f9;
+}
+
+/* Style for the active nav link */
+.nav-link-active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Animation for incoming requests in the live feed */
+@keyframes slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.new-request {
+    animation: slide-in 0.5s ease-out forwards;
+}

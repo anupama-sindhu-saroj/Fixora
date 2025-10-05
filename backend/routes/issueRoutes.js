@@ -39,4 +39,33 @@ router.get("/", async (req, res) => {
   }
 });
 
+// PUT → Submit a solution or update issue status
+router.put("/:id/resolve", async (req, res) => {
+  try {
+    const { solutionSummary, department } = req.body;
+
+    if (!solutionSummary || !department) {
+      return res.status(400).json({ error: "Please provide solution summary and department" });
+    }
+
+    const issue = await Issue.findById(req.params.id);
+    if (!issue) {
+      return res.status(404).json({ error: "Issue not found" });
+    }
+
+    issue.status = "Resolved";
+    issue.solution = {
+      summary: solutionSummary,
+      department,
+      resolvedAt: new Date(),
+    };
+
+    await issue.save();
+    res.status(200).json({ message: "✅ Solution submitted successfully", issue });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 export default router;

@@ -82,25 +82,34 @@ async function loadIssues() {
   }
 }
 
-// === Render Issues List ===
 function renderIssues(issues) {
   const list = document.querySelector(".issue-list");
   if (!list) return;
   list.innerHTML = "";
 
+  if (!Array.isArray(issues) || issues.length === 0) {
+    list.innerHTML = `<p class="muted">No reported issues found.</p>`;
+    return;
+  }
+
   issues.forEach(issue => {
     const card = document.createElement("div");
     card.className = "issue-card";
+
     card.innerHTML = `
       <div>
-        <h4>${issue.title}</h4>
-        <p>Reported by: ${issue.reporter}</p>
+        <h4>${issue.issueType || "Unnamed Issue"}</h4>
+        <p><strong>Description:</strong> ${issue.description || "No description provided"}</p>
+        <p><strong>Location:</strong> ${issue.location || "N/A"}</p>
+        <p><strong>Status:</strong> ${issue.status || "Pending"}</p>
       </div>
       <button class="view-btn" data-id="${issue._id}">View Details</button>
     `;
+
     list.appendChild(card);
   });
 }
+
 
 // === Toast System ===
 function showToast(message, type = "info") {
@@ -201,3 +210,68 @@ document.addEventListener("DOMContentLoaded", () => {
   loadIssues();
   loadLiveFeed();
 });
+
+// === Load logged-in Authority info ===
+document.addEventListener("DOMContentLoaded", () => {
+  const authorityName = localStorage.getItem("authorityName") || "Authority";
+  
+  // Set the name beside icon
+  const nameEl = document.getElementById("authority-name");
+  if (nameEl) nameEl.textContent = `Welcome, ${authorityName}`;
+  
+  // Set initials in the icon
+  const initials = authorityName.charAt(0).toUpperCase();
+  const iconEl = document.getElementById("profile-icon");
+  if (iconEl) iconEl.textContent = initials;
+});
+
+// === Handle Solution Form Submission ===
+const solutionForm = document.querySelector(".solution-form form");
+
+if (solutionForm) {
+  solutionForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const titleInput = solutionForm.querySelector('input[type="text"]').value.trim();
+    const summary = solutionForm.querySelector("textarea").value.trim();
+    const department = solutionForm.querySelector("select").value;
+
+    if (!titleInput || !summary || !department) {
+      showToast("⚠️ Please fill all fields.", "error");
+      return;
+    }
+
+    try {
+      // Fetch issues to find the one by title
+      const res = await fetch("http://localhost:5001/api/issues");
+      const issues = await res.json();
+      const found = issues.find((i) => i.issueType === titleInput || i.title === titleInput);
+
+      if (!found) {
+        showToast("❌ Issue not found in database.", "error");
+        return;
+      }
+
+      const updateRes = await fetch(`http://localhost:5001/api/issues/${found._id}/resolve`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          solutionSummary: summary,
+          department,
+        }),
+      });
+
+      const data = await updateRes.json();
+      if (updateRes.ok) {
+        showToast("✅ Solution submitted successfully!", "success");
+        solutionForm.reset();
+        loadIssues(); // Refresh issue list after update
+      } else {
+        showToast(data.error || "Failed to submit solution.", "error");
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      showToast("❌ Server error while submitting solution.", "error");
+    }
+  });
+}

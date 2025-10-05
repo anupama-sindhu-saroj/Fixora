@@ -109,7 +109,11 @@ body {
   align-items: center;
   gap: 16px;
 }
-
+.authority-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #1e293b;
+}
 .profile-icon {
   width: 42px;
   height: 42px;

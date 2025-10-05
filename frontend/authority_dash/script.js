@@ -1,23 +1,24 @@
-// ==========================
-// 🌆 FIXORA AUTHORITY DASHBOARD JS
-// ==========================
-
 // === Load Fixora Logo from backend ===
 fetch("http://localhost:5001/api/files?type=logo")
   .then(res => res.json())
   .then(data => {
-    const container = document.querySelector(".logo");
-    if (data.length > 0 && container) {
+    const container = document.getElementById("logo-container");
+    if (!container) return;
+    if (Array.isArray(data) && data.length > 0) {
+      const logoUrl = data[0].url || data[0].secure_url || data[0].imageUrl;
+      if (!logoUrl) return;
+
       const img = document.createElement("img");
-      img.src = data[0].url;
+      img.src = logoUrl.startsWith("http") ? logoUrl : `http://localhost:5001${logoUrl}`;
       img.alt = "Fixora Logo";
-      img.width = 130;
+      img.style.height = "34px";
+      img.style.objectFit = "contain";
+
       container.innerHTML = "";
       container.appendChild(img);
     }
   })
-  .catch(() => console.warn("⚠️ Could not load logo from backend. Using placeholder logo."));
-
+  .catch(() => console.warn("⚠️ Could not load logo from backend."));
 
 // === Fetch logged-in authority user ===
 const token = localStorage.getItem("authToken");
@@ -35,16 +36,13 @@ if (token) {
     .catch(() => console.warn("⚠️ Unable to fetch user details."));
 }
 
-
-// === Sidebar navigation active state ===
-const navLinks = document.querySelectorAll(".nav-links a");
-navLinks.forEach(link => {
+// === Sidebar active state ===
+document.querySelectorAll(".nav-links a").forEach(link => {
   link.addEventListener("click", () => {
-    navLinks.forEach(l => l.classList.remove("active"));
+    document.querySelectorAll(".nav-links a").forEach(l => l.classList.remove("active"));
     link.classList.add("active");
   });
 });
-
 
 // === Load Issues from Backend ===
 async function loadIssues() {
@@ -54,9 +52,10 @@ async function loadIssues() {
     });
     const issues = await res.json();
     renderIssues(issues);
+    renderMapIssues(issues); // 👈 Add to map too
   } catch (err) {
     console.warn("⚠️ Failed to load issues. Using fallback data.");
-    renderIssues([
+    const fallback = [
       {
         _id: "1023",
         title: "Pothole on Main Street (High Priority)",
@@ -65,6 +64,7 @@ async function loadIssues() {
         location: "Main Street, Ward 2",
         status: "Unassigned",
         image: "https://placehold.co/600x400/008080/ffffff?text=Pothole",
+        locationCoords: { lat: 25.4358, lng: 81.8463 },
       },
       {
         _id: "1024",
@@ -74,13 +74,15 @@ async function loadIssues() {
         location: "Central Park Road",
         status: "Under Review",
         image: "https://placehold.co/600x400/4a3ce0/ffffff?text=Streetlight",
+        locationCoords: { lat: 25.4558, lng: 81.8563 },
       },
-    ]);
+    ];
+    renderIssues(fallback);
+    renderMapIssues(fallback);
   }
 }
 
-
-// === Render Issues ===
+// === Render Issues List ===
 function renderIssues(issues) {
   const list = document.querySelector(".issue-list");
   if (!list) return;
@@ -98,129 +100,9 @@ function renderIssues(issues) {
     `;
     list.appendChild(card);
   });
-
-  // reattach click events for all “View Details” buttons
-  document.querySelectorAll(".view-btn").forEach(btn =>
-    btn.addEventListener("click", e => openIssueModal(e.target.dataset.id, issues))
-  );
 }
 
-
-// === Issue Modal Creation ===
-const modal = document.createElement("div");
-modal.classList.add("modal");
-modal.innerHTML = `
-  <div class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h2 id="modal-title"></h2>
-    <p id="modal-desc"></p>
-    <p><strong>Reported by:</strong> <span id="modal-reporter"></span></p>
-    <p><strong>Location:</strong> <span id="modal-location"></span></p>
-    <img id="modal-image" src="" alt="Issue" />
-    <button id="resolve-btn" class="submit-btn">🛠 Resolve This Issue</button>
-  </div>
-`;
-document.body.appendChild(modal);
-
-const closeBtn = modal.querySelector(".close-btn");
-closeBtn.addEventListener("click", () => (modal.style.display = "none"));
-window.addEventListener("click", e => {
-  if (e.target === modal) modal.style.display = "none";
-});
-
-let currentIssue = null;
-
-// === Open Issue Modal ===
-function openIssueModal(id, issues) {
-  currentIssue = issues.find(i => i._id === id);
-  if (!currentIssue) return;
-
-  modal.querySelector("#modal-title").innerText = currentIssue.title;
-  modal.querySelector("#modal-desc").innerText = currentIssue.desc;
-  modal.querySelector("#modal-reporter").innerText = currentIssue.reporter;
-  modal.querySelector("#modal-location").innerText = currentIssue.location;
-  modal.querySelector("#modal-image").src = currentIssue.image;
-  modal.style.display = "block";
-}
-
-
-// === Move to “Submit Solution” when Resolve Clicked ===
-modal.querySelector("#resolve-btn").addEventListener("click", () => {
-  modal.style.display = "none";
-  const form = document.querySelector(".solution-form form");
-  if (form && currentIssue) {
-    form.querySelector('input[type="text"]').value = currentIssue.title;
-    form.querySelectorAll("input")[1].value = currentIssue.location;
-    window.scrollTo({ top: form.offsetTop - 100, behavior: "smooth" });
-  }
-});
-
-
-// === Handle Submit Solution Form ===
-const solutionForm = document.querySelector(".solution-form form");
-if (solutionForm) {
-  const fileInput = solutionForm.querySelector('input[type="file"]');
-
-  fileInput.addEventListener("change", () => {
-    const file = fileInput.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      let preview = solutionForm.querySelector(".preview-img");
-      if (!preview) {
-        preview = document.createElement("img");
-        preview.className = "preview-img";
-        preview.style.width = "100%";
-        preview.style.marginTop = "10px";
-        preview.style.borderRadius = "8px";
-        solutionForm.appendChild(preview);
-      }
-      preview.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
-
-  solutionForm.addEventListener("submit", async e => {
-    e.preventDefault();
-
-    const title = solutionForm.querySelector('input[type="text"]').value;
-    const desc = solutionForm.querySelector("textarea").value;
-    const location = solutionForm.querySelectorAll("input")[1].value;
-    const dept = solutionForm.querySelector("select").value;
-    const file = fileInput.files[0];
-
-    if (!title || !desc || !location || !dept) {
-      showToast("⚠️ Please fill all fields.", "error");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("desc", desc);
-    formData.append("location", location);
-    formData.append("department", dept);
-    if (file) formData.append("image", file);
-
-    try {
-      const res = await fetch("http://localhost:5001/api/solutions", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
-      });
-      const data = await res.json();
-      showToast("✅ Solution submitted successfully!", "success");
-      solutionForm.reset();
-      const preview = solutionForm.querySelector(".preview-img");
-      if (preview) preview.remove();
-      loadIssues();
-    } catch (err) {
-      showToast("❌ Failed to submit solution.", "error");
-    }
-  });
-}
-
-
-// === Toast Notification System ===
+// === Toast System ===
 function showToast(message, type = "info") {
   const toast = document.createElement("div");
   toast.className = `toast ${type}`;
@@ -233,8 +115,6 @@ function showToast(message, type = "info") {
   }, 3000);
 }
 
-
-// === Create Toast Styles ===
 const style = document.createElement("style");
 style.textContent = `
 .toast {
@@ -256,7 +136,6 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-
 // === Dynamic Live Feed ===
 async function loadLiveFeed() {
   try {
@@ -265,9 +144,9 @@ async function loadLiveFeed() {
     renderFeed(data);
   } catch {
     renderFeed([
-      { tag: "Signals", color: "red", title: "Malfunctioning traffic signal at Grand & 3rd", time: "2m ago" },
-      { tag: "Vehicles", color: "blue", title: "Abandoned vehicle on Maple Rd", time: "5m ago" },
-      { tag: "Vandalism", color: "violet", title: "Graffiti on bridge at 12th St", time: "9m ago" },
+      { tag: "Signals", color: "red", title: "Traffic light malfunction at Grand & 3rd", time: "2m ago" },
+      { tag: "Waste", color: "blue", title: "Overflowing garbage bin near Maple Rd", time: "5m ago" },
+      { tag: "Vandalism", color: "violet", title: "Graffiti on 12th Street wall", time: "9m ago" },
     ]);
   }
 }
@@ -289,6 +168,36 @@ function renderFeed(feed) {
   });
 }
 
-// === Run all loaders ===
-loadIssues();
-loadLiveFeed();
+// === Live Map Integration (Leaflet) ===
+let map;
+function initMap() {
+  const mapContainer = document.getElementById("liveMap");
+  if (!mapContainer) return;
+
+  map = L.map("liveMap").setView([25.4358, 81.8463], 12);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors',
+  }).addTo(map);
+}
+
+function renderMapIssues(issues) {
+  if (!map) return;
+  issues.forEach(issue => {
+    if (issue.locationCoords && issue.locationCoords.lat && issue.locationCoords.lng) {
+      const marker = L.marker([issue.locationCoords.lat, issue.locationCoords.lng]).addTo(map);
+      marker.bindPopup(`
+        <b>${issue.title}</b><br>
+        ${issue.location}<br>
+        <small>Status: ${issue.status || "Pending"}</small>
+      `);
+    }
+  });
+}
+
+// === Initialize Everything ===
+document.addEventListener("DOMContentLoaded", () => {
+  initMap();
+  loadIssues();
+  loadLiveFeed();
+});

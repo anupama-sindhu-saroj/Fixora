@@ -10,11 +10,10 @@
 </head>
 <body>
   <div class="dashboard-layout">
+    
     <!-- Sidebar -->
     <aside class="sidebar">
-      <div class="logo">
-        <img src="https://placehold.co/130x40/ffffff/4a3ce0?text=Fixora" alt="Fixora Logo">
-      </div>
+      <div id="logo-container" class="logo-container"></div>
       <nav class="nav-links">
         <a href="#" class="active"><i data-lucide="layout-dashboard"></i> Authority Dashboard</a>
         <a href="../chronicle-archive/chronicle.html"><i data-lucide="archive"></i> Chronicle Archive</a>
@@ -23,15 +22,22 @@
       </nav>
     </aside>
 
-    <!-- Main -->
+    <!-- Main Content -->
     <main class="main-content">
-      <header class="header">
-        <div>
-          <h1>Authority Dashboard</h1>
-          <p>Sunday, October 5, 2025</p>
-        </div>
-        <button class="report-btn"><i data-lucide="hammer"></i> Report Solution</button>
-      </header>
+      
+      
+<!-- Top Header -->
+<header class="top-header">
+  <div class="header-left">
+    <h1>Authority Dashboard</h1>
+    <p>Sunday, October 5, 2025</p>
+  </div>
+
+  <div class="header-right">
+    <div class="profile-icon">AY</div>
+  </div>
+</header>
+
 
       <!-- Stats Row -->
       <div class="stats-row">
@@ -67,8 +73,16 @@
 
       <!-- Grid: Left Issues + Right Solution -->
       <div class="main-grid">
+        
         <!-- LEFT COLUMN -->
         <section class="left-col">
+          <!-- Live Issue Map -->
+<div class="card map-card">
+  <h3>Live Issue Map</h3>
+  <p class="muted">Currently reported problems across the city</p>
+  <div id="liveMap"></div>
+</div>
+
           <div class="card">
             <h3>Open Issues Log</h3>
             <div class="filters">
@@ -87,21 +101,6 @@
                 <p>Reported by Citizen #456</p>
               </div>
               <button class="view-btn">View Details</button>
-            </div>
-          </div>
-
-          <div class="card">
-            <h3>Resolved Issues Archive</h3>
-            <p class="muted">Total Resolved Issues: <strong>1245</strong></p>
-            <div class="resolved-imgs">
-              <div>
-                <p class="label">Before</p>
-                <img src="https://placehold.co/220x140/ff6666/fff?text=Before" alt="Before">
-              </div>
-              <div>
-                <p class="label">After</p>
-                <img src="https://placehold.co/220x140/66cc66/fff?text=After" alt="After">
-              </div>
             </div>
           </div>
         </section>
@@ -135,40 +134,18 @@
               <button type="submit" class="submit-btn">Submit Solution</button>
             </form>
           </div>
-
-          <!-- Live Feed -->
-          <div class="card live-feed">
-            <h3>Live Feed</h3>
-            <p class="muted">Latest citizen submissions</p>
-
-            <div class="feed-card">
-              <span class="feed-tag red">Signals</span>
-              <h4>Malfunctioning traffic signal at Grand & 3rd</h4>
-              <p class="time">4m ago</p>
-              <button class="feed-btn">View Details</button>
-            </div>
-
-            <div class="feed-card">
-              <span class="feed-tag blue">Vehicles</span>
-              <h4>Abandoned vehicle on Maple Rd</h4>
-              <p class="time">2m ago</p>
-              <button class="feed-btn">View Details</button>
-            </div>
-
-            <div class="feed-card">
-              <span class="feed-tag violet">Vandalism</span>
-              <h4>Graffiti on bridge at 12th St</h4>
-              <p class="time">4m ago</p>
-              <button class="feed-btn">View Details</button>
-            </div>
-          </div>
         </aside>
       </div>
     </main>
   </div>
+  <!-- Leaflet CSS + JS -->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-  <script>
-    lucide.createIcons();
-  </script>
+  <script src="script.js" defer></script>
+  <script>lucide.createIcons();</script>
 </body>
 </html>

@@ -87,74 +87,43 @@ fetch("http://localhost:5001/api/files?type=logo")
   })
   .catch(err => console.error("Logo fetch error:", err));
 
-if (res.ok) {
-  message.style.color = "green";
-  localStorage.setItem("authorityEmail", email);
-  localStorage.setItem("authorityName", data.name);
-  localStorage.setItem("role", "authority");
-  localStorage.setItem("lastLogin", Date.now()); // 🕒 Add this
-  setTimeout(() => {
-    window.location.href = "../landing/index.html";
-  }, 1000);
+// === Fetch & Render Issues from Database ===
+async function loadIssues() {
+  try {
+    const res = await fetch("http://localhost:5001/api/issues");
+    const issues = await res.json();
+
+    renderIssues(issues);
+    renderMapIssues(issues); // Adds markers to the map
+  } catch (err) {
+    console.error("⚠️ Error fetching issues:", err);
+  }
 }
-window.addEventListener("DOMContentLoaded", () => {
-  // Get login data
-  const authorityName = localStorage.getItem("authorityName");
-  const citizenName = localStorage.getItem("name");
-  const role = localStorage.getItem("role");
 
-  // Get nav button container
-  const navButtons = document.querySelector(".nav-buttons");
+// === Render Issues inside 'Open Issues Log' ===
+function renderIssues(issues) {
+  const container = document.querySelector(".issue-list");
+  if (!container) return;
 
-  // If no user is logged in → show Login & Signup
-  if (!authorityName && !citizenName) {
-    console.log("No user logged in. Showing login/signup buttons.");
+  container.innerHTML = ""; // Clear old data
+
+  if (issues.length === 0) {
+    container.innerHTML = `<p class="muted">No issues found.</p>`;
     return;
   }
 
-  // Remove login/signup buttons
-  navButtons.innerHTML = "";
+  issues.forEach((issue) => {
+    const card = document.createElement("div");
+    card.className = "issue-card";
+    card.innerHTML = `
+      <div>
+        <h4>${issue.issueType || "Unknown Issue"}</h4>
+        <p>${issue.description || "No description"}</p>
+        <small>📍 ${issue.location || "Unknown Location"}</small>
+      </div>
+      <button class="view-btn" data-id="${issue._id}">View Details</button>
+    `;
+    container.appendChild(card);
+  });
+}
 
-  // Determine user details
-  const userName = authorityName || citizenName;
-  const userRole = role === "authority" ? "authority" : "citizen";
-
-  // Create welcome text
-  const welcomeText = document.createElement("span");
-  welcomeText.className = "welcome-text";
-  welcomeText.textContent = `Welcome, ${userName}`;
-
-  // Create profile icon (first letter of name)
-  const profileIcon = document.createElement("div");
-  profileIcon.className = "profile-icon";
-  profileIcon.textContent = userName.charAt(0).toUpperCase();
-
-  // Create dashboard button
-  const dashboardBtn = document.createElement("button");
-  dashboardBtn.className = "dashboard-btn";
-  dashboardBtn.textContent =
-    userRole === "authority" ? "Authority Dashboard" : "Citizen Dashboard";
-  dashboardBtn.onclick = () => {
-    window.location.href =
-      userRole === "authority"
-        ? "../authority-dashboard/authority-dashboard.html"
-        : "../citizen-dashboard/citizen.html";
-  };
-
-  // Create logout button
-  const logoutBtn = document.createElement("button");
-  logoutBtn.className = "logout-btn";
-  logoutBtn.textContent = "Logout";
-  logoutBtn.onclick = () => {
-    localStorage.clear();
-    window.location.reload(); // refresh to restore Login/Signup
-  };
-
-  // Append everything neatly
-  navButtons.appendChild(welcomeText);
-  navButtons.appendChild(profileIcon);
-  navButtons.appendChild(dashboardBtn);
-  navButtons.appendChild(logoutBtn);
-
-  console.log(`Logged in as ${userRole}: ${userName}`);
-});

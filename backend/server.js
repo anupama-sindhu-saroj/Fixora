@@ -5,6 +5,8 @@ import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth.js"; 
 import authorityAuthRoutes from "./routes/authorityAuth.js";
+import issueRoutes from "./routes/issueRoutes.js";
+import uploadMultipleRoutes from "./routes/uploadMultiple.js";
 import mongoose from "mongoose";
 
 console.log("EMAIL_USER:", process.env.EMAIL_USER);
@@ -31,6 +33,8 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/authority", authorityAuthRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/issues", issueRoutes);
+app.use("/api/uploadMultiple", uploadMultipleRoutes);
 app.get("/", (req, res) => {
     res.send("Fixora backend is running!");
 });

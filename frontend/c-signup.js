@@ -75,11 +75,7 @@ signupForm.addEventListener('submit', async (e) => {
     if (res.ok) {
       showMessage("Signup successful!");
       localStorage.setItem("username", username);
-<<<<<<< HEAD
       setTimeout(() => window.location.href = "../city-dashboard/city-dashboard.html", 1500);
-=======
-      setTimeout(() => window.location.href = "home.html", 1500);
->>>>>>> 5458181e8fcf8a0eb83dc9c40187d6181a2daf10
     } else {
       showMessage(data.message || "OTP verification failed", true);
     }

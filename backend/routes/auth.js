@@ -4,10 +4,7 @@ import Citizen from "../models/Citizen.js";
 import Otp from "../models/Otp.js";
 import { sendOtpEmail } from "../utils/mailer.js";
 import bcrypt from "bcrypt";
-<<<<<<< HEAD
 import jwt from "jsonwebtoken";
-=======
->>>>>>> 5458181e8fcf8a0eb83dc9c40187d6181a2daf10
 
 const router = express.Router();
 /** LOGIN */
@@ -29,7 +26,6 @@ router.post('/login', async (req, res) => {
       if (!match) {
         return res.status(401).json({ message: "Incorrect password" });
       }
-<<<<<<< HEAD
       const token = jwt.sign(
         { id: user._id }, 
         process.env.JWT_SECRET, 
@@ -40,10 +36,6 @@ router.post('/login', async (req, res) => {
         token,
         user: { name: user.name, username: user.username, email: user.email }
       });
-=======
-
-      res.status(200).json({ name: user.name, username: user.username });
->>>>>>> 5458181e8fcf8a0eb83dc9c40187d6181a2daf10
   } catch (err) {
       res.status(500).json({ message: "Server error", error: err.message });
   }

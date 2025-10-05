@@ -64,7 +64,7 @@ verifyBtn.addEventListener("click", async () => {
     if (res.ok) {
       message.style.color = "green";
       setTimeout(() => {
-        window.location.href = "authority-login.html";
+        window.location.href = "a-login.html";
       }, 1500);
     }
   } catch (err) {

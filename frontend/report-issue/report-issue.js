@@ -1,6 +1,7 @@
 // Initialize Lucide icons
 lucide.createIcons();
 
+<<<<<<< HEAD
 // ===== FILE PREVIEW =====
 const fileInput = document.getElementById("fileInput");
 const previewContainer = document.querySelector(".upload-section .flex.space-x-3");
@@ -38,11 +39,21 @@ document.getElementById("reportForm").addEventListener("submit", async function 
   const issueType = document.getElementById("issueType").value.trim();
   const description = document.getElementById("description").value.trim();
   const location = document.getElementById("location").value.trim();
+=======
+// Form submission
+document.getElementById("reportForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const issueType = document.getElementById("issueType").value;
+  const description = document.getElementById("description").value;
+  const location = document.getElementById("location").value;
+>>>>>>> 5458181e8fcf8a0eb83dc9c40187d6181a2daf10
 
   console.log("--- Report Submission Data ---");
   console.log("Issue Type:", issueType);
   console.log("Description:", description);
   console.log("Location:", location);
+<<<<<<< HEAD
 
   const token = localStorage.getItem("token");
 
@@ -128,4 +139,10 @@ document.getElementById("reportForm").addEventListener("submit", async function 
     console.error("Network error:", err);
     alert("⚠ Network error. Please try again later.");
   }
+=======
+  console.log("Status: Simulated submission success.");
+
+  alert("Report submitted successfully!");
+  this.reset();
+>>>>>>> 5458181e8fcf8a0eb83dc9c40187d6181a2daf10
 });

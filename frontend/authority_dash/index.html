@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Authority Dashboard | Fixora</title>
@@ -21,10 +22,32 @@
 </nav>
 
       <button class="logout-btn">Log Out</button>
+=======
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Authority Dashboard | Fixora</title>
+  <link rel="stylesheet" href="dash.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="dashboard-layout">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div id="logo-container" class="logo-container"></div>
+      <nav class="nav-links">
+        <a href="#" class="active"><i data-lucide="layout-dashboard"></i> Authority Dashboard</a>
+        <a href="../chronicle-archive/chronicle.html"><i data-lucide="archive"></i> Chronicle Archive</a>
+        <a href="../analytic/index.html"><i data-lucide="bar-chart-3"></i> Analytics</a>
+        <a href="#"><i data-lucide="log-out"></i> Log Out</a>
+      </nav>
+>>>>>>> 5458181e8fcf8a0eb83dc9c40187d6181a2daf10
     </aside>
 
     <!-- Main Content -->
     <main class="main-content">
+<<<<<<< HEAD
       <header class="dashboard-header">
         <h2>Authority Dashboard</h2>
         <div class="user-info">
@@ -158,5 +181,130 @@
   <script src="script.js"></script>
   <script src="script.js" defer></script>
 
+=======
+      
+      
+<!-- Top Header -->
+<header class="top-header">
+  <div class="header-left">
+    <h1>Authority Dashboard</h1>
+    <p>Sunday, October 5, 2025</p>
+  </div>
+
+  <div class="header-right">
+    <div class="profile-icon">AY</div>
+  </div>
+</header>
+
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon blue"><i data-lucide="clipboard-list"></i></div>
+          <div>
+            <h4>Total Work Orders</h4>
+            <p>2,345</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red"><i data-lucide="alert-triangle"></i></div>
+          <div>
+            <h4>Pending Issues</h4>
+            <p>57</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon yellow"><i data-lucide="loader"></i></div>
+          <div>
+            <h4>In Progress</h4>
+            <p>19</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><i data-lucide="check-circle"></i></div>
+          <div>
+            <h4>Resolved Today</h4>
+            <p>32</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid: Left Issues + Right Solution -->
+      <div class="main-grid">
+        
+        <!-- LEFT COLUMN -->
+        <section class="left-col">
+          <!-- Live Issue Map -->
+<div class="card map-card">
+  <h3>Live Issue Map</h3>
+  <p class="muted">Currently reported problems across the city</p>
+  <div id="liveMap"></div>
+</div>
+
+          <div class="card">
+            <h3>Open Issues Log</h3>
+            <div class="filters">
+              <select>
+                <option>All Statuses</option>
+                <option>Unassigned</option>
+                <option>Under Review</option>
+                <option>Resolved</option>
+              </select>
+              <button class="search-btn"><i data-lucide="search"></i> Search</button>
+            </div>
+
+            <div class="issue-card">
+              <div>
+                <h4>Pothole on Main Street (High Priority)</h4>
+                <p>Reported by Citizen #456</p>
+              </div>
+              <button class="view-btn">View Details</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- RIGHT COLUMN -->
+        <aside class="right-col">
+          <!-- Submit Solution -->
+          <div class="card solution-form">
+            <h3>Submit Issue Solution</h3>
+            <form>
+              <label>Issue Title</label>
+              <input type="text" placeholder="Enter the issue title">
+
+              <label>Solution Summary</label>
+              <textarea placeholder="Describe how the issue was resolved..."></textarea>
+
+              <label>Location</label>
+              <input type="text" placeholder="e.g. Ward 2, Elm Street">
+
+              <label>Department Responsible</label>
+              <select>
+                <option>Roads Department</option>
+                <option>Lighting Department</option>
+                <option>Sanitation Department</option>
+                <option>Water Supply</option>
+              </select>
+
+              <label>Upload Resolved Image</label>
+              <input type="file" accept="image/*">
+
+              <button type="submit" class="submit-btn">Submit Solution</button>
+            </form>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+  <!-- Leaflet CSS + JS -->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script src="script.js" defer></script>
+  <script>lucide.createIcons();</script>
+>>>>>>> 5458181e8fcf8a0eb83dc9c40187d6181a2daf10
 </body>
 </html>

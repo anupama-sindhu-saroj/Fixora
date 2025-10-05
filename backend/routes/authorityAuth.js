@@ -8,7 +8,6 @@ import bcrypt from "bcrypt";
 const router = express.Router();
 
 /** LOGIN */
-<<<<<<< HEAD
 /** LOGIN (with detailed console logs) */
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -57,36 +56,10 @@ router.post("/login", async (req, res) => {
 
   } catch (err) {
     console.error("❌ ERROR during login:", err);
-=======
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const authority = await Authority.findOne({ email });
-    if (!authority) {
-      return res.status(400).json({ message: "Authority not found" });
-    }
-
-    const match = await bcrypt.compare(password, authority.password);
-    if (!match) {
-      return res.status(401).json({ message: "Incorrect password" });
-    }
-
-    res.status(200).json({ 
-      name: authority.name, 
-      city: authority.city, 
-      email: authority.email 
-    });
-  } catch (err) {
->>>>>>> 5458181e8fcf8a0eb83dc9c40187d6181a2daf10
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 5458181e8fcf8a0eb83dc9c40187d6181a2daf10
 /** REQUEST OTP */
 router.post("/request-otp", async (req, res) => {
   try {
@@ -116,13 +89,9 @@ router.post("/verify-otp", async (req, res) => {
   
     try {
       // Validate OTP first
-<<<<<<< HEAD
       console.log("Verify OTP request body:", req.body);
       const validOtp = await Otp.findOne({ email, otp });
       console.log("Found OTP:", validOtp);
-=======
-      const validOtp = await Otp.findOne({ email, otp });
->>>>>>> 5458181e8fcf8a0eb83dc9c40187d6181a2daf10
       if (!validOtp) return res.status(400).json({ message: "Invalid or expired OTP" });
   
       // Check authority code

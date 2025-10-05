@@ -1,197 +1,294 @@
-// === Load latest logo ===
+// ==========================
+// 🌆 FIXORA AUTHORITY DASHBOARD JS
+// ==========================
+
+// === Load Fixora Logo from backend ===
 fetch("http://localhost:5001/api/files?type=logo")
   .then(res => res.json())
   .then(data => {
-    if (data.length > 0) {
-      const logoUrl = data[0].url;
+    const container = document.querySelector(".logo");
+    if (data.length > 0 && container) {
       const img = document.createElement("img");
-      img.src = logoUrl;
+      img.src = data[0].url;
       img.alt = "Fixora Logo";
-      img.width = 150;
-
-      const container = document.getElementById("logo-container");
-      if (container) {
-        container.innerHTML = "";
-        container.appendChild(img);
-      }
-    } else {
-      console.warn("⚠️ No logo found in DB. Please upload with type=logo.");
+      img.width = 130;
+      container.innerHTML = "";
+      container.appendChild(img);
     }
   })
-  .catch(err => console.error("Logo fetch error:", err));
+  .catch(() => console.warn("⚠️ Could not load logo from backend. Using placeholder logo."));
 
 
-// === Fetch logged-in authority details ===
-const token = localStorage.getItem("authToken"); 
+// === Fetch logged-in authority user ===
+const token = localStorage.getItem("authToken");
 if (token) {
   fetch("http://localhost:5001/api/auth/me", {
-    headers: { "Authorization": `Bearer ${token}` }
+    headers: { Authorization: `Bearer ${token}` },
   })
     .then(res => res.json())
     .then(user => {
       if (user && user.name) {
-        const userNameEl = document.querySelector(".user-info span");
-        const welcomeEl = document.querySelector(".dashboard-header h2");
-        if (userNameEl) userNameEl.textContent = user.name;
-        if (welcomeEl) welcomeEl.textContent = `Welcome, ${user.department || "Authority"}!`;
+        const header = document.querySelector(".header h1");
+        if (header) header.textContent = `Welcome, ${user.name}`;
       }
     })
-    .catch(err => console.error("❌ Error fetching authority details:", err));
-} else {
-  console.warn("⚠️ No token found. Redirecting to login...");
-  // window.location.href = "../login-choice.html";
+    .catch(() => console.warn("⚠️ Unable to fetch user details."));
 }
 
 
-// === Fake issues (later fetch from DB) ===
-const issues = {
-  "1023": {
-    title: "Pothole on Main Street (High Priority)",
-    desc: "Large pothole disrupting traffic flow.",
-    reporter: "Citizen #456",
-    location: "Main Street",
-    image: "https://placehold.co/600x400/008080/ffffff?text=Pothole",
-    status: "UP"
-  },
-  "1024": {
-    title: "Streetlight not working near Central Park",
-    desc: "Street is very dark at night, unsafe for pedestrians.",
-    reporter: "Citizen #789",
-    location: "Central Park",
-    image: "https://placehold.co/600x400/4a3ce0/ffffff?text=Streetlight",
-    status: "Review"
-  },
-  "1025": {
-    title: "Overflowing garbage bin at Market Square",
-    desc: "Trash piling up, creating smell and hygiene issues.",
-    reporter: "Citizen #321",
-    location: "Market Square",
-    image: "https://placehold.co/600x400/59ac77/ffffff?text=Garbage",
-    status: "Resolved"
+// === Sidebar navigation active state ===
+const navLinks = document.querySelectorAll(".nav-links a");
+navLinks.forEach(link => {
+  link.addEventListener("click", () => {
+    navLinks.forEach(l => l.classList.remove("active"));
+    link.classList.add("active");
+  });
+});
+
+
+// === Load Issues from Backend ===
+async function loadIssues() {
+  try {
+    const res = await fetch("http://localhost:5001/api/issues", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const issues = await res.json();
+    renderIssues(issues);
+  } catch (err) {
+    console.warn("⚠️ Failed to load issues. Using fallback data.");
+    renderIssues([
+      {
+        _id: "1023",
+        title: "Pothole on Main Street (High Priority)",
+        reporter: "Citizen #456",
+        desc: "Large pothole disrupting traffic flow near Main and 3rd.",
+        location: "Main Street, Ward 2",
+        status: "Unassigned",
+        image: "https://placehold.co/600x400/008080/ffffff?text=Pothole",
+      },
+      {
+        _id: "1024",
+        title: "Streetlight not working near Central Park",
+        reporter: "Citizen #789",
+        desc: "Street is very dark at night, unsafe for pedestrians.",
+        location: "Central Park Road",
+        status: "Under Review",
+        image: "https://placehold.co/600x400/4a3ce0/ffffff?text=Streetlight",
+      },
+    ]);
   }
-};
+}
 
 
-// === Issue Modal ===
-const modal = document.getElementById("issue-modal");
-const closeBtn = document.querySelector(".close-btn");
-const resolveBtn = document.getElementById("resolve-btn");
+// === Render Issues ===
+function renderIssues(issues) {
+  const list = document.querySelector(".issue-list");
+  if (!list) return;
+  list.innerHTML = "";
+
+  issues.forEach(issue => {
+    const card = document.createElement("div");
+    card.className = "issue-card";
+    card.innerHTML = `
+      <div>
+        <h4>${issue.title}</h4>
+        <p>Reported by: ${issue.reporter}</p>
+      </div>
+      <button class="view-btn" data-id="${issue._id}">View Details</button>
+    `;
+    list.appendChild(card);
+  });
+
+  // reattach click events for all “View Details” buttons
+  document.querySelectorAll(".view-btn").forEach(btn =>
+    btn.addEventListener("click", e => openIssueModal(e.target.dataset.id, issues))
+  );
+}
+
+
+// === Issue Modal Creation ===
+const modal = document.createElement("div");
+modal.classList.add("modal");
+modal.innerHTML = `
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <h2 id="modal-title"></h2>
+    <p id="modal-desc"></p>
+    <p><strong>Reported by:</strong> <span id="modal-reporter"></span></p>
+    <p><strong>Location:</strong> <span id="modal-location"></span></p>
+    <img id="modal-image" src="" alt="Issue" />
+    <button id="resolve-btn" class="submit-btn">🛠 Resolve This Issue</button>
+  </div>
+`;
+document.body.appendChild(modal);
+
+const closeBtn = modal.querySelector(".close-btn");
+closeBtn.addEventListener("click", () => (modal.style.display = "none"));
+window.addEventListener("click", e => {
+  if (e.target === modal) modal.style.display = "none";
+});
+
 let currentIssue = null;
 
-// View Details → show modal
-document.querySelectorAll(".issue-card .view-btn").forEach(btn => {
-  btn.addEventListener("click", (e) => {
-    const id = e.target.closest(".issue-card").querySelector(".issue-id").innerText.replace("#", "");
-    const issue = issues[id];
-    if (!issue) return;
+// === Open Issue Modal ===
+function openIssueModal(id, issues) {
+  currentIssue = issues.find(i => i._id === id);
+  if (!currentIssue) return;
 
-    currentIssue = issue;
-
-    // Fill modal
-    document.getElementById("modal-title").innerText = issue.title;
-    document.getElementById("modal-desc").innerText = issue.desc;
-    document.getElementById("modal-reporter").innerText = issue.reporter;
-    document.getElementById("modal-location").innerText = issue.location;
-    document.getElementById("modal-image").src = issue.image;
-
-    // Progress bar
-    const bar = document.getElementById("modal-progress");
-    if (issue.status === "UP") bar.style.width = "33%";
-    else if (issue.status === "Review") bar.style.width = "66%";
-    else if (issue.status === "Resolved") bar.style.width = "100%";
-
-    modal.style.display = "block";
-  });
-});
-
-// Close modal
-if (closeBtn) closeBtn.onclick = () => modal.style.display = "none";
-window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
-
-// Resolve button → open Submit Solution form
-if (resolveBtn) {
-  resolveBtn.addEventListener("click", () => {
-    if (!currentIssue) return;
-
-    modal.style.display = "none";
-
-    // Prefill form
-    document.getElementById("issue-title").value = currentIssue.title;
-    document.getElementById("issue-location").value = currentIssue.location;
-
-    // Switch sections
-    document.querySelectorAll(".content-section").forEach(sec => sec.classList.remove("active"));
-    document.getElementById("submit-issue-solution").classList.add("active");
-
-    // Update sidebar
-    document.querySelectorAll(".nav-item").forEach(nav => nav.classList.remove("active"));
-    document.querySelector('a[href="#submit-issue-solution"]').classList.add("active");
-  });
+  modal.querySelector("#modal-title").innerText = currentIssue.title;
+  modal.querySelector("#modal-desc").innerText = currentIssue.desc;
+  modal.querySelector("#modal-reporter").innerText = currentIssue.reporter;
+  modal.querySelector("#modal-location").innerText = currentIssue.location;
+  modal.querySelector("#modal-image").src = currentIssue.image;
+  modal.style.display = "block";
 }
 
 
-// === Sidebar navigation switching ===
-const navItems = document.querySelectorAll(".nav-item");
-const sections = document.querySelectorAll(".content-section");
-
-navItems.forEach(item => {
-  item.addEventListener("click", e => {
-    const target = item.getAttribute("href");
-
-    if (target.startsWith("#")) {
-      e.preventDefault();
-      navItems.forEach(nav => nav.classList.remove("active"));
-      sections.forEach(sec => sec.classList.remove("active"));
-
-      item.classList.add("active");
-      document.querySelector(target).classList.add("active");
-    } else {
-      window.location.href = target; // external page
-    }
-  });
+// === Move to “Submit Solution” when Resolve Clicked ===
+modal.querySelector("#resolve-btn").addEventListener("click", () => {
+  modal.style.display = "none";
+  const form = document.querySelector(".solution-form form");
+  if (form && currentIssue) {
+    form.querySelector('input[type="text"]').value = currentIssue.title;
+    form.querySelectorAll("input")[1].value = currentIssue.location;
+    window.scrollTo({ top: form.offsetTop - 100, behavior: "smooth" });
+  }
 });
 
 
-// === Submit Issue Solution Handler ===
-document.getElementById("solution-form")?.addEventListener("submit", (e) => {
-  e.preventDefault();
+// === Handle Submit Solution Form ===
+const solutionForm = document.querySelector(".solution-form form");
+if (solutionForm) {
+  const fileInput = solutionForm.querySelector('input[type="file"]');
 
-  const title = document.getElementById("issue-title").value;
-  const solution = document.getElementById("solution-summary").value;
-  const location = document.getElementById("issue-location").value;
-  const department = document.getElementById("department").value;
-
-  alert(`✅ Solution Submitted!\nTitle: ${title}\nLocation: ${location}\nDepartment: ${department}\nSolution: ${solution}`);
-
-  // TODO: send to backend with fetch("/api/solutions", { method: "POST", body: FormData })
-});
-
-
-// === Image Preview (for resolved image) ===
-const resolvedImageInput = document.getElementById("resolved-image");
-const preview = document.getElementById("image-preview");
-
-if (resolvedImageInput && preview) {
-  resolvedImageInput.addEventListener("change", () => {
-    const file = resolvedImageInput.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = e => { preview.innerHTML = `<img src="${e.target.result}" alt="Resolved Image">`; };
-      reader.readAsDataURL(file);
-    }
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      let preview = solutionForm.querySelector(".preview-img");
+      if (!preview) {
+        preview = document.createElement("img");
+        preview.className = "preview-img";
+        preview.style.width = "100%";
+        preview.style.marginTop = "10px";
+        preview.style.borderRadius = "8px";
+        solutionForm.appendChild(preview);
+      }
+      preview.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
   });
 
-  preview.addEventListener("dragover", e => { e.preventDefault(); preview.classList.add("dragover"); });
-  preview.addEventListener("dragleave", () => preview.classList.remove("dragover"));
-  preview.addEventListener("drop", e => {
+  solutionForm.addEventListener("submit", async e => {
     e.preventDefault();
-    preview.classList.remove("dragover");
-    const file = e.dataTransfer.files[0];
-    if (file) {
-      resolvedImageInput.files = e.dataTransfer.files;
-      const reader = new FileReader();
-      reader.onload = ev => { preview.innerHTML = `<img src="${ev.target.result}" alt="Resolved Image">`; };
-      reader.readAsDataURL(file);
+
+    const title = solutionForm.querySelector('input[type="text"]').value;
+    const desc = solutionForm.querySelector("textarea").value;
+    const location = solutionForm.querySelectorAll("input")[1].value;
+    const dept = solutionForm.querySelector("select").value;
+    const file = fileInput.files[0];
+
+    if (!title || !desc || !location || !dept) {
+      showToast("⚠️ Please fill all fields.", "error");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("desc", desc);
+    formData.append("location", location);
+    formData.append("department", dept);
+    if (file) formData.append("image", file);
+
+    try {
+      const res = await fetch("http://localhost:5001/api/solutions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+      const data = await res.json();
+      showToast("✅ Solution submitted successfully!", "success");
+      solutionForm.reset();
+      const preview = solutionForm.querySelector(".preview-img");
+      if (preview) preview.remove();
+      loadIssues();
+    } catch (err) {
+      showToast("❌ Failed to submit solution.", "error");
     }
   });
 }
+
+
+// === Toast Notification System ===
+function showToast(message, type = "info") {
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(() => (toast.style.opacity = "1"), 50);
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    setTimeout(() => toast.remove(), 500);
+  }, 3000);
+}
+
+
+// === Create Toast Styles ===
+const style = document.createElement("style");
+style.textContent = `
+.toast {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 9999;
+}
+.toast.success { background: #4a3ce0; }
+.toast.error { background: #e74c3c; }
+.toast.info { background: #008080; }
+`;
+document.head.appendChild(style);
+
+
+// === Dynamic Live Feed ===
+async function loadLiveFeed() {
+  try {
+    const res = await fetch("http://localhost:5001/api/livefeed");
+    const data = await res.json();
+    renderFeed(data);
+  } catch {
+    renderFeed([
+      { tag: "Signals", color: "red", title: "Malfunctioning traffic signal at Grand & 3rd", time: "2m ago" },
+      { tag: "Vehicles", color: "blue", title: "Abandoned vehicle on Maple Rd", time: "5m ago" },
+      { tag: "Vandalism", color: "violet", title: "Graffiti on bridge at 12th St", time: "9m ago" },
+    ]);
+  }
+}
+
+function renderFeed(feed) {
+  const container = document.querySelector(".live-feed");
+  if (!container) return;
+  container.innerHTML = `<h3>Live Feed</h3><p class="muted">Latest citizen submissions</p>`;
+  feed.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "feed-card";
+    div.innerHTML = `
+      <span class="feed-tag ${item.color}">${item.tag}</span>
+      <h4>${item.title}</h4>
+      <p class="time">${item.time}</p>
+      <button class="feed-btn">View Details</button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// === Run all loaders ===
+loadIssues();
+loadLiveFeed();

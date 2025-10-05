@@ -1,162 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Authority Dashboard | Fixora</title>
-  <link rel="stylesheet" href="dash.css" />
+  <link rel="stylesheet" href="dash.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
   <div class="dashboard-layout">
     <!-- Sidebar -->
     <aside class="sidebar">
-      <div id="logo-container" class="logo-container"></div>
-      <nav class="main-nav">
-  <a href="#issues" class="nav-item active"><i class="icon"></i> Issues Log</a>
-  <a href="../analytic/index.html" class="nav-item"><i class="icon"></i> Analytics</a>
-  <a href="../chronicle-archive/chronicle.html" class="nav-item"><i class="icon"></i> Chronicle</a>
-  <a href="#submit-issue-solution" class="nav-item"><i class="icon"></i> Submit Issue Solution</a>
-  <a href="#resolved" class="nav-item"><i class="icon"></i> Resolved</a>
-  <a href="#settings" class="nav-item"><i class="icon"></i> Settings</a>
-</nav>
-
-      <button class="logout-btn">Log Out</button>
+      <div class="logo">
+        <img src="https://placehold.co/130x40/ffffff/4a3ce0?text=Fixora" alt="Fixora Logo">
+      </div>
+      <nav class="nav-links">
+        <a href="#" class="active"><i data-lucide="layout-dashboard"></i> Authority Dashboard</a>
+        <a href="../chronicle-archive/chronicle.html"><i data-lucide="archive"></i> Chronicle Archive</a>
+        <a href="../analytic/index.html"><i data-lucide="bar-chart-3"></i> Analytics</a>
+        <a href="#"><i data-lucide="log-out"></i> Log Out</a>
+      </nav>
     </aside>
 
-    <!-- Main Content -->
+    <!-- Main -->
     <main class="main-content">
-      <header class="dashboard-header">
-        <h2>Authority Dashboard</h2>
-        <div class="user-info">
-          <span>Authority User</span>
-          <i class="profile-icon">👤</i>
+      <header class="header">
+        <div>
+          <h1>Authority Dashboard</h1>
+          <p>Sunday, October 5, 2025</p>
         </div>
+        <button class="report-btn"><i data-lucide="hammer"></i> Report Solution</button>
       </header>
 
-      <!-- Issues Section -->
-<section id="issues" class="content-section active">
-  <h3>Open Issues Log</h3>
-  <div class="filter-controls">
-    <select id="status-filter">
-      <option value="all">All Statuses</option>
-      <option value="up">UP (Unassigned)</option>
-      <option value="review">Under Review</option>
-      <option value="resolved">Resolved</option>
-    </select>
-    <input type="text" placeholder="Search by Category or Description...">
-    <button class="search-btn">Search</button>
-  </div>
-
-  <div class="issue-list">
-    <div class="issue-card status-up">
-      <span class="issue-id">#1023</span>
-      <h4>Pothole on Main Street (High Priority)</h4>
-      <p>Reported By: Citizen #456</p>
-      <span class="status-label">UP</span>
-      <button class="view-btn">View Details</button>
-    </div>
-</section>
-<!-- Issue Details Modal -->
-<div id="issue-modal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn">&times;</span>
-    
-    <h2 id="modal-title">Issue Details</h2>
-    <p id="modal-desc"></p>
-    <p><strong>Reported By:</strong> <span id="modal-reporter"></span></p>
-    <p><strong>Location:</strong> <span id="modal-location"></span></p>
-    
-    <!-- Reported Image -->
-    <div class="image-container">
-      <img id="modal-image" src="" alt="Reported Issue">
-    </div>
-
-    <!-- Progress Bar -->
-    <div class="progress-container">
-      <div id="modal-progress" class="progress-bar"></div>
-    </div>
-
-    <!-- Resolve Button -->
-    <button id="resolve-btn" class="submit-btn">🛠 Resolve This Issue</button>
-  </div>
-</div>
-
-
-<!-- Submit Issue Solution Section -->
-<section id="submit-issue-solution" class="content-section">
-  <h3 class="section-title">🛠 Submit Issue Solution</h3>
-  <div class="submit-card">
-    <form id="solution-form">
-      <div class="form-group">
-        <label for="issue-title">📝 Issue Title</label>
-        <input type="text" id="issue-title" placeholder="Enter the issue title" required>
-      </div>
-
-      <div class="form-group">
-        <label for="solution-summary">📄 Solution Summary</label>
-        <textarea id="solution-summary" placeholder="Describe how the issue was resolved..." required></textarea>
-      </div>
-
-      <div class="form-group">
-        <label for="issue-location">📍 Location</label>
-        <input type="text" id="issue-location" placeholder="e.g. Ward 2, Elm Street" required>
-      </div>
-
-      <div class="form-group">
-        <label for="department">🏢 Department Responsible</label>
-        <select id="department" required>
-          <option value="">-- Select Department --</option>
-          <option value="Roads">Roads Department</option>
-          <option value="Lighting">Street Lighting Department</option>
-          <option value="Sanitation">Sanitation Department</option>
-          <option value="Water">Water Supply Department</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>📷 Upload Resolved Image</label>
-        <input type="file" id="resolved-image" accept="image/*">
-        <div class="image-preview" id="image-preview">
-          <p>Drag & Drop or Select Image</p>
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon blue"><i data-lucide="clipboard-list"></i></div>
+          <div>
+            <h4>Total Work Orders</h4>
+            <p>2,345</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red"><i data-lucide="alert-triangle"></i></div>
+          <div>
+            <h4>Pending Issues</h4>
+            <p>57</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon yellow"><i data-lucide="loader"></i></div>
+          <div>
+            <h4>In Progress</h4>
+            <p>19</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><i data-lucide="check-circle"></i></div>
+          <div>
+            <h4>Resolved Today</h4>
+            <p>32</p>
+          </div>
         </div>
       </div>
 
-      <button type="submit" class="submit-btn">✅ Submit Solution</button>
-    </form>
-  </div>
-</section>
+      <!-- Grid: Left Issues + Right Solution -->
+      <div class="main-grid">
+        <!-- LEFT COLUMN -->
+        <section class="left-col">
+          <div class="card">
+            <h3>Open Issues Log</h3>
+            <div class="filters">
+              <select>
+                <option>All Statuses</option>
+                <option>Unassigned</option>
+                <option>Under Review</option>
+                <option>Resolved</option>
+              </select>
+              <button class="search-btn"><i data-lucide="search"></i> Search</button>
+            </div>
 
+            <div class="issue-card">
+              <div>
+                <h4>Pothole on Main Street (High Priority)</h4>
+                <p>Reported by Citizen #456</p>
+              </div>
+              <button class="view-btn">View Details</button>
+            </div>
+          </div>
 
-<!-- Resolved Issues -->
-<section id="resolved" class="content-section">
-  <h3>Resolved Issues Archive</h3>
-  <p>Total Resolved Issues: <strong id="resolved-count">1245</strong></p>
+          <div class="card">
+            <h3>Resolved Issues Archive</h3>
+            <p class="muted">Total Resolved Issues: <strong>1245</strong></p>
+            <div class="resolved-imgs">
+              <div>
+                <p class="label">Before</p>
+                <img src="https://placehold.co/220x140/ff6666/fff?text=Before" alt="Before">
+              </div>
+              <div>
+                <p class="label">After</p>
+                <img src="https://placehold.co/220x140/66cc66/fff?text=After" alt="After">
+              </div>
+            </div>
+          </div>
+        </section>
 
-  <div class="resolved-list">
-    <div class="resolved-card">
-      <h4>Blocked storm drain on Elm St.</h4>
-      <p><strong>Resolved by:</strong> Sanitation Dept.</p>
-      <p><strong>Resolution Time:</strong> 36 hours</p>
-      <div class="resolved-images">
-        <div>
-          <p><em>Before</em></p>
-          <img src="https://placehold.co/200x150/ff6666/fff?text=Before" alt="Before Fix">
-        </div>
-        <div>
-          <p><em>After</em></p>
-          <img src="https://placehold.co/200x150/66cc66/fff?text=After" alt="After Fix">
-        </div>
+        <!-- RIGHT COLUMN -->
+        <aside class="right-col">
+          <!-- Submit Solution -->
+          <div class="card solution-form">
+            <h3>Submit Issue Solution</h3>
+            <form>
+              <label>Issue Title</label>
+              <input type="text" placeholder="Enter the issue title">
+
+              <label>Solution Summary</label>
+              <textarea placeholder="Describe how the issue was resolved..."></textarea>
+
+              <label>Location</label>
+              <input type="text" placeholder="e.g. Ward 2, Elm Street">
+
+              <label>Department Responsible</label>
+              <select>
+                <option>Roads Department</option>
+                <option>Lighting Department</option>
+                <option>Sanitation Department</option>
+                <option>Water Supply</option>
+              </select>
+
+              <label>Upload Resolved Image</label>
+              <input type="file" accept="image/*">
+
+              <button type="submit" class="submit-btn">Submit Solution</button>
+            </form>
+          </div>
+
+          <!-- Live Feed -->
+          <div class="card live-feed">
+            <h3>Live Feed</h3>
+            <p class="muted">Latest citizen submissions</p>
+
+            <div class="feed-card">
+              <span class="feed-tag red">Signals</span>
+              <h4>Malfunctioning traffic signal at Grand & 3rd</h4>
+              <p class="time">4m ago</p>
+              <button class="feed-btn">View Details</button>
+            </div>
+
+            <div class="feed-card">
+              <span class="feed-tag blue">Vehicles</span>
+              <h4>Abandoned vehicle on Maple Rd</h4>
+              <p class="time">2m ago</p>
+              <button class="feed-btn">View Details</button>
+            </div>
+
+            <div class="feed-card">
+              <span class="feed-tag violet">Vandalism</span>
+              <h4>Graffiti on bridge at 12th St</h4>
+              <p class="time">4m ago</p>
+              <button class="feed-btn">View Details</button>
+            </div>
+          </div>
+        </aside>
       </div>
-    </div>
-  </div>
-</section>
-
     </main>
   </div>
 
-  <script src="script.js"></script>
-  <script src="script.js" defer></script>
-
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 </html>

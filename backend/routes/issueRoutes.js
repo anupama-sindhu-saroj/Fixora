@@ -44,6 +44,28 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/summary", async (req, res) => {
+  try {
+    const total = await Issue.countDocuments();
+    const pending = await Issue.countDocuments({ status: "Pending" });
+    const inProgress = await Issue.countDocuments({ status: "In Progress" });
+    const resolved = await Issue.countDocuments({ status: "Resolved" }); // total resolved
+
+    res.json({
+      total,
+      pending,
+      inProgress,
+      resolved, // renamed from resolvedToday
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch summary data" });
+  }
+});
+
+
+
+
 // ✅ ADD THIS NEW ROUTE (for modal details)
 router.get("/:id", async (req, res) => {
   try {
@@ -124,6 +146,5 @@ router.post("/:id/solution", upload.single("image"), async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
 
 export default router;

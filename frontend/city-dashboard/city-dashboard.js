@@ -19,6 +19,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const sidebar = document.getElementById('sidebar');
     const menuButton = document.getElementById('menu-button');
 
+    // Dashboard summary boxes
+    const totalWorkOrders = document.getElementById("totalWorkOrders");
+    const pendingIssues = document.getElementById("pendingIssues");
+    const inProgress = document.getElementById("inProgress");
+    const resolvedTotal = document.getElementById("resolvedTotal");
+
     // Modal elements
     const issueModal = document.getElementById('issue-modal');
     const modalContentBox = document.getElementById('modal-content-box');
@@ -30,6 +36,27 @@ document.addEventListener('DOMContentLoaded', function () {
     menuButton.addEventListener('click', function () {
         sidebar.classList.toggle('-translate-x-full');
     });
+
+    // --- Dashboard Summary Data ---
+    async function loadDashboardData() {
+        try {
+            const res = await fetch("http://localhost:5001/api/issues/summary");
+            if (!res.ok) throw new Error("Failed to fetch dashboard data");
+            const data = await res.json();
+
+            totalWorkOrders.textContent = data.total ?? 0;
+            pendingIssues.textContent = data.pending ?? 0;
+            inProgress.textContent = data.inProgress ?? 0;
+            resolvedTotal.textContent = data.resolved ?? 0;
+
+        } catch (err) {
+            console.error("Error loading dashboard data:", err);
+        }
+    }
+
+    // Load immediately and refresh every 15 seconds
+    loadDashboardData();
+    setInterval(loadDashboardData, 15000);
 
     // --- Live Date & Time ---
     function updateTime() {
@@ -133,6 +160,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isRecent(issue)) {
             addReport(issue, liveFeedContainer);
         }
+
+        // Refresh dashboard data on every new issue
+        loadDashboardData();
     });
 
     // --- Modal Logic ---

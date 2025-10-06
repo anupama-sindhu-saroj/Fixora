@@ -21,7 +21,11 @@ router.post("/", authMiddleware, async (req, res) => {
       });
   
       await issue.save();
-  
+      
+      // Emit to all connected clients
+      const io = req.app.get("io");
+      io.emit("newIssue", issue);
+
       res.status(201).json({ message: "Issue reported successfully", issue });
     } catch (err) {
       console.error(err);

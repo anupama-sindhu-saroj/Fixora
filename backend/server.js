@@ -1,3 +1,5 @@
+import { createServer } from "http";
+import { Server } from "socket.io";
 import uploadRoutes from "./routes/upload.js";
 import dotenv from "dotenv";
 dotenv.config();
@@ -23,7 +25,7 @@ app.use(cors({
         }
         return callback(null, true);
     },
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS","PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
 }));
@@ -47,6 +49,24 @@ app.use("/api/authority/issues", authorityIssuesRoutes);
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("✅ MongoDB Connected"))
     .catch(err => console.error("❌ MongoDB connection error:", err));
+// HTTP + Socket.IO
+const server = createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: allowedOrigins,
+        methods: ["GET", "POST"]
+    }
+});
 
+io.on("connection", (socket) => {
+    console.log("⚡ New client connected:", socket.id);
+
+    socket.on("disconnect", () => {
+        console.log("❌ Client disconnected:", socket.id);
+    });
+});
+
+// Make io accessible in routes
+app.set("io", io);
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -1,6 +1,7 @@
 import express from "express";
 import Issue from "../models/Issue.js";
 import authMiddleware from "../middleware/authMiddleware.js";
+import upload from "../config/multer.js";
 const router = express.Router();
 
 // POST → Submit a new issue
@@ -43,6 +44,37 @@ router.get("/", async (req, res) => {
   }
 });
 
+// ✅ ADD THIS NEW ROUTE (for modal details)
+router.get("/:id", async (req, res) => {
+  try {
+    const issue = await Issue.findById(req.params.id);
+    if (!issue) return res.status(404).json({ error: "Issue not found" });
+    res.json(issue);
+  } catch (err) {
+    console.error("Error fetching issue:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ✅ PATCH → Mark issue as "In Progress" when viewed by authority
+router.patch("/:id/progress", async (req, res) => {
+  try {
+    const issue = await Issue.findById(req.params.id);
+    if (!issue) return res.status(404).json({ error: "Issue not found" });
+
+    // Only change if not already resolved
+    if (issue.status !== "Resolved") {
+      issue.status = "In Progress";
+      await issue.save();
+    }
+
+    res.json({ message: "Issue status updated", status: issue.status });
+  } catch (err) {
+    console.error("Error updating progress:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // PUT → Submit a solution or update issue status
 router.put("/:id/resolve", async (req, res) => {
   try {
@@ -71,5 +103,27 @@ router.put("/:id/resolve", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// ✅ ADD THIS NEW ROUTE (for popup image + text upload)
+router.post("/:id/solution", upload.single("image"), async (req, res) => {
+  try {
+    const issue = await Issue.findById(req.params.id);
+    if (!issue) return res.status(404).json({ error: "Issue not found" });
+
+    issue.solution = {
+      summary: req.body.text || "No summary provided",
+      resolvedAt: new Date(),
+    };
+    if (req.file) issue.solutionImage = req.file.path;
+    issue.status = "Resolved";
+
+    await issue.save();
+    res.json({ message: "Solution saved successfully", issue });
+  } catch (err) {
+    console.error("Error saving solution:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 export default router;

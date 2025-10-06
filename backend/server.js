@@ -23,7 +23,7 @@ app.use(cors({
         }
         return callback(null, true);
     },
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT","PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
 }));
@@ -49,4 +49,4 @@ mongoose.connect(process.env.MONGO_URI)
     .catch(err => console.error("❌ MongoDB connection error:", err));
 
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -101,7 +101,7 @@ function renderIssues(issues) {
         <h4>${issue.issueType || "Unnamed Issue"}</h4>
         <p><strong>Description:</strong> ${issue.description || "No description provided"}</p>
         <p><strong>Location:</strong> ${issue.location || "N/A"}</p>
-        <p><strong>Status:</strong> ${issue.status || "Pending"}</p>
+        <p><strong>Status:</strong> <span class="status-${issue.status?.replace(/\s/g, '') || "Pending"}">${issue.status || "Pending"}</span></p>
       </div>
       <button class="view-btn" data-id="${issue._id}">View Details</button>
     `;
@@ -145,20 +145,15 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// === Dynamic Live Feed ===
+
 async function loadLiveFeed() {
-  try {
-    const res = await fetch("http://localhost:5001/api/livefeed");
-    const data = await res.json();
-    renderFeed(data);
-  } catch {
-    renderFeed([
-      { tag: "Signals", color: "red", title: "Traffic light malfunction at Grand & 3rd", time: "2m ago" },
-      { tag: "Waste", color: "blue", title: "Overflowing garbage bin near Maple Rd", time: "5m ago" },
-      { tag: "Vandalism", color: "violet", title: "Graffiti on 12th Street wall", time: "9m ago" },
-    ]);
-  }
+  renderFeed([
+    { tag: "Signals", color: "red", title: "Traffic light malfunction at Grand & 3rd", time: "2m ago" },
+    { tag: "Waste", color: "blue", title: "Overflowing garbage bin near Maple Rd", time: "5m ago" },
+    { tag: "Vandalism", color: "violet", title: "Graffiti on 12th Street wall", time: "9m ago" },
+  ]);
 }
+
 
 function renderFeed(feed) {
   const container = document.querySelector(".live-feed");
@@ -204,11 +199,39 @@ function renderMapIssues(issues) {
   });
 }
 
+// === Update dashboard stats dynamically ===
+async function loadDashboardStats() {
+  try {
+    const res = await fetch("http://localhost:5001/api/issues", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const issues = await res.json();
+
+    if (!Array.isArray(issues)) return;
+
+    // Calculate counts
+    const total = issues.length;
+    const pending = issues.filter(i => i.status === "Pending").length;
+    const inProgress = issues.filter(i => i.status === "In Progress").length;
+    const resolved = issues.filter(i => i.status === "Resolved").length;
+
+    // ✅ Update numbers in the header
+    document.querySelector(".stat-card:nth-child(1) p").textContent = total;
+    document.querySelector(".stat-card:nth-child(2) p").textContent = pending;
+    document.querySelector(".stat-card:nth-child(3) p").textContent = inProgress;
+    document.querySelector(".stat-card:nth-child(4) p").textContent = resolved;
+
+  } catch (err) {
+    console.error("Error loading stats:", err);
+  }
+}
+
 // === Initialize Everything ===
 document.addEventListener("DOMContentLoaded", () => {
   initMap();
   loadIssues();
   loadLiveFeed();
+  loadDashboardStats();
 });
 
 // === Load logged-in Authority info ===
@@ -275,3 +298,138 @@ if (solutionForm) {
     }
   });
 }
+// === ISSUE DETAIL POPUP MODAL LOGIC ===
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("issueModal");
+  const closeModal = document.getElementById("closeModal");
+  const modalTitle = document.getElementById("modal-title");
+  const modalDesc = document.getElementById("modal-description");
+  const modalLocation = document.getElementById("modal-location");
+  const modalImage = document.getElementById("modal-image");
+
+  // Attach click listener to dynamically created "View Details" buttons
+  document.body.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("view-btn")) {
+      const issueId = e.target.dataset.id;
+      await openModal(issueId);
+    }
+  });
+
+  let selectedIssue = null;
+
+async function openModal(issueId) {
+  try {
+    const res = await fetch(`http://localhost:5001/api/issues/${issueId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const issue = await res.json();
+
+    // ✅ Mark as 'In Progress' if not resolved
+    if (issue.status !== "Resolved") {
+      try {
+        await fetch(`http://localhost:5001/api/issues/${issue._id}/progress`, {
+          method: "PATCH",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      } catch (err) {
+        console.warn("⚠️ Could not mark issue as In Progress:", err);
+      }
+    }
+
+    // Update modal info
+    modalTitle.textContent = issue.issueType || issue.title || "Issue";
+    modalDesc.textContent = issue.description || "No description provided";
+    modalLocation.textContent = issue.location || "Unknown";
+
+    selectedIssue = issue;
+
+    const hiddenInput = document.getElementById("selectedIssueId");
+    if (hiddenInput) hiddenInput.value = issue._id;
+
+    if (Array.isArray(issue.imageUrls) && issue.imageUrls.length > 0) {
+      const firstImg = issue.imageUrls[0];
+      modalImage.src = firstImg.startsWith("http")
+        ? firstImg
+        : `http://localhost:5001/${firstImg}`;
+    } else {
+      modalImage.src =
+        issue.image || issue.imageUrl || "https://placehold.co/600x400?text=No+Image";
+    }
+
+    modal.style.display = "block";
+
+    // ✅ Refresh issue list after a short delay (so UI updates)
+    setTimeout(loadIssues, 400);
+  } catch (err) {
+    console.error("Error loading issue details:", err);
+  }
+}
+
+
+
+const goToSolutionBtn = document.getElementById("goToSolutionBtn");
+if (goToSolutionBtn) {
+  goToSolutionBtn.addEventListener("click", () => {
+    if (!selectedIssue) return;
+
+    // ✅ Fill sidebar form automatically
+    const titleInput = document.querySelector('.solution-form input[type="text"]');
+    const locationInput = document.querySelector('.solution-form input[placeholder*="Ward"]');
+
+    if (titleInput) titleInput.value = selectedIssue.issueType || selectedIssue.title || "";
+    if (locationInput) locationInput.value = selectedIssue.location || "";
+
+    const hiddenInput = document.getElementById("selectedIssueId");
+    if (hiddenInput) hiddenInput.value = selectedIssue._id;
+
+    // ✅ Close the popup
+    document.getElementById("issueModal").style.display = "none";
+
+    // ✅ Smooth scroll to the sidebar form
+    document.querySelector(".solution-form").scrollIntoView({ behavior: "smooth" });
+  });
+}
+
+
+
+  // Close modal when clicking X or outside
+  closeModal.addEventListener("click", () => (modal.style.display = "none"));
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) modal.style.display = "none";
+  });
+
+  // Handle solution submission from modal
+  const solutionForm = document.getElementById("solutionForm");
+  if (solutionForm) {
+    solutionForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const issueId = modalTitle.dataset.id;
+      const solutionText = document.getElementById("solutionText").value;
+      const solutionImage = document.getElementById("solutionImage").files[0];
+
+      const formData = new FormData();
+      formData.append("text", solutionText);
+      if (solutionImage) formData.append("image", solutionImage);
+
+      try {
+        const res = await fetch(`http://localhost:5001/api/issues/${issueId}/solution`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        });
+
+        if (res.ok) {
+          showToast("✅ Solution submitted successfully!", "success");
+          modal.style.display = "none";
+          loadIssues(); // reload after solution submitted
+        } else {
+          showToast("❌ Failed to submit solution.", "error");
+        }
+      } catch (err) {
+        console.error("Error submitting solution:", err);
+        showToast("⚠️ Error submitting solution.", "error");
+      }
+    });
+  }
+});

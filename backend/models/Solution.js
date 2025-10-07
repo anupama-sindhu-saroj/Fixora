@@ -28,4 +28,4 @@ const solutionSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model("Solution", solutionSchema);
+export default mongoose.models.Solution || mongoose.model("Solution", solutionSchema);

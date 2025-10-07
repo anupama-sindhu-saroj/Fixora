@@ -55,5 +55,17 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+router.get("/chronicles", async (req, res) => {
+  try {
+    const solutions = await Solution.find()
+      .populate("issueId", "issueType description location imageUrls createdAt")
+      .populate("resolvedBy", "name department") // from Authority model
+      .sort({ resolvedAt: -1 });
 
+    res.status(200).json(solutions);
+  } catch (error) {
+    console.error("Error fetching chronicles:", error);
+    res.status(500).json({ message: "Server error fetching chronicles" });
+  }
+});
 export default router;

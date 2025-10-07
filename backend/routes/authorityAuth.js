@@ -4,6 +4,8 @@ import Authority from "../models/Authority.js";
 import Otp from "../models/Otp.js";
 import { sendOtpEmail } from "../utils/mailer.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -40,6 +42,12 @@ router.post("/login", async (req, res) => {
 
     // Step 3: Login success
     console.log("🎉 Login successful for:", email);
+    const token = jwt.sign(
+      { id: authority._id, role: "authority" },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" } // token valid for 7 days
+    );
+
     console.log("Authority details:", {
       name: authority.name,
       city: authority.city,
@@ -48,6 +56,7 @@ router.post("/login", async (req, res) => {
     console.log("==================================================\n");
 
     res.status(200).json({
+      token,
       name: authority.name,
       city: authority.city,
       email: authority.email,
@@ -172,6 +181,18 @@ router.post("/logout", (req, res) => {
     });
   } else {
     return res.status(200).json({ message: "No session to clear" });
+  }
+});
+/** GET Logged-in Authority Info */
+
+router.get("/me", authMiddleware, async (req, res) => {
+  try {
+    const authority = await Authority.findById(req.userId).select("-password");
+    if (!authority) return res.status(404).json({ message: "Authority not found" });
+    res.json(authority);
+  } catch (err) {
+    console.error("Error fetching authority info:", err);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

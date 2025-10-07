@@ -6,17 +6,14 @@ const loginBtn = document.getElementById("loginBtn");
 const message = document.getElementById("message");
 
 loginBtn.addEventListener("click", async (e) => {
-  e.preventDefault(); // ✅ stop page reload
+  e.preventDefault(); // stop reload
   console.log("🔵 Login button clicked");
 
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
 
-  console.log("📩 Entered:", { email, password });
-
   if (!email || !password) {
     message.textContent = "Please enter both email and password.";
-    console.warn("⚠️ Missing email or password");
     return;
   }
 
@@ -29,16 +26,16 @@ loginBtn.addEventListener("click", async (e) => {
       body: JSON.stringify({ email, password }),
     });
 
-    console.log("📥 Response status:", res.status);
-
     const data = await res.json();
     console.log("📦 Response data:", data);
 
-    message.textContent = data.message || "Login response received.";
-
     if (res.ok) {
       console.log("✅ Login successful! Redirecting...");
+      message.textContent = "Login successful!";
       message.style.color = "green";
+
+      // 🟢 Save the token & authority details
+      localStorage.setItem("authorityToken", data.token);
       localStorage.setItem("authorityEmail", email);
       localStorage.setItem("authorityName", data.name);
 
@@ -48,6 +45,7 @@ loginBtn.addEventListener("click", async (e) => {
     } else {
       console.warn("❌ Login failed:", data.message);
       message.style.color = "red";
+      message.textContent = data.message || "Invalid credentials.";
     }
   } catch (err) {
     console.error("🚨 Fetch error:", err);

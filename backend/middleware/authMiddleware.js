@@ -11,9 +11,11 @@ const authMiddleware = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.citizenId = decoded.id; // Store citizenId in request object
+    req.userId = decoded.id; 
+    req.userRole = decoded.role || ""; // Store citizenId in request object
     next();
   } catch (err) {
+    console.error("JWT error:", err.message);
     return res.status(401).json({ error: "Invalid token" });
   }
 };

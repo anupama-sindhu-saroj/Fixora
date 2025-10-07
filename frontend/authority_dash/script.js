@@ -21,9 +21,10 @@ fetch("http://localhost:5001/api/files?type=logo")
   .catch(() => console.warn("⚠️ Could not load logo from backend."));
 
 // === Fetch logged-in authority user ===
-const token = localStorage.getItem("authToken");
+const token = localStorage.getItem("authorityToken");
+
 if (token) {
-  fetch("http://localhost:5001/api/auth/me", {
+  fetch("http://localhost:5001/api/authority/me", {
     headers: { Authorization: `Bearer ${token}` },
   })
     .then(res => res.json())
@@ -47,6 +48,8 @@ document.querySelectorAll(".nav-links a").forEach(link => {
 // === Load Issues from Backend ===
 async function loadIssues() {
   try {
+    const token = localStorage.getItem("authorityToken");
+
     const res = await fetch("http://localhost:5001/api/issues", {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -202,6 +205,7 @@ function renderMapIssues(issues) {
 // === Update dashboard stats dynamically ===
 async function loadDashboardStats() {
   try {
+   const token = localStorage.getItem("authorityToken");
     const res = await fetch("http://localhost:5001/api/issues", {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -258,7 +262,7 @@ if (solutionForm) {
     const titleInput = solutionForm.querySelector('input[type="text"]').value.trim();
     const summary = solutionForm.querySelector("textarea").value.trim();
     const department = solutionForm.querySelector("select").value;
-
+    const token = localStorage.getItem("authorityToken");
     if (!titleInput || !summary || !department) {
       showToast("⚠️ Please fill all fields.", "error");
       return;
@@ -266,22 +270,28 @@ if (solutionForm) {
 
     try {
       // Fetch issues to find the one by title
-      const res = await fetch("http://localhost:5001/api/issues");
+      const res = await fetch("http://localhost:5001/api/issues", {
+  headers: { Authorization: `Bearer ${localStorage.getItem("authorityToken")}` },
+});
       const issues = await res.json();
       const found = issues.find((i) => i.issueType === titleInput || i.title === titleInput);
 
-      if (!found) {
-        showToast("❌ Issue not found in database.", "error");
+      if (!found || !found._id) {
+        showToast("❌ Could not match this issue title with any record.", "error");
         return;
       }
 
-      const updateRes = await fetch(`http://localhost:5001/api/issues/${found._id}/resolve`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          solutionSummary: summary,
-          department,
-        }),
+      const formData = new FormData();
+      formData.append("summary", summary); // ✅ changed from “text” to “summary”
+      formData.append("department", department);
+      const file = solutionForm.querySelector('input[type="file"]').files[0];
+      if (file) formData.append("image", file);
+
+
+      const updateRes = await fetch(`http://localhost:5001/api/solutions/${found._id}`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
       });
 
       const data = await updateRes.json();
@@ -319,6 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function openModal(issueId) {
   try {
+    const token = localStorage.getItem("authorityToken");
     const res = await fetch(`http://localhost:5001/api/issues/${issueId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -413,7 +424,7 @@ if (goToSolutionBtn) {
       if (solutionImage) formData.append("image", solutionImage);
 
       try {
-        const res = await fetch(`http://localhost:5001/api/issues/${issueId}/solution`, {
+        const res = await fetch(`http://localhost:5001/api/solutions/${issueId}`, {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
           body: formData,

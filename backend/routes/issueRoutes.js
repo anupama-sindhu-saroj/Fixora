@@ -18,7 +18,7 @@ router.post("/", authMiddleware, async (req, res) => {
         description,
         location,
         imageUrls,
-        reportedBy: req.citizenId, // Automatically store logged-in citizen ID
+        reportedBy: req.userId // Automatically store logged-in citizen ID
       });
   
       await issue.save();
@@ -33,11 +33,14 @@ router.post("/", authMiddleware, async (req, res) => {
       res.status(500).json({ error: err.message });
     }
   });
-
-// GET → Fetch all issues
+/* ---------------------------------------------------------
+   2️⃣ Fetch All Issues (Authority Dashboard / Map)
+--------------------------------------------------------- */
 router.get("/", async (req, res) => {
   try {
-    const issues = await Issue.find().sort({ createdAt: -1 });
+    const issues = await Issue.find()
+      .populate("reportedBy", "name email")
+      .sort({ createdAt: -1 });
     res.json(issues);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -97,54 +100,46 @@ router.patch("/:id/progress", async (req, res) => {
   }
 });
 
-// PUT → Submit a solution or update issue status
-router.put("/:id/resolve", async (req, res) => {
+/* ---------------------------------------------------------
+   5️⃣ Resolve an Issue (Authority Submits a Solution)
+--------------------------------------------------------- */
+router.put("/:id/resolve", authMiddleware, upload.single("image"), async (req, res) => {
   try {
-    const { solutionSummary, department } = req.body;
+    const { id } = req.params;
+    const { summary, department } = req.body;
 
-    if (!solutionSummary || !department) {
-      return res.status(400).json({ error: "Please provide solution summary and department" });
+    // ✅ Only authorities can resolve
+    if (req.userRole !== "authority") {
+      return res.status(403).json({ error: "Only authorities can resolve issues" });
     }
 
-    const issue = await Issue.findById(req.params.id);
-    if (!issue) {
-      return res.status(404).json({ error: "Issue not found" });
-    }
-
-    issue.status = "Resolved";
-    issue.solution = {
-      summary: solutionSummary,
-      department,
-      resolvedAt: new Date(),
-    };
-
-    await issue.save();
-    res.status(200).json({ message: "✅ Solution submitted successfully", issue });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// ✅ ADD THIS NEW ROUTE (for popup image + text upload)
-router.post("/:id/solution", upload.single("image"), async (req, res) => {
-  try {
-    const issue = await Issue.findById(req.params.id);
+    const issue = await Issue.findById(id);
     if (!issue) return res.status(404).json({ error: "Issue not found" });
 
-    issue.solution = {
-      summary: req.body.text || "No summary provided",
-      resolvedAt: new Date(),
-    };
-    if (req.file) issue.solutionImage = req.file.path;
-    issue.status = "Resolved";
+    // ✅ Create new Solution document
+    const solution = new Solution({
+      issueId: id,
+      summary,
+      department,
+      resolvedBy: req.userId,
+      imageUrl: req.file ? req.file.path : null,
+    });
 
+    await solution.save();
+
+    // ✅ Update issue’s status
+    issue.status = "Resolved";
+    issue.resolvedAt = new Date();
     await issue.save();
-    res.json({ message: "Solution saved successfully", issue });
+
+    res.status(200).json({
+      message: "✅ Solution submitted successfully",
+      issue,
+      solution,
+    });
   } catch (err) {
-    console.error("Error saving solution:", err);
+    console.error("Error resolving issue:", err);
     res.status(500).json({ error: err.message });
   }
 });
-
 export default router;

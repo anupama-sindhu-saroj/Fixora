@@ -67,6 +67,9 @@
                         <input type="text" id="location" required
                                placeholder="Enter street address or landmark"
                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <input type="hidden" id="latitude" name="latitude">
+                        <input type="hidden" id="longitude" name="longitude">
+                               
                     </div>
                 </div>
         
@@ -74,15 +77,7 @@
                 <div class="md:w-1/2 flex flex-col gap-6">
                     <!-- Map -->
                     <label class="block text-sm font-medium text-gray-700 mb-1">Approximate Location on Map</label>
-                    <div class="relative w-full h-80 rounded-lg flex items-center justify-center shadow-inner"
-                        style="background: linear-gradient(135deg, #008080, #473bd0);">
-                        <!-- Only show image if loaded -->
-                        <img src="" alt="Map placeholder"
-                            class="w-full h-full object-cover rounded-lg" id="mapImage" style="display: none;">
-                        <div class="absolute inset-0 flex items-center justify-center text-white font-bold p-2 bg-opacity-70 rounded-lg text-xs">
-                            Drag marker to pinpoint location
-                        </div>
-                    </div>
+                    <div id="map" class="w-full h-80 rounded-lg shadow-inner"></div>
 
                     <!-- Choose Files button -->
                     <div class="flex justify-end pt-4">

@@ -10,6 +10,9 @@ import authorityAuthRoutes from "./routes/authorityAuth.js";
 import issueRoutes from "./routes/issueRoutes.js";
 import uploadMultipleRoutes from "./routes/uploadMultiple.js";
 import mongoose from "mongoose";
+import analyticsRouter from "./routes/analytics.js";
+
+
 
 console.log("EMAIL_USER:", process.env.EMAIL_USER);
 console.log("EMAIL_PASS:", process.env.EMAIL_PASS ? "✅ loaded" : "❌ missing");
@@ -37,6 +40,8 @@ app.use("/api/authority", authorityAuthRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/issues", issueRoutes);
 app.use("/api/uploadMultiple", uploadMultipleRoutes);
+app.use("/api/analytics", analyticsRouter);
+
 app.get("/", (req, res) => {
     res.send("Fixora backend is running!");
 });

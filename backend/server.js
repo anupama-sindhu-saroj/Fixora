@@ -46,6 +46,9 @@ app.use("/api/files", fileRoutes);
 import authorityIssuesRoutes from "./routes/authorityIssues.js";
 app.use("/api/authority/issues", authorityIssuesRoutes);
 
+import solutionRoutes from "./routes/solutionRoutes.js";
+app.use("/api/solutions", solutionRoutes);
+
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("✅ MongoDB Connected"))
     .catch(err => console.error("❌ MongoDB connection error:", err));

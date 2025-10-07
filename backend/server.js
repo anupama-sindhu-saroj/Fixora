@@ -10,7 +10,7 @@ import authorityAuthRoutes from "./routes/authorityAuth.js";
 import issueRoutes from "./routes/issueRoutes.js";
 import uploadMultipleRoutes from "./routes/uploadMultiple.js";
 import mongoose from "mongoose";
-import analyticsRouter from "./routes/analytics.js";
+import citizenProfileRoutes from "./routes/citizen-profile.js";
 
 
 
@@ -40,8 +40,7 @@ app.use("/api/authority", authorityAuthRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/issues", issueRoutes);
 app.use("/api/uploadMultiple", uploadMultipleRoutes);
-app.use("/api/analytics", analyticsRouter);
-
+app.use("/api/citizen-profile", citizenProfileRoutes);
 app.get("/", (req, res) => {
     res.send("Fixora backend is running!");
 });

@@ -1,0 +1,140 @@
+/* =========================
+   🌈 FIXORA CITIZEN PROFILE
+   ========================= */
+
+/* Global look */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fa;
+  color: #1f2937;
+  scroll-behavior: smooth;
+}
+
+/* Gradient Navigation Bar */
+.nav-gradient {
+  background: linear-gradient(135deg, #008080, #473bd0); /* teal → violet */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Hero Header */
+header {
+  transition: all 0.3s ease;
+}
+header:hover {
+  transform: translateY(-3px);
+}
+
+/* Verified Badge Pulse */
+span[title="Verified User"] {
+  animation: pulseBadge 1.8s infinite;
+}
+@keyframes pulseBadge {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+  }
+  70% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+
+/* Button Hover Animation */
+button {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+button:hover {
+  transform: scale(1.05);
+}
+
+/* Card Hover Lift Effect */
+.card-lift {
+  transition: all 0.3s ease;
+}
+.card-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Filter Buttons */
+.filter-btn {
+  transition: all 0.25s ease;
+}
+.filter-btn.active {
+  background-color: #3b82f6; /* blue-500 */
+  color: white;
+  box-shadow: 0 2px 10px rgba(59, 130, 246, 0.5);
+}
+
+/* Progress Bar */
+.nav-gradient {
+  background: linear-gradient(135deg, #008080, #473bd0);
+}
+
+/* Animation for Section Fade-In */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Issue Status Colors */
+.issue-card[data-status="resolved"] .text-xs.bg-green-500 {
+  background-color: #22c55e; /* bright green */
+}
+.issue-card[data-status="in-progress"] .text-xs.bg-yellow-500 {
+  background-color: #eab308; /* gold */
+}
+.issue-card[data-status="submitted"] .text-xs.bg-blue-500 {
+  background-color: #3b82f6; /* blue */
+}
+
+/* Section Titles */
+h2 {
+  position: relative;
+  display: inline-block;
+}
+h2::after {
+  content: "";
+  position: absolute;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #008080, #473bd0);
+  left: 0;
+  bottom: -8px;
+  border-radius: 2px;
+}
+
+/* Badge Hover Effects */
+.grid > div:hover {
+  transform: scale(1.07);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .text-3xl {
+    font-size: 1.6rem;
+  }
+  .text-2xl {
+    font-size: 1.4rem;
+  }
+  header {
+    padding: 1.25rem;
+  }
+}

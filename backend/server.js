@@ -11,6 +11,7 @@ import issueRoutes from "./routes/issueRoutes.js";
 import uploadMultipleRoutes from "./routes/uploadMultiple.js";
 import mongoose from "mongoose";
 import citizenProfileRoutes from "./routes/citizen-profile.js";
+import profileUploadRoutes from "./routes/profileUpload.js";
 
 
 
@@ -41,6 +42,8 @@ app.use("/api/upload", uploadRoutes);
 app.use("/api/issues", issueRoutes);
 app.use("/api/uploadMultiple", uploadMultipleRoutes);
 app.use("/api/citizen-profile", citizenProfileRoutes);
+app.use("/api/profile", profileUploadRoutes);
+
 app.get("/", (req, res) => {
     res.send("Fixora backend is running!");
 });

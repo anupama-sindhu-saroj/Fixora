@@ -1,224 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fixora Citizen Profile - Aarav Sharma</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="profile.css">
-
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa; /* Light gray-white background */
-            scroll-behavior: smooth;
-        }
-        /* Glassmorphism Card Style - REMOVED */
-
-        /* Hover effect for issue cards */
-        .card-lift:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-        .filter-btn.active {
-            background-color: #3b82f6; /* bg-blue-500 */
-            color: white;
-            box-shadow: 0 2px 10px rgba(59, 130, 246, 0.5);
-        }
-        /* Animation */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .animate-fade-in-up {
-            animation: fadeInUp 0.5s ease-out forwards;
-        }
-        .nav-gradient {
-            background: linear-gradient(135deg, #008080, #473bd0); /* teal → violet */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fixora Citizen Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="profile.css">
 </head>
 <body class="bg-gray-100 text-gray-800">
-
-    <!-- Top Navigation -->
-    <nav class="nav-gradient sticky top-0 z-50">
-        <div class="container mx-auto max-w-4xl px-4">
-            <div class="flex justify-between items-center h-16">
-                <span class="text-2xl font-bold text-white">Fixora</span>
-                <div class="flex items-center space-x-4 text-sm font-medium">
-                    <a href="#" class="text-white hover:text-blue-200 transition-colors">Home</a>
-                    <a href="#" class="text-white bg-blue-700/50 px-3 py-1.5 rounded-lg">Profile</a>
-                </div>
-            </div>
+  <!-- Navbar -->
+  <nav class="nav-gradient sticky top-0 z-50">
+    <div class="container mx-auto max-w-4xl px-4">
+      <div class="flex justify-between items-center h-16">
+        <span class="text-2xl font-bold text-white">Fixora</span>
+        <div class="flex items-center space-x-4 text-sm font-medium">
+          <a href="#" class="text-white hover:text-blue-200 transition-colors">Home</a>
+          <a href="#" class="text-white bg-blue-700/50 px-3 py-1.5 rounded-lg">Profile</a>
         </div>
-    </nav>
-
-    <!-- Main Container -->
-    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
-
-        <!-- Header Section -->
-        <header class="bg-white rounded-xl p-6 shadow-lg animate-fade-in-up" style="animation-delay: 100ms;">
-             <div class="flex justify-between items-start mb-4">
-                <div>
-                    <h2 class="text-xl font-medium text-gray-700">Good Evening, Aarav</h2>
-                    <p class="text-sm text-gray-500">Welcome back to your Civic Profile.</p>
-                </div>
-                <button class="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-transform hover:scale-105">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
-                    <span>Report New Issue</span>
-                </button>
-            </div>
-            <hr class="border-gray-200 my-4">
-            <div class="flex flex-col md:flex-row items-center pt-4">
-                <div class="relative">
-                    <img class="w-24 h-24 md:w-28 md:h-28 rounded-full object-cover border-4 border-blue-400 shadow-lg" 
-                         src="https://placehold.co/128x128/EBF4FF/3B82F6?text=AS" 
-                         alt="Profile picture of Aarav Sharma">
-                    <span class="absolute bottom-1 right-1 bg-green-500 text-white text-xs font-bold rounded-full h-7 w-7 flex items-center justify-center border-2 border-white" title="Verified User">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                        </svg>
-                    </span>
-                </div>
-                <div class="md:ml-6 mt-4 md:mt-0 text-center md:text-left w-full">
-                    <h1 class="text-3xl font-bold text-gray-900">Aarav Sharma</h1>
-                    <p class="text-lg font-semibold text-blue-600">Kanpur Champion</p>
-                    <div class="mt-3">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-sm font-medium text-gray-600">Civic Points: 7,850</span>
-                            <span class="text-sm font-medium text-gray-500">Next Level: 10,000</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2.5">
-                            <div class="nav-gradient h-2.5 rounded-full" style="width: 78.5%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-        
-        <!-- Contribution Summary Section -->
-        <section class="mt-8 animate-fade-in-up" style="animation-delay: 200ms;">
-            <h2 class="text-2xl font-bold mb-4 text-gray-900">Contribution Summary</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <!-- Stat Cards -->
-                <div class="bg-white p-4 rounded-xl shadow-lg flex flex-col items-center text-center">
-                    <div class="bg-blue-100 p-3 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg></div>
-                    <p class="text-3xl font-bold mt-2 text-gray-900">112</p><p class="text-sm text-gray-600">Total Reports</p>
-                </div>
-                <div class="bg-white p-4 rounded-xl shadow-lg flex flex-col items-center text-center">
-                    <div class="bg-green-100 p-3 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
-                    <p class="text-3xl font-bold mt-2 text-gray-900">85</p><p class="text-sm text-gray-600">Reports Resolved</p>
-                </div>
-                <div class="bg-white p-4 rounded-xl shadow-lg flex flex-col items-center text-center">
-                    <div class="bg-yellow-100 p-3 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg></div>
-                    <p class="text-3xl font-bold mt-2 text-gray-900">76%</p><p class="text-sm text-gray-600">Resolution Rate</p>
-                </div>
-                <!-- Your Rank Card -->
-                <div class="bg-white p-4 rounded-xl shadow-lg flex flex-col items-center text-center">
-                    <div class="bg-purple-100 p-3 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg></div>
-                    <p class="text-3xl font-bold mt-2 text-gray-900">#12</p><p class="text-sm text-gray-600">Local Rank</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Badges & Achievements Section -->
-        <section class="mt-8 animate-fade-in-up" style="animation-delay: 300ms;">
-            <h2 class="text-2xl font-bold mb-4 text-gray-900">Badges & Achievements</h2>
-            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
-                <!-- Badge Items -->
-                <div class="bg-white border p-3 rounded-xl flex flex-col items-center text-center transition-transform duration-200 hover:scale-110 hover:shadow-lg"><div class="text-4xl">🏆</div><p class="text-xs font-semibold mt-2 text-gray-800">Civic Champion</p><p class="text-xs text-gray-500">100 Resolved</p></div>
-                <div class="bg-white border p-3 rounded-xl flex flex-col items-center text-center transition-transform duration-200 hover:scale-110 hover:shadow-lg"><div class="text-4xl">🚧</div><p class="text-xs font-semibold mt-2 text-gray-800">Pothole Patroller</p><p class="text-xs text-gray-500">25 Reports</p></div>
-                <div class="bg-white border p-3 rounded-xl flex flex-col items-center text-center transition-transform duration-200 hover:scale-110 hover:shadow-lg"><div class="text-4xl">💡</div><p class="text-xs font-semibold mt-2 text-gray-800">City Illuminator</p><p class="text-xs text-gray-500">10 Streetlights</p></div>
-                <div class="bg-white border p-3 rounded-xl flex flex-col items-center text-center transition-transform duration-200 hover:scale-110 hover:shadow-lg"><div class="text-4xl">🌊</div><p class="text-xs font-semibold mt-2 text-gray-800">Monsoon Hero</p><p class="text-xs text-gray-500">5 Flood Reports</p></div>
-                <div class="bg-white border p-3 rounded-xl flex flex-col items-center text-center transition-transform duration-200 hover:scale-110 hover:shadow-lg"><div class="text-4xl">🏅</div><p class="text-xs font-semibold mt-2 text-gray-800">Ganga Guardian</p><p class="text-xs text-gray-500">5 Riverfront</p></div>
-                <div class="bg-gray-100 border border-gray-200 p-3 rounded-xl flex flex-col items-center text-center opacity-80"><div class="text-4xl">❓</div><p class="text-xs font-semibold mt-2 text-gray-700">Mystery Badge</p><p class="text-xs text-gray-500">Keep exploring!</p></div>
-            </div>
-        </section>
-
-        <!-- My Reported Issues Section -->
-        <section class="mt-8 animate-fade-in-up" style="animation-delay: 400ms;">
-            <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-4">
-                <h2 class="text-2xl font-bold text-gray-900">My Reported Issues</h2>
-                <div class="flex space-x-2 mt-3 sm:mt-0" id="filter-container">
-                    <button class="filter-btn active px-3 py-1 text-sm font-medium rounded-full bg-blue-500 text-white" data-status="all">All</button>
-                    <button class="filter-btn px-3 py-1 text-sm font-medium rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300" data-status="resolved">Resolved</button>
-                    <button class="filter-btn px-3 py-1 text-sm font-medium rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300" data-status="in-progress">In Progress</button>
-                    <button class="filter-btn px-3 py-1 text-sm font-medium rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300" data-status="submitted">Submitted</button>
-                </div>
-            </div>
-
-            <div class="space-y-4" id="issues-list">
-                <!-- Issue Cards with transition -->
-                <div class="issue-card bg-white border p-4 rounded-xl flex items-start space-x-4 transition-all duration-300 card-lift" data-status="resolved">
-                    <img class="w-20 h-20 rounded-lg object-cover" src="https://placehold.co/100x100/A3E635/4D7C0F?text=Fixed!" alt="Fixed pothole">
-                    <div class="flex-1"><div class="flex justify-between items-start"><div><p class="font-bold text-gray-900">Large Pothole on Mall Road</p><p class="text-sm text-gray-600">Roads & Infrastructure</p></div><span class="text-xs font-semibold bg-green-500 text-white px-2.5 py-1 rounded-full">RESOLVED</span></div><p class="text-sm text-gray-500 mt-2">Reported on: 05 Oct, 2025</p></div>
-                </div>
-                <div class="issue-card bg-white border p-4 rounded-xl flex items-start space-x-4 transition-all duration-300 card-lift" data-status="in-progress">
-                    <img class="w-20 h-20 rounded-lg object-cover" src="https://placehold.co/100x100/FEF08A/B45309?text=Working" alt="Overflowing garbage bin">
-                    <div class="flex-1"><div class="flex justify-between items-start"><div><p class="font-bold text-gray-900">Garbage overflow near Z-Square Mall</p><p class="text-sm text-gray-600">Sanitation</p></div><span class="text-xs font-semibold bg-yellow-500 text-white px-2.5 py-1 rounded-full">IN PROGRESS</span></div><p class="text-sm text-gray-500 mt-2">Reported on: 06 Oct, 2025</p></div>
-                </div>
-                <div class="issue-card bg-white border p-4 rounded-xl flex items-start space-x-4 transition-all duration-300 card-lift" data-status="submitted">
-                    <img class="w-20 h-20 rounded-lg object-cover" src="https://placehold.co/100x100/BAE6FD/0C4A6E?text=New" alt="Broken streetlight">
-                    <div class="flex-1"><div class="flex justify-between items-start"><div><p class="font-bold text-gray-900">Broken streetlight in Swaroop Nagar</p><p class="text-sm text-gray-600">Electricity</p></div><span class="text-xs font-semibold bg-blue-500 text-white px-2.5 py-1 rounded-full">SUBMITTED</span></div><p class="text-sm text-gray-500 mt-2">Reported on: 07 Oct, 2025</p></div>
-                </div>
-                <div class="issue-card bg-white border p-4 rounded-xl flex items-start space-x-4 transition-all duration-300 card-lift" data-status="resolved">
-                    <img class="w-20 h-20 rounded-lg object-cover" src="https://placehold.co/100x100/A3E635/4D7C0F?text=Done!" alt="Leaking water pipe">
-                    <div class="flex-1"><div class="flex justify-between items-start"><div><p class="font-bold text-gray-900">Leaking water pipe in Civil Lines</p><p class="text-sm text-gray-600">Water Supply</p></div><span class="text-xs font-semibold bg-green-500 text-white px-2.5 py-1 rounded-full">RESOLVED</span></div><p class="text-sm text-gray-500 mt-2">Reported on: 28 Sep, 2025</p></div>
-                </div>
-            </div>
-        </section>
-
+      </div>
     </div>
-    <script src="profile.js"></script>
+  </nav>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const filterContainer = document.getElementById('filter-container');
-            const filterButtons = filterContainer.querySelectorAll('.filter-btn');
-            const issuesList = document.getElementById('issues-list');
-            const issueCards = issuesList.querySelectorAll('.issue-card');
+  <!-- Main Content -->
+  <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+    <!-- Header -->
+    <header class="bg-white rounded-xl p-6 shadow-lg animate-fade-in-up">
+      <div class="flex justify-between items-start mb-4">
+        <div>
+          <h2 class="text-xl font-medium text-gray-700">Good Evening, <span id="citizenName">Citizen</span></h2>
+          <p class="text-sm text-gray-500">Welcome back to your Civic Profile.</p>
+        </div>
+        <button
+          class="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-transform hover:scale-105"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor"
+            viewBox="0 0 20 20">
+            <path fill-rule="evenodd"
+              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+              clip-rule="evenodd"/>
+          </svg>
+          <span>Report New Issue</span>
+        </button>
+      </div>
 
-            filterContainer.addEventListener('click', (event) => {
-                const target = event.target.closest('.filter-btn');
-                if (!target) return;
+      <hr class="border-gray-200 my-4" />
 
-                // Update active button style
-                filterButtons.forEach(btn => {
-                    btn.classList.remove('active', 'bg-blue-500', 'text-white');
-                    btn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
-                });
-                target.classList.add('active', 'bg-blue-500', 'text-white');
-                target.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
-                
-                const statusToShow = target.getAttribute('data-status');
+      <div class="flex flex-col md:flex-row items-start pt-4">
+        <div class="relative">
+          <img
+            id="profileImage"
+            class="w-28 h-28 rounded-full object-cover border-4 border-blue-400 shadow-lg"
+            src="https://placehold.co/128x128/EBF4FF/3B82F6?text=User"
+            alt="Profile picture"
+          />
+          <form id="profileUploadForm" enctype="multipart/form-data" class="absolute bottom-0 left-0 right-0 text-center">
+            <label for="profilePicInput" class="cursor-pointer bg-blue-600 text-white text-xs py-1 px-2 rounded-lg shadow hover:bg-blue-700 transition">
+              📸 Change Photo
+            </label>
+            <input type="file" id="profilePicInput" name="profilePic" accept="image/*" class="hidden" />
+          </form>
+        </div>
 
-                issueCards.forEach(card => {
-                    const cardStatus = card.getAttribute('data-status');
-                    if (statusToShow === 'all' || cardStatus === statusToShow) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
+        <div class="md:ml-6 mt-4 md:mt-0 text-center md:text-left w-full">
+          <h1 id="citizenNameHeader" class="text-3xl font-bold text-gray-900">Citizen Name</h1>
+          <p id="rankTitle" class="text-lg font-semibold text-blue-600">Rank Title</p>
+          <p id="location" class="text-sm text-gray-600">Location</p>
 
-             // Set initial "All" button to active state visually
-            const initialActiveButton = filterContainer.querySelector('.filter-btn[data-status="all"]');
-            initialActiveButton.classList.add('active', 'bg-blue-500', 'text-white');
-            initialActiveButton.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+          <div class="mt-3">
+            <div class="flex justify-between items-center mb-1">
+              <span id="civicPoints" class="text-sm font-medium text-gray-600">Civic Points: 0</span>
+              <span id="nextLevel" class="text-sm font-medium text-gray-500">Next Level: 1000</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2.5">
+              <div id="progressBar" class="nav-gradient h-2.5 rounded-full" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contribution Summary -->
+    <section class="mt-8">
+      <h2 class="text-2xl font-bold mb-4 text-gray-900">Contribution Summary</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white p-4 rounded-xl shadow-lg text-center">
+          <p class="text-3xl font-bold">0</p><p>Total Reports</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow-lg text-center">
+          <p class="text-3xl font-bold">0</p><p>Reports Resolved</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow-lg text-center">
+          <p class="text-3xl font-bold">0%</p><p>Resolution Rate</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow-lg text-center">
+          <p class="text-3xl font-bold">#0</p><p>Your Rank</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Badges -->
+    <section class="mt-8">
+      <h2 class="text-2xl font-bold mb-4 text-gray-900">Badges & Achievements</h2>
+      <div id="badgesGrid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4"></div>
+    </section>
+
+    <!-- Reported Issues -->
+    <section class="mt-8">
+      <h2 class="text-2xl font-bold mb-4 text-gray-900">My Reported Issues</h2>
+      <div id="issues-list" class="space-y-4"></div>
+    </section>
+  </div>
+
+  <!-- JS files -->
+  <script src="profile.js"></script>
+  <script>
+    // Filter button functionality (UI only)
+    document.addEventListener("DOMContentLoaded", () => {
+      const filterContainer = document.getElementById("filter-container");
+      if (!filterContainer) return;
+      const filterButtons = filterContainer.querySelectorAll(".filter-btn");
+      const issueCards = document.querySelectorAll(".issue-card");
+
+      filterContainer.addEventListener("click", (event) => {
+        const target = event.target.closest(".filter-btn");
+        if (!target) return;
+
+        filterButtons.forEach((btn) =>
+          btn.classList.remove("active", "bg-blue-500", "text-white")
+        );
+        target.classList.add("active", "bg-blue-500", "text-white");
+
+        const statusToShow = target.getAttribute("data-status");
+        issueCards.forEach((card) => {
+          const cardStatus = card.getAttribute("data-status");
+          card.style.display =
+            statusToShow === "all" || cardStatus === statusToShow ? "flex" : "none";
         });
-    </script>
-
-
+      });
+    });
+  </script>
 </body>
 </html>

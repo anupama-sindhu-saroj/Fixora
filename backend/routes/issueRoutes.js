@@ -5,7 +5,7 @@ import IssueLocation from "../models/IssueLocation.js";
 import upload from "../config/multer.js";
 import Solution from "../models/Solution.js";
 const router = express.Router();
-
+console.log("✅ IssueLocation Model Loaded:", typeof IssueLocation.findOne);
 // POST → Submit a new issue
 router.post("/", authMiddleware, async (req, res) => {
     try {
@@ -38,9 +38,16 @@ router.post("/", authMiddleware, async (req, res) => {
       } else {
         console.log("⚠ Latitude or Longitude missing, skipping location save");
       }
-      // Emit to all connected clients
-      const io = req.app.get("io");
-      io.emit("newIssue", issue);
+      // ✅ Emit issue WITH coordinates for live map
+        const io = req.app.get("io");
+        io.emit("newIssue", {
+          ...issue.toObject(),
+          locationCoords:
+            latitude && longitude
+              ? { lat: parseFloat(latitude), lng: parseFloat(longitude) }
+              : null,
+        });
+
 
       res.status(201).json({ message: "Issue reported successfully", issue });
     } catch (err) {
@@ -48,6 +55,45 @@ router.post("/", authMiddleware, async (req, res) => {
       res.status(500).json({ error: err.message });
     }
   });
+  router.get("/with-locations", async (req, res) => {
+  console.log("📍 [DEBUG] /with-locations route called");
+
+  try {
+    const issues = await Issue.find()
+      .populate("reportedBy", "name email")
+      .sort({ createdAt: -1 });
+
+    console.log("✅ Found", issues.length, "issues");
+
+    const results = [];
+
+    for (const issue of issues) {
+      try {
+        console.log("🔍 Searching location for issue:", issue._id);
+        const loc = await IssueLocation.findOne({ issueId: issue._id });
+        console.log("📍 Location found:", loc);
+
+        results.push({
+          ...issue.toObject(),
+          locationCoords: loc
+            ? { lat: loc.latitude, lng: loc.longitude }
+            : null,
+        });
+      } catch (innerErr) {
+        console.error("⚠️ Error finding location for", issue._id, ":", innerErr.message);
+        results.push({ ...issue.toObject(), locationCoords: null });
+      }
+    }
+
+    console.log("✅ Sending", results.length, "issues with coords");
+    res.status(200).json(results);
+
+  } catch (err) {
+    console.error("❌ /with-locations failed:", err.message);
+    console.error(err.stack);
+    res.status(500).json({ error: err.message });
+  }
+});
 /* ---------------------------------------------------------
    2️⃣ Fetch All Issues (Authority Dashboard / Map)
 --------------------------------------------------------- */
@@ -180,4 +226,6 @@ router.put("/:id/resolve", authMiddleware, upload.single("image"), async (req, r
     res.status(500).json({ error: err.message });
   }
 });
+
+
 export default router;

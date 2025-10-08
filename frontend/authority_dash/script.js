@@ -1,4 +1,6 @@
+import { io } from "https://cdn.socket.io/4.7.2/socket.io.esm.min.js";
 // === Load Fixora Logo from backend ===
+
 fetch("http://localhost:5001/api/files?type=logo")
   .then(res => res.json())
   .then(data => {
@@ -50,7 +52,7 @@ async function loadIssues() {
   try {
     const token = localStorage.getItem("authorityToken");
 
-    const res = await fetch("http://localhost:5001/api/issues", {
+    const res = await fetch("http://localhost:5001/api/issues/with-locations", {
       headers: { Authorization: `Bearer ${token}` },
     });
     const issues = await res.json();
@@ -174,33 +176,111 @@ function renderFeed(feed) {
     container.appendChild(div);
   });
 }
-
-// === Live Map Integration (Leaflet) ===
+// === Real-time Authority Live Issue Map ===
 let map;
-function initMap() {
+let markersLayer;
+
+// ✅ Initialize the Leaflet map
+async function initMap() {
   const mapContainer = document.getElementById("liveMap");
   if (!mapContainer) return;
 
   map = L.map("liveMap").setView([25.4358, 81.8463], 12);
+
+  // Add OpenStreetMap tiles
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution: '&copy; OpenStreetMap contributors',
   }).addTo(map);
-}
 
-function renderMapIssues(issues) {
-  if (!map) return;
-  issues.forEach(issue => {
-    if (issue.locationCoords && issue.locationCoords.lat && issue.locationCoords.lng) {
-      const marker = L.marker([issue.locationCoords.lat, issue.locationCoords.lng]).addTo(map);
-      marker.bindPopup(`
-        <b>${issue.title}</b><br>
-        ${issue.location}<br>
-        <small>Status: ${issue.status || "Pending"}</small>
-      `);
-    }
+  // Add empty layer group for dynamic markers
+  markersLayer = L.layerGroup().addTo(map);
+
+  // Load existing issues initially
+  await loadAndRenderIssues();
+
+  // ✅ Connect to Socket.IO for live updates
+  const socket = io("http://localhost:5001");
+
+  socket.on("connect", () => {
+    console.log("🟢 Connected to live updates:", socket.id);
+  });
+
+  socket.on("newIssue", (issue) => {
+    console.log("🆕 New issue received:", issue);
+    addMarker(issue);
+  });
+
+  socket.on("connect_error", (err) => {
+    console.error("Socket.IO Connection Error:", err);
   });
 }
+
+// ✅ Helper to load all issues initially
+async function loadAndRenderIssues() {
+  try {
+    const token = localStorage.getItem("authorityToken");
+    const res = await fetch("http://localhost:5001/api/issues", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const issues = await res.json();
+
+    renderMapIssues(issues);
+  } catch (err) {
+    console.error("⚠️ Error loading issues:", err);
+  }
+}
+
+// ✅ Render multiple markers
+function renderMapIssues(issues) {
+  if (!map || !markersLayer) return;
+
+  markersLayer.clearLayers();
+  const bounds = [];
+
+  issues.forEach(addMarker);
+
+  // Auto zoom to fit all markers
+  if (bounds.length > 0) map.fitBounds(bounds, { padding: [50, 50] });
+}
+
+// ✅ Add a single marker (used by Socket.IO)
+function addMarker(issue) {
+  let lat, lng;
+
+  // Try to read coordinates if they exist
+  if (issue?.locationCoords?.lat && issue?.locationCoords?.lng) {
+    lat = issue.locationCoords.lat;
+    lng = issue.locationCoords.lng;
+  } 
+  // ✅ Fallback: assign default location (Prayagraj)
+  else {
+    lat = 25.4358 + Math.random() * 0.02 - 0.01; // slight random spread
+    lng = 81.8463 + Math.random() * 0.02 - 0.01;
+  }
+
+  const status = (issue.status || "Pending").toLowerCase();
+  const iconColor =
+    status.includes("resolved") ? "green" :
+    status.includes("progress") ? "orange" :
+    status.includes("review") ? "yellow" :
+    "red";
+
+  const marker = L.circleMarker([lat, lng], {
+    radius: 8,
+    color: iconColor,
+    fillColor: iconColor,
+    fillOpacity: 0.8,
+    weight: 2,
+  }).addTo(markersLayer);
+
+  marker.bindPopup(`
+    <b>${issue.issueType || issue.title}</b><br>
+    ${issue.location || "Unknown"}<br>
+    <small>Status: <b>${issue.status || "Pending"}</b></small>
+  `);
+}
+
 
 // === Update dashboard stats dynamically ===
 async function loadDashboardStats() {
@@ -229,6 +309,12 @@ async function loadDashboardStats() {
     console.error("Error loading stats:", err);
   }
 }
+// === Auto-refresh map and issues every 30 seconds ===
+setInterval(() => {
+  loadIssues();
+  loadDashboardStats();
+  console.log("🔁 Dashboard auto-refreshed");
+}, 30000);
 
 // === Initialize Everything ===
 document.addEventListener("DOMContentLoaded", () => {

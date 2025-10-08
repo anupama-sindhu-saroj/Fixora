@@ -9,6 +9,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
     <link rel="stylesheet" href="city-dashboard.css">
 </head>
 <body class="flex h-screen overflow-hidden">
@@ -140,9 +144,7 @@
                 <!-- Live Issue Map -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border h-96 flex flex-col">
                     <h3 class="text-lg font-semibold text-slate-800 mb-4">Live Issue Map</h3>
-                    <div class="flex-1 w-full bg-slate-200 rounded-lg flex items-center justify-center">
-                        <p class="text-slate-500">Interactive map placeholder</p>
-                    </div>
+                    <div id="issue-map" class="flex-1 w-full rounded-lg h-full"></div>
                 </div>
 
                 <!-- Recent Activity -->
@@ -180,7 +182,9 @@
             <div id="modal-body" class="mt-4 text-sm"></div>
         </div>
     </div>
-
+    <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    </script>
     <script type="module" src="city-dashboard.js"></script>
 </body>
 </html>

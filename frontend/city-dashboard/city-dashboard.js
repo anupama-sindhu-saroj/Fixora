@@ -134,6 +134,44 @@ document.addEventListener('DOMContentLoaded', function () {
             container.removeChild(container.lastChild);
         }
     }
+    // --- Initialize Live Issue Map ---
+    let map;
+
+    async function initIssueMap() {
+        try {
+            // Initialize map centered on Prayagraj (you can adjust this)
+            map = L.map("issue-map").setView([25.4358, 81.8463], 12);
+
+            // Add map tiles (OpenStreetMap)
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Fetch pending issues from backend
+            const res = await fetch("http://localhost:5001/api/issues/pending");
+            const issues = await res.json();
+
+            // Add markers for each issue
+            issues.forEach(issue => {
+                if (issue.location && issue.location.lat && issue.location.lng) {
+                    const marker = L.marker([issue.location.lat, issue.location.lng]).addTo(map);
+
+                    // Marker popup content
+                    marker.bindPopup(`
+                        <b>${issue.title || issue.issueType || "Pending Issue"}</b><br>
+                        <span>Status: ${issue.status}</span><br>
+                        <span>${issue.description || ""}</span>
+                    `);
+                }
+            });
+        } catch (err) {
+            console.error("Error loading issue map:", err);
+        }
+    }
+
+// Initialize map after DOM content loads
+initIssueMap();
 
     // --- Load Issues Initially ---
     async function loadIssues() {

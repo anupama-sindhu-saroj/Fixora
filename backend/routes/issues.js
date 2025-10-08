@@ -1,6 +1,7 @@
 import express from "express";
 import Issue from "../models/Issue.js";
 import authMiddleware from "../middleware/authMiddleware.js";
+import IssueLocation from "../models/IssueLocation.js";
 
 const router = express.Router();
 
@@ -8,9 +9,13 @@ const router = express.Router();
    POST → Submit a new issue (Citizen)
 ---------------------------------------- */
 router.post("/", authMiddleware, async (req, res) => {
+  console.log("POST /api/issues called with:", req.body);
+  console.log("Latitude:", req.body.latitude);
+  console.log("Longitude:", req.body.longitude);
   try {
-    const { issueType, description, location, imageUrls } = req.body;
-
+    const { issueType, description, location,latitude, longitude, imageUrls } = req.body;
+    console.log("Latitude:", latitude);                  // ← ADD THIS
+    console.log("Longitude:", longitude); 
     if (!issueType || !description || !location) {
       return res.status(400).json({ error: "All required fields must be filled" });
     }
@@ -20,11 +25,23 @@ router.post("/", authMiddleware, async (req, res) => {
       description,
       location,
       imageUrls,
-      reportedBy: req.citizenId, // Automatically store logged-in citizen ID
+      reportedBy: req.userId, // Automatically store logged-in citizen ID
       status: "Unassigned",
     });
 
     await issue.save();
+    console.log("✅ Issue saved:", issue);
+    if (latitude && longitude) {
+      const issueLocation = new IssueLocation({
+        issueId: issue._id,
+        latitude: parseFloat(latitude),
+        longitude: parseFloat(longitude),
+      });
+      await issueLocation.save();
+      console.log("✅ IssueLocation saved:", issueLocation);
+    }else {
+      console.log("⚠ Latitude or Longitude missing, skipping location save");
+    }
 
     res.status(201).json({ message: "Issue reported successfully", issue });
   } catch (err) {

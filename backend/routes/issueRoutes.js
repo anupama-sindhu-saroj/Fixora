@@ -1,13 +1,15 @@
 import express from "express";
 import Issue from "../models/Issue.js";
 import authMiddleware from "../middleware/authMiddleware.js";
+import IssueLocation from "../models/IssueLocation.js";
 import upload from "../config/multer.js";
+import Solution from "../models/Solution.js";
 const router = express.Router();
 
 // POST → Submit a new issue
 router.post("/", authMiddleware, async (req, res) => {
     try {
-      const { issueType, description, location, imageUrls } = req.body;
+      const { issueType, description, location, imageUrls, latitude, longitude } = req.body;
   
       if (!issueType || !description || !location) {
         return res.status(400).json({ error: "All required fields must be filled" });
@@ -22,7 +24,20 @@ router.post("/", authMiddleware, async (req, res) => {
       });
   
       await issue.save();
-      
+      console.log("✅ Issue saved:", issue);
+
+      // Save location if present
+      if (latitude && longitude) {
+        const issueLocation = new IssueLocation({
+          issueId: issue._id,
+          latitude: parseFloat(latitude),
+          longitude: parseFloat(longitude),
+        });
+        await issueLocation.save();
+        console.log("✅ IssueLocation saved:", issueLocation);
+      } else {
+        console.log("⚠ Latitude or Longitude missing, skipping location save");
+      }
       // Emit to all connected clients
       const io = req.app.get("io");
       io.emit("newIssue", issue);
@@ -66,8 +81,31 @@ router.get("/summary", async (req, res) => {
   }
 });
 
+router.get("/pending", async (req, res) => {
+  try {
+    // Find pending issues
+    const pendingIssues = await Issue.find({ status: "Pending" });
 
+    // Map each issue with its location
+    const issuesWithLocation = await Promise.all(
+      pendingIssues.map(async (issue) => {
+        const location = await IssueLocation.findOne({ issueId: issue._id });
+        return {
+          ...issue.toObject(),
+          location: location ? {
+            lat: location.latitude,
+            lng: location.longitude,
+          } : null,
+        };
+      })
+    );
 
+    res.status(200).json(issuesWithLocation);
+  } catch (err) {
+    console.error("Error fetching pending issues:", err);
+    res.status(500).json({ error: "Failed to fetch pending issues" });
+  }
+});
 
 // ✅ ADD THIS NEW ROUTE (for modal details)
 router.get("/:id", async (req, res) => {

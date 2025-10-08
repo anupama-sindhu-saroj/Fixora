@@ -13,13 +13,18 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="report-issue.css">
+    <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
 </head>
 <body class=" min-h-screen flex flex-col">
 
     <!-- HEADER -->
     <header class="text-white p-7 shadow-md flex justify-between items-center"
             style="background: linear-gradient(135deg, #008080, #473bd0);">
-        <a href="citizen-dashboard.html" class="flex items-center space-x-2 text-sm font-semibold hover:opacity-80">
+        <a href="../city-dashboard/city-dashboard.html" class="flex items-center space-x-2 text-sm font-semibold hover:opacity-80">
             <i data-lucide="arrow-left" class="w-5 h-5"></i>
             <span>Back to Dashboard</span>
         </a>
@@ -127,6 +132,9 @@
             </div>
         </form>
     </main>
+    <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    ></script>
     <script src="report-issue.js"></script>
 </body>
 </html>

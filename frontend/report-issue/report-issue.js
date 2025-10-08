@@ -1,4 +1,4 @@
-// Initialize Lucide icons
+// ===== INIT ICONS =====
 lucide.createIcons();
 
 // ===== FILE PREVIEW =====
@@ -31,6 +31,51 @@ fileInput.addEventListener("change", () => {
   });
 });
 
+// ===== HELPER FUNCTION =====
+function setLatLngInputs(lat, lon) {
+  document.getElementById("latitude").value = lat;
+  document.getElementById("longitude").value = lon;
+  console.log("📍 Updated coordinates:", lat, lon);
+}
+
+// ===== LEAFLET MAP =====
+document.addEventListener("DOMContentLoaded", () => {
+  let marker;
+  const map = L.map("map").setView([0, 0], 13);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "&copy; OpenStreetMap contributors"
+  }).addTo(map);
+
+  function addMarker(lat, lon) {
+    map.setView([lat, lon], 15);
+    if (marker) map.removeLayer(marker);
+
+    marker = L.marker([lat, lon], { draggable: true }).addTo(map);
+    setLatLngInputs(lat, lon);
+
+    marker.on("moveend", function (e) {
+      const { lat, lng } = e.target.getLatLng();
+      setLatLngInputs(lat, lng);
+    });
+  }
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        addMarker(position.coords.latitude, position.coords.longitude);
+      },
+      () => {
+        console.warn("⚠ Geolocation failed. Using default location.");
+        addMarker(25.4358, 81.8463); // Default location
+      }
+    );
+  } else {
+    console.warn("⚠ Geolocation not supported. Using default location.");
+    addMarker(25.4358, 81.8463);
+  }
+});
+
 // ===== FORM SUBMISSION =====
 document.getElementById("reportForm").addEventListener("submit", async function (e) {
   e.preventDefault();
@@ -38,17 +83,21 @@ document.getElementById("reportForm").addEventListener("submit", async function 
   const issueType = document.getElementById("issueType").value.trim();
   const description = document.getElementById("description").value.trim();
   const location = document.getElementById("location").value.trim();
+  const latitude = parseFloat(document.getElementById("latitude").value);
+  const longitude = parseFloat(document.getElementById("longitude").value);
 
   console.log("--- Report Submission Data ---");
   console.log("Issue Type:", issueType);
   console.log("Description:", description);
   console.log("Location:", location);
+  console.log("Latitude:", latitude);
+  console.log("Longitude:", longitude);
 
   const token = localStorage.getItem("token");
 
   if (!token) {
     alert("⚠ You must be logged in to report an issue.");
-    window.location.href = "login.html";
+    window.location.href = "landing/index.html";
     return;
   }
 
@@ -86,15 +135,23 @@ document.getElementById("reportForm").addEventListener("submit", async function 
     }
   }
 
-  // Submit the issue
   try {
+    console.log("📤 Sending issue with coords:", latitude, longitude);
+
     const response = await fetch("http://localhost:5001/api/issues", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify({ issueType, description, location, imageUrls })
+      body: JSON.stringify({
+        issueType,
+        description,
+        location,
+        latitude,
+        longitude,
+        imageUrls
+      })
     });
 
     const data = await response.json();
@@ -102,7 +159,6 @@ document.getElementById("reportForm").addEventListener("submit", async function 
     if (response.ok) {
       console.log("✅ Full response from server:", data);
 
-      // 🎉 SHOW CONFIRMATION
       const confirmationHTML = `
         <div style="padding:20px; border:2px solid #008080; border-radius:10px; background:#f0fdf4;">
           <h2 style="color:#008080;">✅ Report Submitted Successfully!</h2>

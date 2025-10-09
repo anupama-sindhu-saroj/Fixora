@@ -59,7 +59,7 @@ document.getElementById("signupBtn").onclick = () => {
   window.location.href = "../signup-choice.html";
 };
 document.getElementById("reportBtn").onclick = () => {
-  window.location.href = "../signup.html";
+  window.location.href = "../signup-choice.html";
 };
 document.getElementById("exploreBtn").onclick = () => {
   alert("Explore City feature coming soon!");

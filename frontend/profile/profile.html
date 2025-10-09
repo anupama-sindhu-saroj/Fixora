@@ -20,8 +20,8 @@
       <div class="flex justify-between items-center h-16">
         <span class="text-2xl font-bold text-white">Fixora</span>
         <div class="flex items-center space-x-4 text-sm font-medium">
-          <a href="#" class="text-white hover:text-blue-200 transition-colors">Home</a>
-          <a href="#" class="text-white bg-blue-700/50 px-3 py-1.5 rounded-lg">Profile</a>
+          <a href="../city-dashboard/city-dashboard.html" class="text-white hover:text-blue-200 transition-colors">Home</a>
+          <a href="profile.html" class="text-white bg-blue-700/50 px-3 py-1.5 rounded-lg">Profile</a>
         </div>
       </div>
     </div>
@@ -45,7 +45,12 @@
               d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
               clip-rule="evenodd"/>
           </svg>
-          <span>Report New Issue</span>
+          <button 
+            onclick="window.location.href='../report-issue/report-issue.html'" 
+            class="text-white font-semibold px-5 py-2.5 rounded-lg shadow-md transition-transform transform hover:scale-105"
+            style="background: linear-gradient(135deg, #008080, #473bd0);">
+            <span>Report New Issue</span>
+          </button>
         </button>
       </div>
 
@@ -61,7 +66,7 @@
           />
           <form id="profileUploadForm" enctype="multipart/form-data" class="absolute bottom-0 left-0 right-0 text-center">
             <label for="profilePicInput" class="cursor-pointer bg-blue-600 text-white text-xs py-1 px-2 rounded-lg shadow hover:bg-blue-700 transition">
-              📸 Change Photo
+              Change Photo
             </label>
             <input type="file" id="profilePicInput" name="profilePic" accept="image/*" class="hidden" />
           </form>

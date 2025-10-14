@@ -93,7 +93,7 @@ document.getElementById("reportForm").addEventListener("submit", async function 
   console.log("Latitude:", latitude);
   console.log("Longitude:", longitude);
 
-  const token = localStorage.getItem("token");
+  let token = localStorage.getItem("citizenToken");
 
   if (!token) {
     alert("⚠ You must be logged in to report an issue.");

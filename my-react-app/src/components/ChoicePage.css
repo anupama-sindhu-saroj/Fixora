@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+/* Page wrapper — replaces <body> styles */
+.choice-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at center, #ffffff 0%, #f3f4f6 70%, #e0e7ff 100%);
+}
+
+/* Inner centred column */
+.choice-container {
+  width: 100%;
+  max-width: 56rem; /* ~max-w-4xl */
+  text-align: center;
+}
+
+/* Title */
+.choice-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: black;
+  margin-bottom: 1rem;
+  margin-top: 3rem;
+  letter-spacing: -0.025em;
+  font-size: 3rem;
+}
+
+.choice-brand {
+  color: #4f46e5;
+}
+
+/* Subtitle */
+.choice-subtitle {
+  font-size: 1.25rem;
+  color: #6b7280;
+  margin-bottom: 3rem;
+}
+
+/* Card row */
+.choice-cards {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .choice-cards {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+/* Individual card */
+.choice-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background: white;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  border: 4px solid transparent;
+  transition: all 0.3s ease;
+  flex: 1;
+  max-width: 400px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.choice-box:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 12px 25px rgba(0, 0, 0, 0.4);
+}
+
+.choice-box:focus-visible {
+  outline: 3px solid #4f46e5;
+  outline-offset: 4px;
+}
+
+.citizen {
+  border-color: #3b82f6;
+}
+
+.authority {
+  border-color: #7c3aed;
+}
+
+/* Icon circle */
+.icon-box {
+  padding: 1rem;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.citizen-icon {
+  background: #dbeafe;
+}
+
+.authority-icon {
+  background: #e0d7ff;
+}
+
+.choice-icon {
+  width: 3rem;
+  height: 3rem;
+}
+
+.citizen-icon .choice-icon {
+  color: #2563eb;
+}
+
+.authority-icon .choice-icon {
+  color: #4f46e5;
+}
+
+/* Role heading */
+.choice-role {
+  font-size: 1.875rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.citizen-label {
+  color: #1e40af;
+}
+
+.authority-label {
+  color: #3730a3;
+}
+
+/* Description */
+.choice-desc {
+  font-size: 1.125rem;
+  color: #4b5563;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* CTA pill button */
+.choice-cta {
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  transition: background-color 0.15s ease;
+}
+
+.citizen-cta {
+  background-color: #2563eb;
+}
+
+.citizen-cta:hover {
+  background-color: #1d4ed8;
+}
+
+.authority-cta {
+  background-color: #4f46e5;
+}
+
+.authority-cta:hover {
+  background-color: #4338ca;
+}

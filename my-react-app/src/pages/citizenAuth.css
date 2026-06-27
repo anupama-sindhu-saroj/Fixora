@@ -1,0 +1,272 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+/* ── Page wrapper ── */
+.ca-page {
+  font-family: 'Inter', sans-serif;
+  background-color: #fff7ed;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+/* ── Signup outer container ── */
+.ca-signup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1000px;
+  gap: 1rem;
+}
+
+/* ── Back link ── */
+.ca-back-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #4f46e5;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: all 0.2s ease;
+}
+.ca-back-link svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 0.2s ease;
+}
+.ca-back-link:hover { color: #4338ca; transform: translateX(-3px); }
+.ca-back-link:hover svg { transform: translateX(-5px); }
+.ca-back-link span { border-bottom: 2px solid transparent; transition: border-bottom 0.2s ease; }
+.ca-back-link:hover span { border-bottom: 2px solid #4f46e5; }
+
+/* ── Two-column card ── */
+.ca-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 900px;
+}
+
+/* ── Left panel ── */
+.ca-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem;
+  color: #fff;
+}
+
+.citizen-left {
+  background: linear-gradient(135deg, #059669, #4f46e5) !important;
+}
+
+.authority-left {
+  background: linear-gradient(135deg, #008080, #4f46e5) !important;
+}
+
+.forgot-left {
+  background: #059669 !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.ca-left h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.ca-left p {
+  opacity: 0.9;
+  color: #fff;
+}
+
+.ca-left img {
+  border-radius: 12px;
+  margin-top: 2rem;
+  width: 100%;
+  object-fit: cover;
+}
+
+.ca-image-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ca-image-wrapper img {
+  max-width: 100%;
+  border-radius: 15px;
+}
+
+/* ── Right panel ── */
+.ca-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem;
+}
+
+/* ── Heading ── */
+.ca-heading {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #4f46e5;
+  margin-bottom: 0.25rem;
+  text-align: center;
+}
+
+.ca-subtitle {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+/* ── Message box ── */
+.ca-message {
+  padding: 0.75rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 600;
+  width: 100%;
+  max-width: 380px;
+}
+.ca-message.error { background: #dc2626; color: white; }
+.ca-message.success { background: #059669; color: white; }
+
+/* ── Forms ── */
+.ca-right form,
+.ca-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 380px;
+}
+
+/* ── All inputs ── */
+.ca-input,
+.ca-form input,
+.ca-right form input[type="email"],
+.ca-right form input[type="text"],
+.ca-right form input[type="password"] {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1rem;
+  border: 2px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  background: white;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+  color: #333;
+}
+
+.ca-input:focus,
+.ca-form input:focus,
+.ca-right form input:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+/* ── Forgot password link row ── */
+.ca-options {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+.ca-options span {
+  color: #4f46e5;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.ca-options span:hover { text-decoration: underline; }
+
+/* ── Buttons ── */
+.ca-btn-primary {
+  width: 100%;
+  padding: 0.85rem;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 0.25rem;
+  transition: background 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+.ca-btn-primary:hover { background: #4338ca; }
+.ca-btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.ca-btn-success {
+  width: 100%;
+  padding: 0.85rem;
+  background: #059669;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+.ca-btn-success:hover { background: #047857; }
+
+/* ── OTP section ── */
+.ca-otp-section {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.ca-otp-section input {
+  padding: 0.75rem 1rem !important;
+  font-size: 1rem !important;
+  border: 1px solid #ccc !important;
+  border-radius: 6px !important;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 0 !important;
+}
+.ca-otp-section input:focus { border-color: #4f46e5 !important; }
+
+/* ── Footer link ── */
+.ca-footer-link {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+  color: #333;
+}
+.ca-footer-link span {
+  color: #4f46e5;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ca-footer-link span:hover { text-decoration: underline; }
+
+/* ── Responsive ── */
+@media screen and (max-width: 768px) {
+  .ca-card { grid-template-columns: 1fr; }
+  .ca-left { display: none; }
+}

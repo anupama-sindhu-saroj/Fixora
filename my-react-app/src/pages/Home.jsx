@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/global.css";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -74,15 +75,15 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <div className="home-page">
       {/* Header */}
-      <header>
+      <div className="home-header">
         <div className="logo" ref={logoRef}></div>
         <div className="nav-buttons">
           <button onClick={() => navigate("/login-choice")}>Login</button>
           <button onClick={() => navigate("/signup-choice")}>Sign Up</button>
         </div>
-      </header>
+      </div>
 
       {/* Hero Section */}
       <section className="hero">
@@ -124,6 +125,6 @@ export default function Home() {
           <p>Working Issues</p>
         </div>
       </footer>
-    </>
+    </div>
   );
 }

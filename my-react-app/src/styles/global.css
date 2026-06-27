@@ -348,9 +348,8 @@ header {
 }
 
 .choice-page h1 {
-  font-size: 2rem;
   font-weight: 800;
-  color: var(--text-light);
+  color: #1f2937;
 }
 
 .choice-cards {

@@ -4,7 +4,7 @@ import SignupChoice from "./pages/SignupChoice";
 import LoginChoice from "./pages/LoginChoice";
 import CitizenSignup from "./pages/CitizenSignup";
 import CitizenLogin from "./pages/CitizenLogin";
-import CitizenForgotPassword from "./pages/ CitizenForgotPassword.jsx";
+import CitizenForgotPassword from "./pages/CitizenForgotPassword";
 import AuthoritySignup from "./pages/AuthoritySignup";
 import AuthorityLogin from "./pages/AuthorityLogin";
 import AuthorityForgotPassword from "./pages/AuthorityForgotPassword";

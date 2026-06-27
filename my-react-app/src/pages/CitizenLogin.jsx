@@ -24,7 +24,7 @@ export default function CitizenLogin() {
         localStorage.setItem("citizenToken", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
         alert("Login successful!");
-        navigate("/dashboard/citizen");
+        navigate("/city-dashboard");
       } else {
         alert("Login failed: " + (data.message || "INVALID CREDENTIALS"));
       }

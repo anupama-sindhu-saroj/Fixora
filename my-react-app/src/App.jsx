@@ -4,6 +4,7 @@ import CityDashboard from "./pages/CityDashboard";
 import ReportIssue from "./pages/ReportIssue";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 import Profile from "./pages/Profile";
+import Chronicle from "./pages/Chronicle";
 import SignupChoice from "./pages/SignupChoice";
 import LoginChoice from "./pages/LoginChoice";
 import CitizenSignup from "./pages/CitizenSignup";
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="/report-issue" element={<ReportIssue />} />
         <Route path="/analytics" element={<AnalyticsDashboard />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/chronicle" element={<Chronicle />} />
         <Route path="/signup-choice" element={<SignupChoice />} />
         <Route path="/login-choice" element={<LoginChoice />} />
         <Route path="/signup/citizen" element={<CitizenSignup />} />
@@ -30,7 +32,6 @@ export default function App() {
         <Route path="/signup/authority" element={<AuthoritySignup />} />
         <Route path="/login/authority" element={<AuthorityLogin />} />
         <Route path="/forgot-password/authority" element={<AuthorityForgotPassword />} />
-        {/* Dashboards added next */}
       </Routes>
     </BrowserRouter>
   );

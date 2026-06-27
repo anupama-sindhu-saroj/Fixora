@@ -71,7 +71,7 @@ export default function CitizenSignup() {
       if (res.ok) {
         showMessage("Signup successful!");
         localStorage.setItem("username", username);
-        setTimeout(() => navigate("/dashboard/citizen"), 1500);
+        setTimeout(() => navigate("/city-dashboard"), 1500);
       } else {
         showMessage(data.message || "OTP verification failed", true);
       }

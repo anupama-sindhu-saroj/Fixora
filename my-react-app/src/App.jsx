@@ -5,6 +5,9 @@ import LoginChoice from "./pages/LoginChoice";
 import CitizenSignup from "./pages/CitizenSignup";
 import CitizenLogin from "./pages/CitizenLogin";
 import CitizenForgotPassword from "./pages/ CitizenForgotPassword.jsx";
+import AuthoritySignup from "./pages/AuthoritySignup";
+import AuthorityLogin from "./pages/AuthorityLogin";
+import AuthorityForgotPassword from "./pages/AuthorityForgotPassword";
 
 export default function App() {
   return (
@@ -16,7 +19,10 @@ export default function App() {
         <Route path="/signup/citizen" element={<CitizenSignup />} />
         <Route path="/login/citizen" element={<CitizenLogin />} />
         <Route path="/forgot-password/citizen" element={<CitizenForgotPassword />} />
-        {/* Authority routes and dashboards added next */}
+        <Route path="/signup/authority" element={<AuthoritySignup />} />
+        <Route path="/login/authority" element={<AuthorityLogin />} />
+        <Route path="/forgot-password/authority" element={<AuthorityForgotPassword />} />
+        {/* Dashboards added next */}
       </Routes>
     </BrowserRouter>
   );

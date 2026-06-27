@@ -11,7 +11,7 @@
   padding: 1rem;
 }
 
-/* ── Signup has an extra container for the back link ── */
+/* ── Signup outer container ── */
 .ca-signup-container {
   display: flex;
   flex-direction: column;
@@ -32,32 +32,17 @@
   align-self: flex-start;
   transition: all 0.2s ease;
 }
-
 .ca-back-link svg {
   width: 1.25rem;
   height: 1.25rem;
   transition: transform 0.2s ease;
 }
+.ca-back-link:hover { color: #4338ca; transform: translateX(-3px); }
+.ca-back-link:hover svg { transform: translateX(-5px); }
+.ca-back-link span { border-bottom: 2px solid transparent; transition: border-bottom 0.2s ease; }
+.ca-back-link:hover span { border-bottom: 2px solid #4f46e5; }
 
-.ca-back-link:hover {
-  color: #4338ca;
-  transform: translateX(-3px);
-}
-
-.ca-back-link:hover svg {
-  transform: translateX(-5px);
-}
-
-.ca-back-link span {
-  border-bottom: 2px solid transparent;
-  transition: border-bottom 0.2s ease;
-}
-
-.ca-back-link:hover span {
-  border-bottom: 2px solid #4f46e5;
-}
-
-/* ── Card (two-column split) ── */
+/* ── Two-column card ── */
 .ca-card {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -79,29 +64,43 @@
 }
 
 .citizen-left {
-  background: linear-gradient(135deg, #059669, #4f46e5);
+  background: linear-gradient(135deg, #059669, #4f46e5) !important;
+}
+
+.authority-left {
+  background: linear-gradient(135deg, #008080, #4f46e5) !important;
 }
 
 .forgot-left {
-  background: #059669;
+  background: #059669 !important;
   justify-content: center;
   align-items: center;
 }
 
 .ca-left h2 {
   font-size: 2rem;
+  font-weight: 700;
   margin-bottom: 1rem;
+  color: #fff;
 }
-
-.ca-left img {
-    border-radius: 12px;
-    margin-top: 2rem;
-    width: 100%;
-    object-fit: cover;
-  }
 
 .ca-left p {
   opacity: 0.9;
+  color: #fff;
+}
+
+.ca-left img {
+  border-radius: 12px;
+  margin-top: 2rem;
+  width: 100%;
+  object-fit: cover;
+}
+
+.ca-image-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .ca-image-wrapper img {
@@ -118,18 +117,20 @@
   padding: 2.5rem;
 }
 
+/* ── Heading ── */
 .ca-heading {
   font-size: 1.75rem;
   font-weight: 800;
   color: #4f46e5;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   text-align: center;
 }
 
 .ca-subtitle {
   color: #6b7280;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   text-align: center;
+  font-size: 0.95rem;
 }
 
 /* ── Message box ── */
@@ -140,19 +141,12 @@
   text-align: center;
   font-weight: 600;
   width: 100%;
+  max-width: 380px;
 }
+.ca-message.error { background: #dc2626; color: white; }
+.ca-message.success { background: #059669; color: white; }
 
-.ca-message.error {
-  background: #dc2626;
-  color: white;
-}
-
-.ca-message.success {
-  background: #059669;
-  color: white;
-}
-
-/* ── Form ── */
+/* ── Forms ── */
 .ca-right form,
 .ca-form {
   display: flex;
@@ -161,64 +155,29 @@
   max-width: 380px;
 }
 
-/* ── Floating-label input group (signup) ── */
-.ca-input-group {
-  position: relative;
-  margin-bottom: 1.5rem;
+/* ── All inputs ── */
+.ca-input,
+.ca-form input,
+.ca-right form input[type="email"],
+.ca-right form input[type="text"],
+.ca-right form input[type="password"] {
   width: 100%;
-}
-
-.ca-input-group input {
-  width: 100%;
-  padding: 1.2rem 1rem 0.5rem;
-  border: 2px solid #d1d5db;
-  border-radius: 10px;
-  font-size: 1rem;
-  outline: none;
-  background: white;
-  transition: border 0.2s ease;
-}
-
-.ca-input-group input:focus {
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
-}
-
-.ca-input-group label {
-  position: absolute;
-  top: 50%;
-  left: 1rem;
-  transform: translateY(-50%);
-  color: #6b7280;
-  pointer-events: none;
-  transition: 0.2s;
-  background: transparent;
-}
-
-.ca-input-group input:focus + label,
-.ca-input-group input:not(:placeholder-shown) + label {
-  top: 0.5rem;
-  left: 0.75rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #4f46e5;
-  background: white;
-  padding: 0 0.25rem;
-}
-
-/* ── Plain inputs (login / forgot) ── */
-.ca-form input {
-  padding: 1rem;
+  padding: 0.85rem 1rem;
   margin-bottom: 1rem;
   border: 2px solid #d1d5db;
   border-radius: 10px;
-  font-size: 1rem;
-  outline: none;
-  transition: all 0.2s ease-in-out;
+  font-size: 0.95rem;
   font-family: 'Inter', sans-serif;
+  outline: none;
+  background: white;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+  color: #333;
 }
 
-.ca-form input:focus {
+.ca-input:focus,
+.ca-form input:focus,
+.ca-right form input:focus {
   border-color: #4f46e5;
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
 }
@@ -229,22 +188,18 @@
   justify-content: flex-end;
   margin-bottom: 1rem;
 }
-
 .ca-options span {
   color: #4f46e5;
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
 }
-
-.ca-options span:hover {
-  text-decoration: underline;
-}
+.ca-options span:hover { text-decoration: underline; }
 
 /* ── Buttons ── */
 .ca-btn-primary {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.85rem;
   background: #4f46e5;
   color: white;
   border: none;
@@ -252,23 +207,16 @@
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
   transition: background 0.2s ease;
   font-family: 'Inter', sans-serif;
 }
-
-.ca-btn-primary:hover {
-  background: #4338ca;
-}
-
-.ca-btn-primary:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
+.ca-btn-primary:hover { background: #4338ca; }
+.ca-btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 
 .ca-btn-success {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.85rem;
   background: #059669;
   color: white;
   border: none;
@@ -276,18 +224,14 @@
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
-  margin-top: 0.5rem;
   transition: background 0.2s ease;
   font-family: 'Inter', sans-serif;
 }
-
-.ca-btn-success:hover {
-  background: #047857;
-}
+.ca-btn-success:hover { background: #047857; }
 
 /* ── OTP section ── */
 .ca-otp-section {
-  margin-top: 1.25rem;
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -296,20 +240,16 @@
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
-
 .ca-otp-section input {
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 0.75rem 1rem !important;
+  font-size: 1rem !important;
+  border: 1px solid #ccc !important;
+  border-radius: 6px !important;
   outline: none;
   font-family: 'Inter', sans-serif;
-  transition: border-color 0.2s ease;
+  margin-bottom: 0 !important;
 }
-
-.ca-otp-section input:focus {
-  border-color: #4f46e5;
-}
+.ca-otp-section input:focus { border-color: #4f46e5 !important; }
 
 /* ── Footer link ── */
 .ca-footer-link {
@@ -318,24 +258,15 @@
   text-align: center;
   color: #333;
 }
-
 .ca-footer-link span {
   color: #4f46e5;
   font-weight: 600;
   cursor: pointer;
 }
-
-.ca-footer-link span:hover {
-  text-decoration: underline;
-}
+.ca-footer-link span:hover { text-decoration: underline; }
 
 /* ── Responsive ── */
 @media screen and (max-width: 768px) {
-  .ca-card {
-    grid-template-columns: 1fr;
-  }
-
-  .ca-left {
-    display: none;
-  }
+  .ca-card { grid-template-columns: 1fr; }
+  .ca-left { display: none; }
 }

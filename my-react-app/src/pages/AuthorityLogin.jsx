@@ -30,7 +30,7 @@ export default function AuthorityLogin() {
         localStorage.setItem("authorityToken", data.token);
         localStorage.setItem("authorityEmail", email);
         localStorage.setItem("authorityName", data.name);
-        setTimeout(() => navigate("/dashboard/authority"), 1000);
+        setTimeout(() => navigate("/authority-dashboard"), 1000);
       } else {
         setMessage({ text: data.message || "Invalid credentials.", type: "error" });
       }

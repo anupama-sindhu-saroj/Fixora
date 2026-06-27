@@ -13,7 +13,7 @@ import CitizenForgotPassword from "./pages/CitizenForgotPassword";
 import AuthoritySignup from "./pages/AuthoritySignup";
 import AuthorityLogin from "./pages/AuthorityLogin";
 import AuthorityForgotPassword from "./pages/AuthorityForgotPassword";
-
+import AuthorityDashboard from "./pages/AuthorityDashboard";
 export default function App() {
   return (
     <BrowserRouter>
@@ -32,6 +32,7 @@ export default function App() {
         <Route path="/signup/authority" element={<AuthoritySignup />} />
         <Route path="/login/authority" element={<AuthorityLogin />} />
         <Route path="/forgot-password/authority" element={<AuthorityForgotPassword />} />
+        <Route path="/authority-dashboard" element={<AuthorityDashboard />} />
       </Routes>
     </BrowserRouter>
   );

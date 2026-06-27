@@ -1,0 +1,412 @@
+/* ================================
+   RESET
+================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ================================
+   FIXORA COLOR PALETTE
+================================ */
+:root {
+  --bg-color: #fff6ed;
+  --gradient-start: #008080;
+  --gradient-end: #4a3ce0;
+  --card-bg: #ffffff;
+  --button-color: #4a3ce0;
+  --link-color: #5a189a;
+  --text-dark: #333333;
+  --text-light: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+body, html {
+  height: 100%;
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+}
+
+/* ================================
+   HEADER
+================================ */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 50px;
+  background: var(--card-bg);
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.logo img {
+  height: 50px;
+}
+
+/* ================================
+   NAV BUTTONS
+================================ */
+.nav-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-buttons button {
+  background-color: var(--button-color);
+  color: var(--text-light);
+  border: none;
+  padding: 12px 26px;
+  min-width: 120px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.nav-buttons button:hover {
+  background-color: #372bb5;
+}
+
+/* ================================
+   FIXORA HIGHLIGHT TEXT
+================================ */
+.fixora-highlight {
+  font-size: 4rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #00d2ff;
+  text-shadow:
+    0 0 2px rgba(194, 226, 243, 0.3),
+    0 0 6px rgba(72, 148, 255, 0.6),
+    0 0 12px rgba(0, 210, 255, 0.5);
+}
+
+/* ================================
+   LETTER ANIMATION
+================================ */
+.letter {
+  opacity: 0;
+  display: inline-block;
+  transform: translateY(20px);
+  animation: fadeLetter 0.6s forwards ease;
+}
+
+@keyframes fadeLetter {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================
+   HERO SECTION
+================================ */
+.hero {
+  height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 30px;
+  padding: 10px 15px;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  color: var(--text-light);
+}
+
+.hero-box {
+  padding: 60px 80px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  max-width: 900px;
+  color: var(--text-light);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 14px;
+}
+
+.hero-box h1,
+.hero-box p {
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  line-height: 1.4;
+  color: var(--text-light);
+}
+
+/* ================================
+   CTA BUTTONS
+================================ */
+.cta-buttons {
+  display: flex;
+  gap: 18px;
+}
+
+.cta-buttons button {
+  padding: 14px 28px;
+  font-size: 1.05rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  border: none;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s forwards;
+}
+
+.report-btn {
+  background-color: #28a745;
+  color: white;
+  box-shadow: 0 0 12px rgba(40, 167, 69, 0.5);
+}
+
+.explore-btn {
+  background-color: #28a745;
+  color: white;
+  box-shadow: 0 0 12px rgba(40, 167, 69, 0.5);
+}
+
+.report-btn:hover,
+.explore-btn:hover {
+  background-color: #218838;
+  box-shadow: 0 0 20px rgba(40, 167, 69, 0.7);
+}
+
+/* ================================
+   STATS BAR
+================================ */
+.stats-bar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: var(--card-bg);
+  padding: 18px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 -4px 8px var(--shadow);
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat h2 {
+  font-size: 1.8rem;
+  color: var(--gradient-end);
+  margin-bottom: 6px;
+  text-shadow: 0 0 4px rgba(66, 70, 182, 0.8);
+}
+
+.stat p {
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  opacity: 0.85;
+  text-shadow: 0 0 12px rgba(40, 44, 167, 0.8);
+}
+
+/* ================================
+   SHARED FORM STYLES
+   (used across login/signup pages)
+================================ */
+.form-container {
+  background: var(--card-bg);
+  border-radius: 14px;
+  padding: 40px;
+  box-shadow: 0 10px 30px var(--shadow);
+  width: 100%;
+  max-width: 420px;
+}
+
+.form-container h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.form-group input {
+  padding: 12px 14px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border 0.2s ease;
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: var(--button-color);
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 13px;
+  background-color: var(--button-color);
+  color: var(--text-light);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.25s ease;
+  margin-top: 6px;
+}
+
+.submit-btn:hover {
+  background-color: #372bb5;
+}
+
+.form-footer {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+}
+
+.form-footer a {
+  color: var(--link-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.form-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ================================
+   AUTH PAGE WRAPPER
+   (centered layout for login/signup)
+================================ */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  padding: 20px;
+}
+
+/* ================================
+   CHOICE CARDS
+   (login-choice / signup-choice)
+================================ */
+.choice-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  padding: 20px;
+}
+
+.choice-page h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-light);
+}
+
+.choice-cards {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.choice-card {
+  background: var(--card-bg);
+  border-radius: 14px;
+  padding: 40px 32px;
+  text-align: center;
+  width: 220px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.choice-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.3);
+}
+
+.choice-card h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-top: 12px;
+}
+
+.choice-card p {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 6px;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+@media (max-width: 700px) {
+  .hero-box {
+    padding: 30px 24px;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .nav-buttons button {
+    padding: 10px 18px;
+    min-width: 100px;
+  }
+
+  header {
+    padding: 14px 20px;
+  }
+}
